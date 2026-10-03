@@ -1,0 +1,17 @@
+{
+	"save": "Salvar",
+	"saving": "Salvando…",
+	"cancel": "Cancelar",
+	"cancelTooltip": "Fecha sem alterar nada",
+	"unexpectedError": "Ocorreu um erro inesperado. Tente novamente.",
+	"typeToConfirm": "Digite {{value}} para confirmar",
+	"remove": "Remover",
+	"edit": "Editar",
+	"validation": {
+		"required": "Obrigatório",
+		"integer": "Use um número inteiro",
+		"range": "Fora da faixa permitida",
+		"length": "Tamanho fora do permitido",
+		"slug": "Use minúsculas, números e hífens simples"
+	}
+}

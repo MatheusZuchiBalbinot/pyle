@@ -1,0 +1,16 @@
+{
+	"live": "ao vivo",
+	"waiting": "aguardando coleta",
+	"stale": "atrasado",
+	"offline": "sem tempo real",
+	"liveTooltip": "Atualiza sozinho a cada coleta de métricas, sem recarregar",
+	"waitingTooltip": "Conectado. A próxima coleta de métricas atualiza o gráfico.",
+	"staleTooltip": "As coletas pararam de chegar. O gráfico mostra os últimos dados recebidos.",
+	"offlineTooltip": "Sem conexão em tempo real. O gráfico se atualiza por polling a cada 30 s.",
+	"ageSeconds_zero": "há {{count}} s",
+	"ageSeconds_one": "há {{count}} s",
+	"ageSeconds_other": "há {{count}} s",
+	"ageMinutes_zero": "há {{count}} min",
+	"ageMinutes_one": "há {{count}} min",
+	"ageMinutes_other": "há {{count}} min"
+}

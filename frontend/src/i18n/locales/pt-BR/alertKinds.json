@@ -1,0 +1,6 @@
+{
+	"routeP95Latency": "Latência p95 da rota",
+	"routeErrorRate": "Taxa de erro da rota",
+	"instanceUnhealthy": "Instância fora do ar",
+	"circuitOpen": "Circuito aberto"
+}

@@ -1,0 +1,21 @@
+{
+	"ariaLabel": "Navegação principal",
+	"closeNav": "Fechar navegação",
+	"brandSubtitle": "api gateway",
+	"groups": {
+		"operation": "Operação",
+		"configuration": "Configuração",
+		"platform": "Plataforma"
+	},
+	"nav": {
+		"overview": "Visão geral",
+		"traffic": "Tráfego",
+		"routes": "Rotas",
+		"services": "Serviços",
+		"consumers": "Consumidores",
+		"assistant": "Assistente IA",
+		"ai": "Análises IA",
+		"settings": "Ajustes"
+	},
+	"navigateTooltip": "Ir para {{page}}"
+}

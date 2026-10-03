@@ -1,0 +1,30 @@
+{
+	"title": "Entrar no console",
+	"subtitle": "Use sua conta de administrador para continuar.",
+	"email": "E-mail",
+	"emailPlaceholder": "voce@empresa.com",
+	"password": "Senha",
+	"passwordPlaceholder": "Sua senha",
+	"showPassword": "Mostrar senha",
+	"hidePassword": "Ocultar senha",
+	"submit": "Entrar",
+	"submitting": "Entrando…",
+	"submitTooltip": "Entrar no console",
+	"invalidCredentials": "E-mail ou senha inválidos",
+	"tooManyAttempts": "Tentativas demais. Aguarde alguns minutos antes de tentar de novo.",
+	"networkError": "Não foi possível falar com o control plane",
+	"sessionExpired": "Sua sessão expirou. Entre novamente.",
+	"noAccess": "Não tem acesso? Peça a um administrador da plataforma.",
+	"brand": {
+		"eyebrow": "Pyle",
+		"headline": "O console do seu API gateway",
+		"description": "Rotas, instâncias e consumidores sob controle, com o tráfego ao vivo e uma IA que investiga para você.",
+		"features": {
+			"routing": "Roteamento, balanceamento e rate limit",
+			"observability": "Tráfego, saúde e alertas em tempo real",
+			"ai": "Análises com IA e correções para confirmar"
+		},
+		"previewLive": "ao vivo",
+		"previewLabel": "tráfego da última hora"
+	}
+}

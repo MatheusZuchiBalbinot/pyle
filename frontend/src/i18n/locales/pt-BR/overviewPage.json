@@ -1,0 +1,147 @@
+{
+	"title": "Visão geral",
+	"desc": "O estado do gateway em um relance: tráfego, instâncias, alertas e mudanças recentes.",
+	"loadError": "Não foi possível carregar a visão geral.",
+	"attention": {
+		"eyebrow": "Estado do gateway",
+		"allGood": "Tudo certo",
+		"allGoodDesc": "Gateways no ar, instâncias saudáveis e nenhum alerta aberto.",
+		"needsAttention_zero": "{{count}} pontos precisam de atenção",
+		"needsAttention_one": "1 ponto precisa de atenção",
+		"needsAttention_other": "{{count}} pontos precisam de atenção",
+		"needsAttentionDesc": "Do mais urgente para o menos. Clique para abrir.",
+		"openTooltip": "Abrir onde isso aparece",
+		"gatewayDown": "Nenhum gateway está enviando sinais de vida: o tráfego pode estar parado",
+		"circuitOpen": "{{instance}} ({{service}}) está com o circuito aberto",
+		"instanceUnhealthy": "{{instance}} ({{service}}) falhou nos health checks",
+		"alert": {
+			"route_p95_latency": "Latência p95 acima do limite na rota {{subject}}",
+			"route_error_rate": "Taxa de erro acima do limite na rota {{subject}}",
+			"instance_unhealthy": "{{subject}} está fora do ar",
+			"circuit_open": "{{subject}} está com o circuito aberto"
+		},
+		"noEnabledInstance": "{{service}} não tem nenhuma instância habilitada",
+		"rateLimitDegraded": "{{gateway}} está sem Redis: o limite de requisições não está sendo aplicado"
+	},
+	"gateway": {
+		"label_zero": "Gateways ({{count}})",
+		"label_one": "Gateway",
+		"label_other": "Gateways ({{count}})",
+		"none": "Nenhum gateway no ar",
+		"upSince": "no ar desde {{ago}}",
+		"aliveCount": "{{alive}}/{{total}} no ar",
+		"silent": "sem sinal",
+		"reloading": "recarregando a configuração",
+		"rateLimitDegraded": "limite de requisições desligado",
+		"rateLimitDegradedTooltip": "O gateway não alcança o Redis e deixa as requisições passarem sem contar o limite"
+	},
+	"cards": {
+		"traffic": "Tráfego",
+		"lastHour": "última hora",
+		"instances": "Instâncias",
+		"instancesNote": "por serviço",
+		"alerts": "Alertas abertos",
+		"alertsNote_zero": "nenhum aberto",
+		"alertsNote_one": "1 aberto",
+		"alertsNote_other": "{{count}} abertos",
+		"changes": "Mudanças recentes",
+		"changesNote": "configuração"
+	},
+	"health": {
+		"empty": "Nenhum serviço cadastrado.",
+		"openInstance": "Abrir {{instance}}",
+		"healthyCount": "{{healthy}}/{{total}} saudáveis"
+	},
+	"alerts": {
+		"empty": "Nenhum alerta aberto",
+		"openTooltip": "Abrir o que disparou o alerta",
+		"severity": {
+			"warning": "Atenção",
+			"critical": "Crítico"
+		},
+		"emptyHint": "Quando uma regra disparar, o alerta aparece aqui com o que o causou."
+	},
+	"changes": {
+		"empty": "Nenhuma mudança ainda.",
+		"system": "sistema",
+		"action": {
+			"created": "criado",
+			"updated": "alterado",
+			"deleted": "removido"
+		},
+		"noChange": "nada mudou",
+		"value": {
+			"yes": "sim",
+			"no": "não",
+			"none": "nenhum",
+			"all": "todos",
+			"unlimited": "sem limite",
+			"ms": "{{value}} ms"
+		},
+		"field": {
+			"name": "Nome",
+			"description": "Descrição",
+			"lbStrategy": "Balanceamento",
+			"timeoutMs": "Timeout",
+			"retryMaxAttempts": "Tentativas",
+			"healthCheckPath": "Caminho do health check",
+			"healthCheckIntervalMs": "Intervalo do health check",
+			"healthCheckTimeoutMs": "Timeout do health check",
+			"healthyThreshold": "Checks para voltar",
+			"unhealthyThreshold": "Checks para cair",
+			"circuitFailureThreshold": "Falhas para abrir o circuito",
+			"circuitCooldownMs": "Espera do circuito",
+			"scalingProfile": "Perfil de réplicas",
+			"url": "URL",
+			"weight": "Peso",
+			"isEnabled": "Ativa",
+			"pathPrefix": "Prefixo",
+			"service": "Serviço",
+			"stripPrefix": "Remove o prefixo",
+			"methods": "Métodos",
+			"isAuthRequired": "Exige chave",
+			"rateLimitPerMinute": "Limite por minuto"
+		},
+		"key": {
+			"issued": "chave {{prefix}}… emitida",
+			"revoked": "chave {{prefix}}… revogada",
+			"restored": "revogação da chave {{prefix}}… desfeita"
+		},
+		"routeScope": {
+			"all": "acesso a todas as rotas",
+			"some_zero": "acesso a {{count}} rotas",
+			"some_one": "acesso a {{count}} rota",
+			"some_other": "acesso a {{count}} rotas"
+		},
+		"chaos": {
+			"applied": "chaos: {{faults}}",
+			"cleared": "chaos removido",
+			"latency": "+{{latencyMs}} ms de latência",
+			"jitter": "±{{jitterMs}} ms de variação",
+			"errors": "{{percent}}% de erros",
+			"down": "fora do ar"
+		},
+		"alertRule": {
+			"disabled": "desativada",
+			"enabled_zero": "ativada, {{count}} janelas",
+			"enabled_one": "ativada, {{count}} janela",
+			"enabled_other": "ativada, {{count}} janelas",
+			"enabledWithThreshold_zero": "ativada, limite {{threshold}}, {{count}} janelas",
+			"enabledWithThreshold_one": "ativada, limite {{threshold}}, {{count}} janela",
+			"enabledWithThreshold_other": "ativada, limite {{threshold}}, {{count}} janelas"
+		},
+		"managedReplicas": "réplicas gerenciadas: {{from}} → {{to}}",
+		"replica": {
+			"running": "réplica pronta, entrou na rotação",
+			"draining": "drenando antes de sair",
+			"failed": "falhou ao subir: {{reason}}"
+		}
+	},
+	"empty": {
+		"title": "Nenhuma rota ainda",
+		"desc": "Crie uma rota para o gateway começar a encaminhar tráfego.",
+		"seedHint": "Para um ambiente de demonstração completo, rode",
+		"create": "Criar rota",
+		"createTooltip": "Abrir a página de rotas"
+	}
+}

@@ -1,0 +1,11 @@
+{
+	"showing_zero": "registros carregados",
+	"showing_one": "registro carregado",
+	"showing_other": "registros carregados",
+	"showingAll_zero": "registros no total",
+	"showingAll_one": "registro no total",
+	"showingAll_other": "registros no total",
+	"loadMore": "Carregar mais",
+	"loading": "Carregando…",
+	"loadMoreTooltip": "Carregar a próxima página"
+}

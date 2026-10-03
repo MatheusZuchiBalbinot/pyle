@@ -1,0 +1,5 @@
+{
+	"dismiss": "Dispensar aviso: {{message}}",
+	"dismissTooltip": "Clique para dispensar este aviso",
+	"undo": "Desfazer"
+}

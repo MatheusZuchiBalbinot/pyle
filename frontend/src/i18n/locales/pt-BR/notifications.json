@@ -1,0 +1,63 @@
+{
+	"loadError": "Falha ao carregar as notificações",
+	"sourceUnavailable": {
+		"systemHealth": "Não foi possível ler a saúde da plataforma",
+		"alerts": "Não foi possível ler os alertas abertos",
+		"services": "Não foi possível ler o estado das instâncias",
+		"detail": "Enquanto isso, esta lista pode estar incompleta."
+	},
+	"buttonLabelWithCount_zero": "Notificações: {{count}} itens pendentes",
+	"buttonLabelWithCount_one": "Notificações: {{count}} item pendente",
+	"buttonLabelWithCount_other": "Notificações: {{count}} itens pendentes",
+	"count_zero": "{{count}} itens",
+	"count_one": "{{count}} item",
+	"count_other": "{{count}} itens",
+	"emptyDetail": "Nenhuma instância, alerta ou componente precisa de atenção agora.",
+	"openTooltip": "Ir para {{page}}",
+	"systemComponent": {
+		"title": "{{name}} com problema"
+	},
+	"recentTitle": "Notificações",
+	"markAllRead": "Marcar como lidas",
+	"markAllReadTooltip": "Limpar o contador de eventos não lidos",
+	"conditionsTitle": "Precisa de atenção",
+	"updateError": "Falha ao atualizar a notificação",
+	"close": "Fechar notificações",
+	"markRead": "Marcar como lida",
+	"markUnread": "Marcar como não lida",
+	"readFilterAriaLabel": "Filtrar por estado",
+	"readFilter": {
+		"unread": "Não lidas",
+		"read": "Lidas",
+		"all": "Todas"
+	},
+	"readFilterTooltip": {
+		"unread": "Só as que ainda não foram lidas",
+		"read": "Só as já lidas",
+		"all": "Lidas e não lidas"
+	},
+	"categoryFilterAriaLabel": "Filtrar por tipo",
+	"categoryFilterTooltip": "Mostrar só notificações de {{category}}",
+	"category": {
+		"all": "todas",
+		"traffic": "tráfego",
+		"instance": "instâncias",
+		"system": "sistema",
+		"ai": "IA"
+	},
+	"inboxEmpty": {
+		"unread": "Nenhuma notificação por ler.",
+		"read": "Nenhuma notificação lida neste filtro.",
+		"all": "Nenhuma notificação ainda."
+	},
+	"olderBeyondPage": "Há notificações mais antigas. Use os filtros para encontrá-las.",
+	"gatewayAlert": {
+		"title": "{{subject}}: {{kind}}"
+	},
+	"instanceDown": {
+		"title": "{{instance}} ({{service}}) fora da rotação",
+		"unhealthy": "Falhando nos health checks",
+		"circuitOpen": "Circuito aberto por falhas seguidas"
+	},
+	"repeatTooltip": "{{count}} notificações iguais seguidas"
+}

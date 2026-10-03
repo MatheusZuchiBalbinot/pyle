@@ -1,0 +1,6 @@
+{
+	"empty": "Nenhum resultado encontrado.",
+	"resizeColumn": "Redimensionar coluna",
+	"resizeColumnOf": "Redimensionar a coluna {{column}} (setas para os lados)",
+	"sortByColumn": "Ordenar por {{column}}"
+}

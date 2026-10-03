@@ -1,0 +1,62 @@
+{
+	"title": "Ajustes",
+	"desc": "Regras de alerta, configuração efetiva do gateway e do control plane, e a saúde da plataforma.",
+	"loadError": "Falha ao carregar as configurações da plataforma",
+	"intro": {
+		"eyebrow": "Regras de alerta",
+		"allEnabled_zero": "Todas as {{count}} regras ativas",
+		"allEnabled_one": "A única regra está ativa",
+		"allEnabled_other": "Todas as {{count}} regras ativas",
+		"someDisabled_zero": "{{count}} regras desativadas",
+		"someDisabled_one": "{{count}} regra desativada",
+		"someDisabled_other": "{{count}} regras desativadas",
+		"desc": "As regras de rota são avaliadas a cada {{interval}}; as de instância disparam na hora."
+	},
+	"tiles": {
+		"ai": "Análises IA",
+		"aiConfigured": "Pronto para analisar",
+		"aiMissing": "Provedor não configurado",
+		"aiDesc": "Modelo {{model}}",
+		"aiMissingDesc": "Defina AI_MODEL e AI_API_KEY no ambiente do backend",
+		"realtime": "Tempo real",
+		"realtimeTitle": "Telas atualizam sozinhas",
+		"realtimeDesc": "Centrifugo, por WebSocket",
+		"traffic": "Tráfego",
+		"trafficTitle": "Retenção de {{hours}}h",
+		"trafficDesc": "Amostras de 10 s por rota e instância",
+		"aiNone": "nenhum"
+	},
+	"cards": {
+		"rules": "Regras de alerta",
+		"rulesNote": "valem para todas as rotas e instâncias",
+		"platform": "Configuração efetiva",
+		"platformNote": "somente leitura · do ambiente"
+	},
+	"platform": {
+		"gatewayPorts": "Portas do gateway",
+		"ports": "tráfego {{traffic}} · interno {{admin}}",
+		"configRefresh": "Recarga completa da configuração",
+		"metricsFlush": "Gravação das métricas",
+		"heartbeat": "Sinal de vida do gateway",
+		"maxRequestTimeout": "Teto por requisição (com retries)",
+		"requestLog": "Log de requisições",
+		"requestLogValue": "{{entries}} entradas · {{percent}}% dos sucessos",
+		"trafficRetention": "Retenção do tráfego",
+		"alertEvaluation": "Avaliação dos alertas de rota",
+		"consumerPurge": "Consumidores removidos apagados após",
+		"chaos": "Chaos nas instâncias de demonstração",
+		"chaosOn": "liberado",
+		"chaosOff": "desligado",
+		"healthInterval": "Verificação da plataforma",
+		"aiProvider": "Provedor de IA",
+		"aiModel": "Modelo de IA",
+		"consoleWs": "WebSocket do console",
+		"notSet": "não definido",
+		"hours_zero": "{{count}} horas",
+		"hours_one": "{{count}} hora",
+		"hours_other": "{{count}} horas",
+		"days_zero": "{{count}} dias",
+		"days_one": "{{count}} dia",
+		"days_other": "{{count}} dias"
+	}
+}

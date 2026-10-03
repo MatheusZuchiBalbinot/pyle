@@ -1,0 +1,14 @@
+{
+	"up": "operacional",
+	"healthy": "saudável",
+	"ready": "pronto",
+	"running": "em execução",
+	"degraded": "degradado",
+	"pending": "pendente",
+	"provisioning": "provisionando",
+	"deprovisioning": "removendo",
+	"paused": "pausada",
+	"disabled": "desativado",
+	"down": "fora do ar",
+	"failed": "falhou"
+}

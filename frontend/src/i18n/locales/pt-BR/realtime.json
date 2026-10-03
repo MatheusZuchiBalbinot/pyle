@@ -1,0 +1,10 @@
+{
+	"connecting": "conectando",
+	"connected": "ao vivo",
+	"reconnecting": "reconectando",
+	"offline": "offline",
+	"connectingTooltip": "Abrindo a conexão de eventos em tempo real",
+	"connectedTooltip": "Eventos em tempo real: tráfego, instâncias e alertas atualizam sem recarregar",
+	"reconnectingTooltip": "Conexão de eventos perdida. Enquanto reconecta, os dados são atualizados por polling.",
+	"offlineTooltip": "Sem conexão de eventos em tempo real. Os dados são atualizados por polling."
+}

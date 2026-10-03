@@ -1,0 +1,22 @@
+{
+	"loadError": "Falha ao carregar regras de alerta",
+	"saveError": "Falha ao salvar",
+	"toggleTooltip": "Liga ou desliga esta regra para todas as rotas e instâncias",
+	"saveTooltip": "Salva o limite e as janelas desta regra",
+	"kindDescriptions": {
+		"routeP95Latency": "Abre um alerta quando o p95 de uma rota passa do limite por janelas seguidas.",
+		"routeErrorRate": "Abre um alerta quando a fração de respostas 5xx de uma rota passa do limite.",
+		"instanceUnhealthy": "Abre um alerta quando o health check tira uma instância da rotação.",
+		"circuitOpen": "Abre um alerta quando o circuito de uma instância abre por falhas seguidas."
+	},
+	"toggleLabel": "Regra {{rule}}",
+	"discard": "Descartar",
+	"discardTooltip": "Volta aos valores salvos",
+	"saved": "salvo",
+	"thresholdMsLabel": "Limite (ms)",
+	"thresholdPercentLabel": "Limite (%)",
+	"sustainedWindowsLabel": "Janelas seguidas",
+	"windowsHint_zero": "Cada janela tem 10 s.",
+	"windowsHint_one": "Cada janela tem 10 s: basta 1 janela acima do limite para alertar.",
+	"windowsHint_other": "Cada janela tem 10 s: {{count}} janelas são {{seconds}} s acima do limite antes de alertar."
+}

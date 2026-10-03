@@ -1,0 +1,100 @@
+{
+	"strategy": {
+		"round_robin": "Round-robin",
+		"least_connections": "Menos conexões",
+		"weighted_random": "Aleatório ponderado"
+	},
+	"instanceState": {
+		"starting": "Subindo",
+		"leaving": "Saindo",
+		"circuit_open": "Circuito aberto",
+		"unhealthy": "Fora do ar",
+		"half_open": "Em teste",
+		"drained": "Drenada",
+		"healthy": "Saudável",
+		"unknown": "Sem dados"
+	},
+	"instanceStateHint": {
+		"starting": "Réplica gerenciada criada agora, esperando o primeiro health check",
+		"leaving": "Réplica gerenciada sendo drenada antes de ser removida",
+		"circuit_open": "Falhou em requisições seguidas e saiu da rotação até o próximo teste",
+		"unhealthy": "Falhou nos health checks e saiu da rotação",
+		"half_open": "O gateway está deixando passar uma requisição de teste",
+		"drained": "Desabilitada por um operador: não recebe tráfego novo",
+		"healthy": "Passando nos health checks e recebendo tráfego",
+		"unknown": "Nenhum gateway informou o estado desta instância ainda"
+	},
+	"errorCode": {
+		"route_not_found": "Nenhuma rota para o caminho",
+		"method_not_allowed": "Método não aceito pela rota",
+		"missing_api_key": "Sem chave de API",
+		"invalid_api_key": "Chave de API inválida ou revogada",
+		"route_not_allowed": "Consumidor sem acesso à rota",
+		"rate_limited": "Limite de requisições atingido",
+		"no_healthy_instance": "Nenhuma instância disponível",
+		"upstream_unreachable": "Instância inacessível",
+		"upstream_timeout": "Instância não respondeu a tempo",
+		"gateway_not_ready": "Gateway ainda sem configuração",
+		"internal_error": "Erro interno do gateway"
+	},
+	"tiles": {
+		"rps": "Requisições por segundo",
+		"p95": "Latência p95",
+		"errorRate": "Erros 5xx",
+		"rateLimited": "Barradas por limite (429)"
+	},
+	"window": {
+		"label": "Janela",
+		"15m": "15 min",
+		"1h": "1 h",
+		"6h": "6 h",
+		"24h": "24 h",
+		"tooltip": "Mostrar os últimos {{window}}"
+	},
+	"chart": {
+		"metric": "Métrica",
+		"requests": "Requisições",
+		"latency": "Latência",
+		"errors": "Erros",
+		"requestsTooltip": "Requisições por segundo",
+		"latencyTooltip": "Latência p50, p95 e p99",
+		"errorsTooltip": "Fração de respostas 5xx",
+		"rps": "req/s",
+		"p50": "p50",
+		"p95": "p95",
+		"p99": "p99",
+		"errorRate": "Erros 5xx",
+		"rateLimited": "429 por passo",
+		"empty": "Sem tráfego nesta janela",
+		"average": "média",
+		"peak": "pico",
+		"summary": {
+			"requests": "Requisições por segundo na janela",
+			"latency": "Latência p95 na janela",
+			"errors": "Taxa de erros 5xx na janela"
+		}
+	},
+	"statusClass": {
+		"2xx": "2xx",
+		"3xx": "3xx",
+		"4xx": "4xx",
+		"5xx": "5xx"
+	},
+	"madeByGatewayShort": "GW",
+	"entityType": {
+		"service": "Serviço",
+		"instance": "Instância",
+		"route": "Rota",
+		"consumer": "Consumidor",
+		"api_key": "Chave de API",
+		"alert_rule": "Regra de alerta"
+	},
+	"reason": {
+		"failedChecks": "{{count}} health checks seguidos falharam ({{detail}})",
+		"passedChecks": "{{count}} health checks seguidos passaram",
+		"failedRequests": "{{count}} requisições seguidas falharam ({{detail}})",
+		"probeFailed": "a requisição de teste falhou ({{detail}})",
+		"probing": "espera terminada, testando com uma requisição",
+		"probeSucceeded": "a requisição de teste passou"
+	}
+}

@@ -1,0 +1,53 @@
+{
+	"instanceState": {
+		"healthy": "{{instance}} voltou a responder",
+		"unhealthy": "{{instance}} saiu da rotação",
+		"circuit_closed": "Circuito de {{instance}} fechado",
+		"circuit_open": "Circuito de {{instance}} aberto",
+		"circuit_half_open": "Circuito de {{instance}} em teste"
+	},
+	"alertTriggered": {
+		"title": "{{subject}}: {{kind}}",
+		"detail": "Abra para ver o que disparou o alerta"
+	},
+	"alertResolved": {
+		"title": "{{subject}}: {{kind}} resolvido",
+		"detail": "O alerta voltou ao normal"
+	},
+	"gatewayStatus": {
+		"up": "Gateway {{gateway}} no ar",
+		"upDetail": "O gateway voltou a mandar sinal de vida",
+		"stopped": "Gateway {{gateway}} parou",
+		"stoppedDetail": "Desligou de forma limpa, avisando antes de sair",
+		"down": "Gateway {{gateway}} sem sinal",
+		"downDetail": "Nenhum sinal de vida nos últimos segundos"
+	},
+	"chaosChanged": {
+		"title": "Chaos alterado em {{instance}}",
+		"detail": "Falhas injetadas na instância de demonstração"
+	},
+	"systemComponentChanged": {
+		"title": "{{name}}: {{status}}"
+	},
+	"analysisReady": {
+		"title": "Análise IA de {{subject}} pronta",
+		"detail": "{{scope}} · risco {{risk}}"
+	},
+	"configChanged": {
+		"title": "{{entity}} alterado"
+	},
+	"configEntity": {
+		"service": "Serviço",
+		"instance": "Instância",
+		"route": "Rota",
+		"consumer": "Consumidor",
+		"api_key": "Chave de API",
+		"alert_rule": "Regra de alerta"
+	},
+	"trafficCollected": {
+		"title": "Tráfego atualizado"
+	},
+	"entityChanged": {
+		"title": "{{entity}} alterado"
+	}
+}

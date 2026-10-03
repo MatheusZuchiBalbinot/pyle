@@ -1,0 +1,114 @@
+{
+	"title": "Consumidores",
+	"desc": "Quem chama o gateway: chaves de API, limites e rotas permitidas.",
+	"keyReveal": {
+		"title": "Chave de API de {{name}}",
+		"warning": "Esta é a única vez que a chave aparece. Guarde agora: o gateway só guarda um hash dela.",
+		"copy": "Copiar",
+		"copied": "Copiada",
+		"copyFailed": "Não deu para copiar; selecione e copie à mão",
+		"copyTooltip": "Copiar a chave para a área de transferência",
+		"acknowledge": "Já guardei",
+		"acknowledgeTooltip": "Esconder a chave de vez"
+	},
+	"loadError": "Não foi possível carregar os consumidores.",
+	"usageError": "Não foi possível carregar o uso da última hora.",
+	"create": "Novo consumidor",
+	"createTooltip": "Cadastrar quem vai chamar o gateway e emitir a primeira chave",
+	"search": "Buscar consumidores",
+	"searchPlaceholder": "Nome ou slug",
+	"list": {
+		"name": "Nome",
+		"slug": "Slug",
+		"rateLimit": "Limite/min",
+		"routes": "Rotas",
+		"allRoutes": "todas",
+		"activeKeys": "Chaves ativas",
+		"lastUsed": "Último uso",
+		"requests": "Req. 1h",
+		"rateLimited": "429 1h",
+		"usageHint": "Só os 10 consumidores com mais tráfego na última hora",
+		"empty": "Nenhum consumidor. Crie um para emitir chaves de API."
+	},
+	"keys": {
+		"neverUsed": "nunca usada",
+		"noLabel": "sem rótulo",
+		"created": "criada {{ago}}",
+		"lastUsed": "uso: {{ago}}",
+		"revoked": "revogada",
+		"revokeTooltip": "Revogar a chave {{prefix}}",
+		"label": "Rótulo da nova chave",
+		"labelPlaceholder": "Rótulo (opcional)",
+		"issue": "Emitir chave",
+		"issueTooltip": "Emitir uma chave nova; ela aparece uma única vez"
+	},
+	"routes": {
+		"all": "Todas as rotas",
+		"allHint": "Inclui rotas criadas depois",
+		"allSummary": "Todas as rotas, inclusive as criadas depois",
+		"listLabel": "Rotas permitidas"
+	},
+	"detail": {
+		"usage": "Uso",
+		"keys": "Chaves de API",
+		"scope": "Rotas permitidas",
+		"editScope": "Editar escopo",
+		"editScopeTooltip": "Escolher as rotas que este consumidor pode chamar",
+		"saveScopeTooltip": "Salvar; vale no gateway em segundos",
+		"editTooltip": "Alterar nome e limite",
+		"removeTooltip": "Remover o consumidor e revogar as chaves",
+		"trafficError": "Não foi possível carregar o uso deste consumidor.",
+		"removedRoute": "Rota removida ou sem rota",
+		"activeKeys_zero": "nenhuma ativa",
+		"activeKeys_one": "{{count}} ativa",
+		"activeKeys_other": "{{count}} ativas",
+		"routesUsage": "Requisições por rota",
+		"limitedCount": "{{count}} com 429"
+	},
+	"form": {
+		"createTitle": "Novo consumidor",
+		"editTitle": "Editar consumidor",
+		"createDesc": "A primeira chave de API aparece uma única vez, logo depois de criar.",
+		"create": "Criar e emitir chave",
+		"createTooltip": "Criar o consumidor com uma chave",
+		"saveTooltip": "Salvar; vale no gateway em segundos",
+		"name": "Nome",
+		"nameHint": "Como aparece no console",
+		"slug": "Slug",
+		"slugHint": "Minúsculas, números e hífens; não muda depois",
+		"rateLimitPerMinute": "Limite por minuto",
+		"rateLimitPerMinuteHint": "De 1 a 1.000.000 requisições",
+		"routes": "Rotas permitidas",
+		"errors": {
+			"slugTaken": "Outro consumidor já usa este slug"
+		}
+	},
+	"revoke": {
+		"done": "Chave {{prefix}}… revogada; ela já recebe 401"
+	},
+	"remove": {
+		"title": "Remover {{name}}?",
+		"message": "Todas as chaves dele são revogadas e as requisições passam a receber 401.",
+		"confirm": "Remover consumidor",
+		"confirmTooltip": "Remover agora"
+	},
+	"summary": {
+		"eyebrow": "Consumidores",
+		"title_one": "1 consumidor",
+		"title_other": "{{count}} consumidores",
+		"desc_one": "1 chave de API ativa. Cada consumidor tem o próprio limite por minuto e as rotas que pode chamar.",
+		"desc_other": "{{count}} chaves de API ativas. Cada consumidor tem o próprio limite por minuto e as rotas que pode chamar.",
+		"requests": "Requisições",
+		"requestsTitle": "de consumidores com chave",
+		"window": "Na última hora",
+		"busiest": "Mais ativo",
+		"busiestDesc": "Requisições na última hora",
+		"nobody": "ninguém chamou ainda",
+		"limited": "Barradas",
+		"mostLimited": "mais barrado: {{name}}",
+		"nobodyLimited": "ninguém passou do limite",
+		"title_zero": "Nenhum consumidor",
+		"desc_zero": "Nenhuma chave de API ativa. Cada consumidor tem o próprio limite por minuto e as rotas que pode chamar.",
+		"limitedDesc": "Respostas 429 na última hora"
+	}
+}

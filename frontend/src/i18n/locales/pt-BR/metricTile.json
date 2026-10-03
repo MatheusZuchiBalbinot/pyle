@@ -1,0 +1,11 @@
+{
+	"noDataYet": "sem dados ainda",
+	"noDataTooltip": "{{timestamp}}: sem dado",
+	"valueTooltip": "{{timestamp}}: {{value}}",
+	"trendFlat": "estável",
+	"trendTooltip": {
+		"up": "{{percent}}% acima da média do minigráfico",
+		"down": "{{percent}}% abaixo da média do minigráfico",
+		"flat": "Na média do minigráfico"
+	}
+}

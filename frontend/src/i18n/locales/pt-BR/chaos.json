@@ -1,0 +1,48 @@
+{
+	"title": "Chaos",
+	"help": "Afeta só esta instância de demonstração. O gateway reage sozinho: health check, circuito e retry.",
+	"presets": {
+		"slow": "Lentidão",
+		"slowTooltip": "Somar 800 ms a toda resposta",
+		"flaky": "Instável",
+		"flakyTooltip": "Responder 500 em 30% das requisições",
+		"down": "Fora do ar",
+		"downTooltip": "Responder 503 a tudo, health check incluído",
+		"slowEffect": "+800 ms em cada resposta",
+		"flakyEffect": "30% das respostas com erro 500",
+		"downEffect": "503 em tudo, health check incluído"
+	},
+	"normalize": "Normalizar",
+	"normalizeTooltip": "Tirar toda falha desta instância",
+	"advanced": "Ajustar manualmente",
+	"advancedTooltip": "Ajustar cada falha à mão",
+	"apply": "Aplicar",
+	"applyTooltip": "Aplicar estes valores na instância",
+	"fields": {
+		"latency": "Latência extra (ms)",
+		"latencyHint": "De 0 a 30000",
+		"jitter": "Variação (ms)",
+		"jitterHint": "Somada ao acaso, de 0 a 10000",
+		"errorRate": "Erros (%)",
+		"errorRateHint": "Fração respondida com 500",
+		"down": "Fora do ar",
+		"downHint": "503 em tudo"
+	},
+	"active": "ativo",
+	"activeTooltip": "Latência {{latency}} ms, variação {{jitter}} ms, erros {{errors}}%, fora do ar: {{down}}",
+	"yes": "sim",
+	"no": "não",
+	"errors": {
+		"disabled": "O chaos está desligado neste ambiente (CHAOS_ALLOWED)",
+		"unreachable": "A instância não respondeu ao pedido de chaos"
+	},
+	"advancedHide": "Esconder ajuste manual",
+	"optionsLabel": "Falha a injetar",
+	"status": {
+		"off": "inativo",
+		"custom": "ativo, valores manuais",
+		"slow": "ativo: lentidão",
+		"flaky": "ativo: instável",
+		"down": "ativo: fora do ar"
+	}
+}

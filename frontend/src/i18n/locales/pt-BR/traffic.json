@@ -1,0 +1,76 @@
+{
+	"title": "Tráfego",
+	"desc": "Requisições, latência, erros e distribuição por instância, ao vivo.",
+	"loadError": "Não foi possível carregar o tráfego.",
+	"refreshFailed": "Mostrando o último dado carregado: {{message}}",
+	"routeFilter": "Rota",
+	"allRoutes": "Todas as rotas",
+	"cards": {
+		"chart": "Tráfego no tempo",
+		"routes": "Rotas",
+		"routesNote": "clique para detalhar",
+		"consumers": "Consumidores",
+		"consumersNote": "os 10 com mais tráfego",
+		"share": "Distribuição por instância",
+		"shareNote": "fatia das requisições",
+		"status": "Respostas",
+		"log": "Log de requisições",
+		"logNote": "todos os erros e uma amostra dos sucessos"
+	},
+	"routes": {
+		"name": "Rota",
+		"prefix": "Prefixo",
+		"requests": "Requisições",
+		"rps": "Req/s",
+		"p95": "p95",
+		"errors": "Erro 5xx",
+		"rateLimited": "429",
+		"empty": "Nenhum tráfego nesta janela."
+	},
+	"share": {
+		"empty": "Nenhuma instância atendeu esta rota na janela.",
+		"openTooltip": "Abrir {{instance}} em Serviços",
+		"p95": "p95 {{value}}",
+		"errors": "erro {{value}}"
+	},
+	"status": {
+		"status2xx": "2xx",
+		"status3xx": "3xx",
+		"status4xx": "4xx",
+		"status5xx": "5xx",
+		"rateLimited": "429 do gateway",
+		"gatewayErrors": "Falhas do gateway (502/503/504)"
+	},
+	"consumers": {
+		"name": "Consumidor",
+		"requests": "Requisições",
+		"rateLimited": "429",
+		"anonymous": "Sem chave (rotas públicas)",
+		"removed": "Consumidor removido",
+		"empty": "Nenhum consumidor nesta janela."
+	},
+	"log": {
+		"loadError": "Não foi possível carregar o log de requisições.",
+		"time": "Hora",
+		"method": "Método",
+		"path": "Caminho",
+		"consumer": "Consumidor",
+		"instance": "Instância",
+		"status": "Status",
+		"duration": "Duração",
+		"attempts": "Tentativas",
+		"anonymous": "sem chave",
+		"noInstance": "gateway",
+		"empty": "Nenhuma requisição no log com estes filtros.",
+		"allStatuses": "Todos",
+		"statusFilter": "Classe de status",
+		"statusTooltip": "Filtrar pela classe do status",
+		"consumerFilter": "Consumidor",
+		"allConsumers": "Todos os consumidores",
+		"instanceFilter": "Instância",
+		"allInstances": "Todas as instâncias",
+		"snapshot": "retrato de {{time}}",
+		"refresh": "Atualizar",
+		"refreshTooltip": "Ler o log de novo com os filtros atuais"
+	}
+}

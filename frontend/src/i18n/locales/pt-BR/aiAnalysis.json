@@ -1,0 +1,124 @@
+{
+	"analyze": "Analisar com IA",
+	"generating": "Analisando…",
+	"ready": "Análise pronta: risco {{risk}}",
+	"failed": "Falha ao gerar a análise",
+	"cooldown": "Uma análise deste alvo acabou de ser gerada. Aguarde 2 minutos para pedir outra.",
+	"notConfigured": "A IA está indisponível: falta configurar ou o provedor recusou a chave. Confira provedor, modelo e chave no backend.",
+	"loadError": "Falha ao carregar análises",
+	"pageTitle": "Análises IA",
+	"pageDesc": "Análises de IA sobre o gateway inteiro, uma rota ou um serviço, geradas pelos botões \"Analisar com IA\" e guardadas aqui.",
+	"platformSubject": "Gateway",
+	"close": "Fechar",
+	"closeTooltip": "Fechar a análise",
+	"cardAriaLabel": "Análise de {{subject}}",
+	"highlights": "Observações",
+	"recommendations": "Recomendações",
+	"noHighlights": "Sem observações registradas.",
+	"noRecommendations": "Nada a fazer por enquanto, tudo dentro do esperado.",
+	"windowHours_zero": "janela de {{count}}h",
+	"windowHours_one": "janela de {{count}}h",
+	"windowHours_other": "janela de {{count}}h",
+	"windowMinutes_zero": "janela de {{count}} min",
+	"windowMinutes_one": "janela de {{count}} min",
+	"windowMinutes_other": "janela de {{count}} min",
+	"empty": "Nenhuma análise ainda. Use \"Analisar com IA\" na Visão geral, numa rota ou num serviço.",
+	"filterAriaLabel": "Filtrar por escopo",
+	"filterTooltip": "Mostrar só análises de escopo {{scope}}",
+	"risk": {
+		"low": "baixo",
+		"medium": "médio",
+		"high": "alto"
+	},
+	"scope": {
+		"all": "todas",
+		"platform": "gateway",
+		"route": "rota",
+		"service": "serviço"
+	},
+	"tooltip": {
+		"platform": "Pedir à IA uma análise do gateway inteiro: tráfego, instâncias, alertas e saúde",
+		"route": "Pedir à IA uma análise desta rota na janela selecionada",
+		"service": "Pedir à IA uma análise das instâncias deste serviço na janela selecionada"
+	},
+	"intro": {
+		"eyebrow": "Análises IA",
+		"none": "Nenhuma análise ainda",
+		"noneDesc": "Peça uma análise do gateway pelo botão acima, ou de uma rota ou serviço nas outras páginas.",
+		"latest": "Última: {{subject}}",
+		"modelDesc": "contexto sanitizado (sem credenciais), resposta estruturada",
+		"modelUnknown": "modelo configurado no backend"
+	},
+	"tiles": {
+		"count": "Análises",
+		"countTitle_zero": "análises guardadas",
+		"countTitle_one": "análise guardada",
+		"countTitle_other": "análises guardadas",
+		"countDesc": "Todos os escopos, nunca apagadas",
+		"subjects": "Alvos",
+		"subjectsTitle_zero": "alvos analisados",
+		"subjectsTitle_one": "alvo analisado",
+		"subjectsTitle_other": "alvos analisados",
+		"subjectsDesc": "Gateway, rotas e serviços",
+		"highRisk": "Risco alto",
+		"highRiskTitle_zero": "análises com risco alto",
+		"highRiskTitle_one": "análise com risco alto",
+		"highRiskTitle_other": "análises com risco alto",
+		"highRiskDesc": "No histórico completo"
+	},
+	"tables": {
+		"history": "Histórico de análises"
+	},
+	"columns": {
+		"subject": "Alvo",
+		"risk": "Risco",
+		"summary": "Resumo",
+		"requestedAt": "Gerada em"
+	},
+	"trend": {
+		"improved": "melhorou",
+		"stable": "estável",
+		"worsened": "piorou",
+		"label": "Tendência desde a análise anterior",
+		"first": "primeira análise deste alvo"
+	},
+	"actions": {
+		"title": "Ações sugeridas"
+	},
+	"chat": {
+		"title": "Conversar sobre a análise",
+		"placeholder": "Pergunte algo, como \"por que o risco é alto?\" ou \"qual instância está puxando o p95?\"",
+		"send": "Enviar",
+		"sendTooltip": "Enviar a pergunta (Enter)",
+		"empty": "Nenhuma pergunta ainda. O assistente responde com a análise e com dados atuais.",
+		"loadError": "Falha ao carregar a conversa",
+		"askError": "Falha ao obter a resposta: {{message}}",
+		"thinking": "Pensando…",
+		"consulting": "Consultando {{tool}}…",
+		"tools": {
+			"get_traffic_overview": "tráfego geral",
+			"get_route_stats": "tráfego da rota",
+			"get_service_instances": "instâncias",
+			"get_consumer_usage": "uso do consumidor",
+			"get_recent_errors": "erros recentes",
+			"get_health_events": "eventos de saúde",
+			"get_config_changes": "mudanças de configuração",
+			"get_open_alerts": "alertas abertos",
+			"get_alert_rules": "regras de alerta",
+			"get_previous_analyses": "análises anteriores",
+			"get_system_health": "saúde da plataforma"
+		},
+		"you": "Você",
+		"assistant": "Assistente"
+	},
+	"removedSubject": {
+		"platform": "{{name}}",
+		"route": "{{name}} (removida)",
+		"service": "{{name}} (removido)"
+	},
+	"allSubjects": "Todos",
+	"subjectPicker": {
+		"route": "Filtrar por rota",
+		"service": "Filtrar por serviço"
+	}
+}

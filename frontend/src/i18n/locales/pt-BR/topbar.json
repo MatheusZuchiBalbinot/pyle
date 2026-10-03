@@ -1,0 +1,24 @@
+{
+	"openNav": "Abrir navegação",
+	"notifications": "Notificações",
+	"searchPlaceholder": "Buscar rotas, serviços, consumidores…",
+	"searchAriaLabel": "Buscar no console",
+	"signOut": "Sair",
+	"signOutTooltip": "Encerrar a sessão neste navegador",
+	"accountTooltip": "Sessão de {{email}}",
+	"account": {
+		"openLabel": "Conta de {{name}}",
+		"menuLabel": "Conta",
+		"role": "Administrador",
+		"signingOut": "Saindo…"
+	},
+	"search": {
+		"kind": {
+			"route": "Rota",
+			"service": "Serviço",
+			"instance": "Instância",
+			"consumer": "Consumidor"
+		},
+		"empty": "Nada encontrado"
+	}
+}
