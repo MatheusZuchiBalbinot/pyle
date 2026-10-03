@@ -1,0 +1,216 @@
+name: pyle
+
+x-demo-service: &demo-service
+  image: node:22-alpine
+  restart: unless-stopped
+  command: node /app/server.mjs
+  volumes:
+    - ./infra/demo-service:/app:ro
+  healthcheck:
+    test: ['CMD', 'wget', '-qO-', 'http://localhost:8080/health']
+    interval: 5s
+    timeout: 3s
+    retries: 5
+
+x-demo-env: &demo-env
+  PORT: '8080'
+  CHAOS_TOKEN: ${DEMO_CHAOS_TOKEN:-dev-demo-chaos-token-change-me}
+
+services:
+  database:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${CONTROL_PLANE_DB_USER:-pyle}
+      POSTGRES_PASSWORD: ${CONTROL_PLANE_DB_PASSWORD:-pyle}
+      POSTGRES_DB: control_plane
+    ports:
+      - '45431:5432'
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${CONTROL_PLANE_DB_USER:-pyle} -d control_plane']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - '46379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Realtime broker for the console. Secrets come from .env.
+  centrifugo:
+    image: centrifugo/centrifugo:v6
+    restart: unless-stopped
+    command: centrifugo -c /centrifugo/config.json
+    environment:
+      CENTRIFUGO_CLIENT_TOKEN_HMAC_SECRET_KEY: ${CENTRIFUGO_TOKEN_HMAC_SECRET:?set it in .env}
+      CENTRIFUGO_HTTP_API_KEY: ${CENTRIFUGO_API_KEY:?set it in .env}
+      # Vite (5173) and the app profile's console (8081); a deployment sets
+      # its own origin here.
+      CENTRIFUGO_CLIENT_ALLOWED_ORIGINS: ${CENTRIFUGO_ALLOWED_ORIGINS:-http://localhost:5173 http://localhost:8081}
+    ports:
+      - '48000:8000'
+    volumes:
+      - ./infra/centrifugo/config.json:/centrifugo/config.json:ro
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:8000/health']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # infra/demo-service instances on 48101+, registered by npm run seed.
+  demo-orders-1:
+    <<: *demo-service
+    container_name: pyle-demo-orders-1
+    environment: { <<: *demo-env, SERVICE_NAME: orders, INSTANCE_ID: orders-1 }
+    ports: ['48101:8080']
+  demo-orders-2:
+    <<: *demo-service
+    container_name: pyle-demo-orders-2
+    environment: { <<: *demo-env, SERVICE_NAME: orders, INSTANCE_ID: orders-2 }
+    ports: ['48102:8080']
+  demo-orders-3:
+    <<: *demo-service
+    container_name: pyle-demo-orders-3
+    environment: { <<: *demo-env, SERVICE_NAME: orders, INSTANCE_ID: orders-3 }
+    ports: ['48103:8080']
+  demo-users-1:
+    <<: *demo-service
+    container_name: pyle-demo-users-1
+    environment: { <<: *demo-env, SERVICE_NAME: users, INSTANCE_ID: users-1 }
+    ports: ['48111:8080']
+  demo-users-2:
+    <<: *demo-service
+    container_name: pyle-demo-users-2
+    environment: { <<: *demo-env, SERVICE_NAME: users, INSTANCE_ID: users-2 }
+    ports: ['48112:8080']
+  demo-catalog-1:
+    <<: *demo-service
+    container_name: pyle-demo-catalog-1
+    environment: { <<: *demo-env, SERVICE_NAME: catalog, INSTANCE_ID: catalog-1 }
+    ports: ['48121:8080']
+  demo-catalog-2:
+    <<: *demo-service
+    container_name: pyle-demo-catalog-2
+    environment: { <<: *demo-env, SERVICE_NAME: catalog, INSTANCE_ID: catalog-2 }
+    ports: ['48122:8080']
+
+  # Opt-in: docker compose --profile app up -d.
+  backend:
+    profiles: ['app']
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      database: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      centrifugo: { condition: service_healthy }
+    environment: &backend-env
+      CONTROL_PLANE_DATABASE_URL: postgresql://${CONTROL_PLANE_DB_USER:-pyle}:${CONTROL_PLANE_DB_PASSWORD:-pyle}@database:5432/control_plane
+      CONTROL_PLANE_REDIS_URL: redis://redis:6379
+      CENTRIFUGO_URL: http://centrifugo:8000
+      CENTRIFUGO_PUBLIC_URL: ${CENTRIFUGO_PUBLIC_URL:-ws://localhost:48000/connection/websocket}
+      CENTRIFUGO_TOKEN_HMAC_SECRET: ${CENTRIFUGO_TOKEN_HMAC_SECRET:?set it in .env}
+      CENTRIFUGO_API_KEY: ${CENTRIFUGO_API_KEY:?set it in .env}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:?set it in .env}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:?set it in .env}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:8081}
+      CHAOS_ALLOWED: ${CHAOS_ALLOWED:-false}
+      DEMO_CHAOS_TOKEN: ${DEMO_CHAOS_TOKEN:-dev-demo-chaos-token-change-me}
+      SCALING_ALLOWED: ${SCALING_ALLOWED:-false}
+      # Managed containers run on the host's daemon: a host path to mount,
+      # reached through the host.
+      DEMO_SERVICE_SOURCE_DIR: ${PWD}/infra/demo-service
+      INSTANCE_CONTAINER_HOST: host.docker.internal
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    # RISK: the Docker socket is root on the host. Only for the demo's
+    # managed replicas (SCALING_ALLOWED); remove it where that is off.
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    group_add:
+      - '${DOCKER_GID:-0}'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  # Same image, gateway entrypoint: traffic on 8080, health on 8090.
+  gateway:
+    profiles: ['app']
+    build:
+      context: ./backend
+    restart: unless-stopped
+    command: ['node', 'apps/gateway/dist/main.js']
+    depends_on:
+      database: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      <<: *backend-env
+      GATEWAY_ID: ${GATEWAY_ID:-gw-docker}
+    ports:
+      - '8080:8080'
+      - '8090:8090'
+    healthcheck:
+      test: ['CMD', 'node', '-e', "fetch('http://127.0.0.1:8090/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  # Demo traffic, always on, in both setups: it reaches the gateway and the
+  # control plane through the host's published ports (8080, 3000), which the
+  # host processes of npm run dev and the app profile's containers both own.
+  # It waits for the seed's keys and for the gateway, then runs the mixed
+  # profile (a wave around 550 req/s) until stopped. BOT_PROFILE, BOT_RPS
+  # (the mean), BOT_GATEWAY_URL and BOT_CONTROL_PLANE_URL override it; the
+  # chaos profile also needs ADMIN_API_TOKEN.
+  bot:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    command: ['node_modules/.bin/tsx', '--conditions=source', 'scripts/load-bot.ts']
+    environment:
+      BOT_PROFILE: ${BOT_PROFILE:-}
+      BOT_RPS: ${BOT_RPS:-}
+      SEED_GATEWAY_URL: ${BOT_GATEWAY_URL:-http://host.docker.internal:8080}
+      SEED_CONTROL_PLANE_URL: ${BOT_CONTROL_PLANE_URL:-http://host.docker.internal:3000}
+      ADMIN_API_TOKEN: ${ADMIN_API_TOKEN:-}
+      BOT_KEYS_FILE: /seed/consumer-keys.local.json
+    # Read-only: the seed runs on the host and writes the keys there.
+    volumes:
+      - ./backend:/seed:ro
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    healthcheck:
+      disable: true
+
+  frontend:
+    profiles: ['app']
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend: { condition: service_started }
+    environment:
+      # A host address: the browser calls the control plane directly.
+      ADMIN_API_BASE_URL: ${ADMIN_API_BASE_URL:-http://localhost:3000}
+      # The console's Content-Security-Policy must allow the broker's socket.
+      REALTIME_PUBLIC_URL: ${REALTIME_PUBLIC_URL:-ws://localhost:48000}
+    ports:
+      - '8081:80'
+
+volumes:
+  database-data:
