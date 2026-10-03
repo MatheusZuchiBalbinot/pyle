@@ -1,0 +1,84 @@
+// Alerts and audit
+
+enum GatewayAlertKind {
+  route_p95_latency
+  route_error_rate
+  instance_unhealthy
+  circuit_open
+}
+
+enum AlertSeverity {
+  warning
+  critical
+}
+
+enum AlertSubjectType {
+  route
+  service
+  instance
+}
+
+// resolvedAt null = open. Never deleted before the retention window.
+model GatewayAlert {
+  id          String           @id @default(uuid())
+  kind        GatewayAlertKind
+  severity    AlertSeverity
+  subjectType AlertSubjectType
+  // Id of the route, service or instance, per subjectType.
+  subjectId   String
+  message     String
+  triggeredAt DateTime         @default(now())
+  resolvedAt  DateTime?
+
+  @@index([subjectType, subjectId, resolvedAt])
+  @@index([resolvedAt])
+}
+
+// One row per GatewayAlertKind; the control plane creates the defaults on boot.
+model AlertRuleConfig {
+  id               String           @id @default(uuid())
+  kind             GatewayAlertKind @unique
+  isEnabled        Boolean          @default(true)
+  // route_p95_latency: milliseconds. route_error_rate: percent (0-100).
+  // instance_unhealthy and circuit_open: unused (null).
+  threshold        Float?
+  // Consecutive 10 s windows the condition must hold before firing.
+  sustainedWindows Int              @default(3)
+  updatedAt        DateTime         @updatedAt
+}
+
+enum ConfigEntityType {
+  service
+  instance
+  route
+  consumer
+  api_key
+  alert_rule
+}
+
+enum ConfigChangeAction {
+  created
+  updated
+  deleted
+}
+
+// Audit trail of every configuration change (who changed what). Also what
+// the AI reads to answer "what changed before p95 went up?".
+model ConfigChangeEvent {
+  id         String             @id @default(uuid())
+  entityType ConfigEntityType
+  entityId   String
+  action     ConfigChangeAction
+  // Null on rows written before it was recorded.
+  entityName String?
+  // Human summary in English, e.g. "weight 1 -> 3": the audit trail and what the AI reads.
+  summary    String
+  // The same change, structured (ConfigChangeDetail), for the console to render.
+  detail     Json?
+  // Null for service-token callers (scripts, seed).
+  actorEmail String?
+  occurredAt DateTime           @default(now())
+
+  @@index([occurredAt])
+  @@index([entityType, entityId, occurredAt])
+}

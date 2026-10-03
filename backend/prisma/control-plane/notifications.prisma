@@ -1,0 +1,34 @@
+// Console inbox
+
+enum AdminNotificationCategory {
+  traffic
+  instance
+  system
+  ai
+}
+
+enum AdminNotificationSeverity {
+  info
+  success
+  warning
+  danger
+}
+
+// The console's notification inbox, persisted: one row per admin-facing
+// realtime event worth keeping, with the event payload kept verbatim so the
+// console renders it with the same copy as the live toast. Read state lives
+// here too, so it survives reloads and is shared by every operator session.
+model AdminNotification {
+  id          String                    @id @default(uuid())
+  category    AdminNotificationCategory
+  severity    AdminNotificationSeverity
+  eventType   String
+  subjectType AlertSubjectType?
+  subjectId   String?
+  payload     Json
+  readAt      DateTime?
+  createdAt   DateTime                  @default(now())
+
+  @@index([readAt, createdAt])
+  @@index([category, createdAt])
+}

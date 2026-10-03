@@ -1,0 +1,181 @@
+// Gateway configuration
+
+enum LoadBalancingStrategy {
+  round_robin
+  least_connections
+  weighted_random
+}
+
+enum InstanceSource {
+  // Declared by an operator (docker-compose).
+  static
+  // Created by scaling, through Docker.
+  managed
+}
+
+// The demo image a service's managed replicas run. Never an arbitrary image.
+enum ScalingProfile {
+  demo_orders
+  demo_users
+  demo_catalog
+}
+
+// Lifecycle of a managed instance's container.
+enum ManagedInstanceState {
+  // Container created, waiting for its first healthy /health; disabled.
+  provisioning
+  running
+  // Scaling down: disabled, in-flight requests finishing, then removed.
+  draining
+  // Never became healthy or its container vanished; soft-deleted with it.
+  failed
+}
+
+enum HttpMethod {
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
+  HEAD
+  OPTIONS
+}
+
+model Service {
+  id               String                @id @default(uuid())
+  // Unique among non-deleted services (partial index).
+  slug             String
+  name             String
+  description      String?
+  lbStrategy       LoadBalancingStrategy @default(round_robin)
+  // Per attempt; the whole request is capped by GATEWAY_MAX_REQUEST_TIMEOUT_MS.
+  timeoutMs        Int                   @default(10000)
+  // Total attempts (1 = no retry). Retries only happen for idempotent
+  // requests without a body.
+  retryMaxAttempts Int                   @default(2)
+
+  healthCheckPath       String @default("/health")
+  healthCheckIntervalMs Int    @default(5000)
+  healthCheckTimeoutMs  Int    @default(2000)
+  // Consecutive probe results needed to flip an instance's health.
+  healthyThreshold      Int    @default(2)
+  unhealthyThreshold    Int    @default(3)
+
+  // Consecutive request failures that open an instance's circuit.
+  circuitFailureThreshold Int @default(5)
+  circuitCooldownMs       Int @default(15000)
+
+  // Null = scaled by hand (docker-compose instances only).
+  scalingProfile         ScalingProfile?
+  // Managed instances wanted; static ones never count.
+  desiredManagedReplicas Int             @default(0)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  instances ServiceInstance[]
+  routes    Route[]
+
+  @@index([deletedAt])
+}
+
+model ServiceInstance {
+  id            String                @id @default(uuid())
+  serviceId     String
+  service       Service               @relation(fields: [serviceId], references: [id])
+  // Unique per service among non-deleted instances (partial index).
+  name          String
+  // Base URL the gateway forwards to, e.g. http://localhost:48101
+  url           String
+  // 1..100; only weighted_random reads it.
+  weight        Int                   @default(1)
+  // false = drained: receives no new traffic, health checks keep running.
+  isEnabled     Boolean               @default(true)
+  source        InstanceSource        @default(static)
+  // Only for source = managed.
+  containerName String?
+  hostPort      Int?
+  scalingState  ManagedInstanceState?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([serviceId, deletedAt])
+}
+
+model Route {
+  id                 String       @id @default(uuid())
+  name               String
+  // Starts with "/", no trailing "/" (except "/" itself), [a-z0-9-_/] only.
+  // Unique among non-deleted routes (partial index).
+  pathPrefix         String
+  serviceId          String
+  service            Service      @relation(fields: [serviceId], references: [id])
+  // true: "/api/orders/42" reaches the instance as "/42".
+  stripPrefix        Boolean      @default(true)
+  // Empty = every method.
+  methods            HttpMethod[]
+  isAuthRequired     Boolean      @default(true)
+  // Per consumer per minute on this route; null = only the consumer's own limit.
+  rateLimitPerMinute Int?
+  // Overrides the service timeout for this route.
+  timeoutMs          Int?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  consumerAccess ConsumerRouteAccess[]
+
+  @@index([serviceId, deletedAt])
+}
+
+model Consumer {
+  id                 String @id @default(uuid())
+  // Unique among non-deleted consumers (partial index).
+  slug               String
+  name               String
+  // Fixed 60 s window, across every route.
+  rateLimitPerMinute Int    @default(600)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  apiKeys     ApiKey[]
+  routeAccess ConsumerRouteAccess[]
+
+  @@index([deletedAt])
+}
+
+// No rows for a consumer = it may call every route.
+model ConsumerRouteAccess {
+  consumerId String
+  consumer   Consumer @relation(fields: [consumerId], references: [id])
+  routeId    String
+  route      Route    @relation(fields: [routeId], references: [id])
+
+  @@id([consumerId, routeId])
+  @@index([routeId])
+}
+
+model ApiKey {
+  id         String    @id @default(uuid())
+  consumerId String
+  consumer   Consumer  @relation(fields: [consumerId], references: [id])
+  // SHA-256 hex of the full key. The key itself is shown once and never
+  // stored; it is a high-entropy random token, not a password, so a fast
+  // unsalted hash looked up by equality is the right tool.
+  keyHash    String    @unique
+  // First 12 characters, for display ("pyle_live_Ab").
+  keyPrefix  String
+  label      String?
+  createdAt  DateTime  @default(now())
+  // Written by the data plane at most once per minute per key.
+  lastUsedAt DateTime?
+  revokedAt  DateTime?
+
+  @@index([consumerId])
+}

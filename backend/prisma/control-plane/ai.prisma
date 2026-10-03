@@ -1,0 +1,70 @@
+// AI
+
+enum AiRiskLevel {
+  low
+  medium
+  high
+}
+
+// What an analysis looked at: the whole gateway, one route or one service.
+enum AiAnalysisScope {
+  platform
+  route
+  service
+}
+
+// Whether things got better or worse since the previous analysis of the
+// same scope and subject; null for the first one.
+enum AiTrend {
+  improved
+  stable
+  worsened
+}
+
+// One analysis, generated on demand. Rows are never updated or deleted
+// (audit trail of what the operator was told and when).
+model AiAnalysis {
+  id                 String          @id @default(uuid())
+  scope              AiAnalysisScope
+  // Route or service id; null for platform.
+  subjectId          String?
+  // Snapshot of the subject's name at request time (it may be deleted later).
+  subjectName        String?
+  // Traffic window the context covered.
+  windowMinutes      Int?
+  summary            String
+  riskLevel          AiRiskLevel
+  highlights         String[]
+  recommendations    String[]
+  // Actions the model proposed that the console knows how to perform. Always
+  // confirmed by an operator before anything runs.
+  suggestedActions   Json            @default("[]")
+  trend              AiTrend?
+  trendSummary       String?
+  previousAnalysisId String?
+  model              String
+  requestedAt        DateTime        @default(now())
+
+  messages AiAnalysisMessage[]
+
+  @@index([scope, subjectId, requestedAt])
+  @@index([requestedAt])
+}
+
+enum AiMessageRole {
+  user
+  assistant
+}
+
+// The follow-up conversation an operator has about one analysis. Persisted
+// so the thread survives reloads and every operator sees the same one.
+model AiAnalysisMessage {
+  id         String        @id @default(uuid())
+  analysisId String
+  analysis   AiAnalysis    @relation(fields: [analysisId], references: [id])
+  role       AiMessageRole
+  content    String
+  createdAt  DateTime      @default(now())
+
+  @@index([analysisId, createdAt])
+}

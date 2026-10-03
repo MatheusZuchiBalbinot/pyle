@@ -1,0 +1,84 @@
+// Traffic recorded by the data plane
+
+// One row per (gateway, 10 s bucket, route, instance), written by the data
+// plane's flush. flushKey makes a retried flush idempotent
+// (createMany skipDuplicates).
+model RouteInstanceSample {
+  id          String   @id @default(uuid())
+  flushKey    String   @unique
+  gatewayId   String
+  bucketStart DateTime
+  // Null = the request matched no route (404 from the gateway).
+  routeId     String?
+  // Null = rejected before an instance was chosen (401/403/429/503).
+  instanceId  String?
+
+  requestCount      Int
+  status2xx         Int
+  status3xx         Int
+  status4xx         Int
+  status5xx         Int
+  // 429 produced by the gateway (not by the upstream).
+  rateLimitedCount  Int
+  // 502/503/504 produced by the gateway.
+  gatewayErrorCount Int
+  // Extra attempts made (attempts - 1, summed).
+  retryCount        Int
+  // One counter per TRAFFIC_LATENCY_BUCKET_BOUNDS_MS edge, plus overflow.
+  latencyBuckets    Int[]
+  latencySumMs      Float
+
+  @@index([bucketStart])
+  @@index([routeId, bucketStart])
+  @@index([instanceId, bucketStart])
+}
+
+// Same idea per (gateway, bucket, route, consumer), for consumer usage.
+model RouteConsumerSample {
+  id          String   @id @default(uuid())
+  flushKey    String   @unique
+  gatewayId   String
+  bucketStart DateTime
+  routeId     String?
+  // Null = unauthenticated (public route, or 401).
+  consumerId  String?
+
+  requestCount     Int
+  status4xx        Int
+  status5xx        Int
+  rateLimitedCount Int
+  latencyBuckets   Int[]
+  latencySumMs     Float
+
+  @@index([bucketStart])
+  @@index([consumerId, bucketStart])
+}
+
+enum InstanceStateKind {
+  health
+  circuit
+}
+
+enum InstanceState {
+  healthy
+  unhealthy
+  circuit_closed
+  circuit_open
+  circuit_half_open
+}
+
+// One row per health or circuit transition reported by a data plane.
+// Never updated (audit trail).
+model InstanceStateEvent {
+  id         String            @id @default(uuid())
+  instanceId String
+  gatewayId  String
+  kind       InstanceStateKind
+  fromState  InstanceState
+  toState    InstanceState
+  reason     String
+  occurredAt DateTime          @default(now())
+
+  @@index([instanceId, occurredAt])
+  @@index([occurredAt])
+}

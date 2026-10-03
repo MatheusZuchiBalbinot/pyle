@@ -1,0 +1,12 @@
+// Control-plane database, one file per domain in this folder. The data plane
+// only reads the configuration and writes traffic samples. Partial unique
+// indexes (Prisma cannot declare them) live in the migrations.
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/@prisma/control-plane-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("CONTROL_PLANE_DATABASE_URL")
+}

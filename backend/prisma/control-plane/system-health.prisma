@@ -1,0 +1,28 @@
+// Platform health
+
+// The platform's own infrastructure. One row per detected transition, never
+// updated, so "was this detected, and when" stays verifiable afterwards.
+enum SystemHealthComponent {
+  control_plane_db_primary
+  control_plane_redis
+  // At least one data plane heartbeat is fresh.
+  gateway
+  // Only checked when scaling is enabled.
+  docker
+}
+
+enum SystemHealthStatus {
+  up
+  degraded
+  down
+}
+
+model SystemHealthEvent {
+  id         String                @id @default(uuid())
+  component  SystemHealthComponent
+  status     SystemHealthStatus
+  detail     String?
+  occurredAt DateTime              @default(now())
+
+  @@index([component, occurredAt])
+}

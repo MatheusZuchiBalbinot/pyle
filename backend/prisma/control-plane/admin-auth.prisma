@@ -1,0 +1,39 @@
+// Operator accounts and their refresh tokens.
+
+model AdminUser {
+  id           String @id @default(uuid())
+  // Unique among non-deleted users (partial index).
+  email        String
+  name         String
+  // scrypt (see PasswordHasher): salt and parameters live inside the
+  // encoded string, so changing the cost later doesn't invalidate old rows.
+  passwordHash String
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  lastLoginAt DateTime?
+
+  refreshTokens AdminRefreshToken[]
+}
+
+// One row per issued refresh token. Stored hashed (the plaintext only ever
+// exists in the operator's cookie), rotated on every use, and chained via
+// `replacedById` so reuse of an already-rotated token is detectable (the
+// signature of a stolen cookie, which revokes the whole chain).
+model AdminRefreshToken {
+  id     String    @id @default(uuid())
+  userId String
+  user   AdminUser @relation(fields: [userId], references: [id])
+
+  tokenHash    String    @unique
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  replacedById String?
+  createdAt    DateTime  @default(now())
+
+  @@index([userId, expiresAt])
+  // The retention sweep filters by expiresAt alone; the composite index
+  // above leads with userId and cannot serve it.
+  @@index([expiresAt])
+}
