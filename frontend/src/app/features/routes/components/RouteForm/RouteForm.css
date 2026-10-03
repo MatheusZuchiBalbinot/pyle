@@ -1,0 +1,21 @@
+.route-form-preview {
+	display: grid;
+	gap: 4px;
+	margin: 8px 0 0;
+	padding: 8px 10px;
+	border-radius: var(--radius-md);
+	background: var(--bg);
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+.route-form-rewrite {
+	color: var(--fg);
+	font-size: var(--text-xs);
+}
+
+.route-form-switches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+}

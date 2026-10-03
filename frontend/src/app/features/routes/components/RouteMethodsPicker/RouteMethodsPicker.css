@@ -1,0 +1,10 @@
+/* Seven methods in one even grid (4 + 3), instead of a row that leaves OPTIONS alone. */
+.route-methods {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 6px;
+}
+
+.route-methods > * {
+	justify-content: center;
+}

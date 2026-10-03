@@ -1,0 +1,71 @@
+.route-detail {
+	display: grid;
+	gap: 14px;
+	margin-top: 14px;
+	padding: 16px;
+}
+
+.route-detail-head {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.route-detail-title {
+	margin: 0 0 2px;
+	font-size: var(--text-lg);
+}
+
+.route-detail-prefix {
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+.route-detail-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+/* The route's settings as a framed grid of cells: the hairlines are the grid's own gaps. */
+.route-detail-config {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1px;
+	margin: 0;
+	overflow: hidden;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--border);
+}
+
+.route-detail-config > div {
+	padding: 10px 14px;
+	background: var(--surface-dim);
+}
+
+.route-detail-config dt {
+	color: var(--muted);
+	font-size: var(--text-2xs);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.route-detail-config dd {
+	margin: 4px 0 0;
+	font-size: var(--text-sm);
+	overflow-wrap: anywhere;
+}
+
+.route-detail .traffic-chart {
+	padding: 0;
+}
+
+@media (max-width: 900px) {
+	.route-detail-config {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

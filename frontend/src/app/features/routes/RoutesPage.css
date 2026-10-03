@@ -1,0 +1,17 @@
+.routes-skeleton {
+	display: grid;
+	gap: 12px;
+	padding: 16px;
+}
+
+.routes-error {
+	padding: 16px;
+}
+
+.routes-list {
+	overflow: hidden;
+}
+
+.routes-summary {
+	margin-bottom: 14px;
+}
