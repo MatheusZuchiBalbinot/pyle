@@ -1,0 +1,13 @@
+{
+	// The whole backend in one program: the apps, the shared package, test/ and scripts/.
+	// The "source" condition resolves @pyle/shared to its .ts sources, so nothing needs
+	// building first. The builds (tsconfig.build.json per workspace) drop it and read the
+	// compiled dist instead.
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"customConditions": ["source"],
+		"noEmit": true,
+		"types": ["vitest/globals", "node"]
+	},
+	"exclude": ["node_modules", "**/dist", "coverage", "test/contract"]
+}

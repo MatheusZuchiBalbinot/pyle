@@ -1,0 +1,37 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["typescript", "oxc", "unicorn", "import"],
+	"rules": {
+		"typescript/no-explicit-any": "off",
+		"typescript/no-floating-promises": "error",
+		// The response DTOs are classes only so Swagger can read their metadata; every value
+		// typed with them is a plain object literal, so a spread loses no prototype.
+		"typescript/no-misused-spread": "off",
+
+		// Import hygiene — see .prettierrc's @ianvs/prettier-plugin-sort-imports
+		// for grouping/ordering (which oxlint's import plugin can't check yet);
+		// these catch correctness issues that formatting alone doesn't.
+		"import/first": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		"import/no-cycle": "warn",
+		"import/no-self-import": "error",
+		"import/no-empty-named-blocks": "error"
+	},
+	"env": {
+		"node": true
+	},
+	"overrides": [
+		{
+			// vi.fn() mocks assigned onto a fake collaborator object are plain
+			// data, not real class methods with a `this` binding to lose — the
+			// type-aware unbound-method check doesn't know that and flags every
+			// `expect(fake.collaborator.method).toHaveBeenCalledWith(...)`
+			// assertion, a normal and safe pattern in this codebase's unit tests.
+			"files": ["**/*.spec.ts"],
+			"rules": {
+				"typescript/unbound-method": "off"
+			}
+		}
+	]
+}

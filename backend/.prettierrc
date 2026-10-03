@@ -1,0 +1,29 @@
+{
+	"semi": true,
+	"singleQuote": true,
+	"jsxSingleQuote": false,
+	"trailingComma": "all",
+	"printWidth": 150,
+	"tabWidth": 2,
+	"useTabs": true,
+	"arrowParens": "always",
+	"bracketSpacing": true,
+	"bracketSameLine": false,
+	"endOfLine": "lf",
+	"quoteProps": "as-needed",
+	"plugins": ["@ianvs/prettier-plugin-sort-imports"],
+	"importOrder": [
+		"<BUILTIN_MODULES>",
+		"<THIRD_PARTY_MODULES>",
+		"",
+		"^@pyle/(.*)$",
+		"",
+		"^\\.\\.(?!/?$)",
+		"^\\.\\./?$",
+		"^\\./(?=.*/)(?!/?$)",
+		"^\\.(?!/?$)",
+		"^\\./?$"
+	],
+	"importOrderTypeScriptVersion": "6.0.3",
+	"importOrderParserPlugins": ["typescript", "decorators-legacy"]
+}

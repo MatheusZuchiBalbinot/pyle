@@ -1,0 +1,17 @@
+{
+	"name": "@pyle/gateway",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "The data plane: plain node:http, its own process.",
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
+		"dev": "tsx watch --conditions=source src/main.ts",
+		"start": "node dist/main.js"
+	},
+	"dependencies": {
+		"@pyle/shared": "*",
+		"@prisma/client": "^6.9.0",
+		"ioredis": "^6.0.0"
+	}
+}

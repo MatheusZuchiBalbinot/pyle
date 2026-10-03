@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.env
+*.log
+
+# The seed's consumer-keys.local.json: API keys in clear for the load bot,
+# never committed.
+*.local.json
+*.tsbuildinfo
+
+# npm run bench output: machine-specific; the curated numbers live in docs/benchmark.md.
+bench-results/

@@ -1,0 +1,22 @@
+{
+	"name": "@pyle/shared",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "What the gateway and the control plane share: wire contracts, the configuration snapshot loader, env readers, small utilities.",
+	"exports": {
+		"./*.js": {
+			"source": "./src/*.ts",
+			"types": "./dist/*.d.ts",
+			"default": "./dist/*.js"
+		}
+	},
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
+		"dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput"
+	},
+	"dependencies": {
+		"@prisma/client": "^6.9.0",
+		"dotenv": "^17.4.2"
+	}
+}

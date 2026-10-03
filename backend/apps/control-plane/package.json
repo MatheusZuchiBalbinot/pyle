@@ -1,0 +1,34 @@
+{
+	"name": "@pyle/control-plane",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "The control plane: NestJS admin API, scheduling, AI and scaling.",
+	"scripts": {
+		"build": "nest build",
+		"dev": "nest start --watch --preserveWatchOutput",
+		"start": "node dist/main.js"
+	},
+	"dependencies": {
+		"@pyle/shared": "*",
+		"@anthropic-ai/sdk": "^0.126.0",
+		"@nestjs/common": "^12.0.1",
+		"@nestjs/config": "^12.0.0",
+		"@nestjs/core": "^12.0.1",
+		"@nestjs/platform-express": "^12.0.1",
+		"@nestjs/swagger": "^12.0.1",
+		"@nestjs/throttler": "^6.7.0",
+		"@prisma/client": "^6.9.0",
+		"class-transformer": "^0.5.1",
+		"class-validator": "^0.15.1",
+		"compression": "^1.8.2",
+		"dockerode": "^5.0.1",
+		"express": "^5.2.1",
+		"helmet": "^8.3.0",
+		"ioredis": "^6.0.0",
+		"jose": "^6.2.12",
+		"nestjs-cls": "^6.3.0",
+		"reflect-metadata": "^0.2.2",
+		"rxjs": "^7.8.1"
+	}
+}

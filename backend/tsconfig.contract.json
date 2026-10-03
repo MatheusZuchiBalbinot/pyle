@@ -1,0 +1,19 @@
+{
+	// Compiles test/contract against both packages' sources: see the file's header.
+	"compilerOptions": {
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"target": "ES2023",
+		"lib": ["ES2023", "DOM"],
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
+		"customConditions": ["source"],
+		"types": ["node"]
+	},
+	"files": ["test/contract/admin-api.contract.ts", "test/contract/import-meta.d.ts"]
+}
