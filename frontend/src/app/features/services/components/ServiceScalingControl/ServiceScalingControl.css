@@ -1,0 +1,78 @@
+.service-scaling {
+	display: grid;
+	gap: 10px;
+	padding: 12px 16px;
+	border-top: 1px solid var(--border);
+	font-size: var(--text-sm);
+}
+
+.service-scaling-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.service-scaling-head h3 {
+	margin: 0;
+	font-size: var(--text-md);
+	font-weight: 600;
+}
+
+.service-scaling-heading {
+	display: grid;
+	gap: 2px;
+}
+
+.service-scaling-heading p {
+	margin: 0;
+	font-size: var(--text-xs);
+}
+
+.service-scaling-ready {
+	color: var(--muted);
+	font-size: var(--text-sm);
+}
+
+.service-scaling-body {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px 16px;
+	padding: 8px 10px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	background: var(--surface-2);
+}
+
+.service-scaling-stepper {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-left: auto;
+}
+
+.service-scaling-value {
+	min-width: 2ch;
+	border-radius: var(--radius-sm);
+	font-size: var(--text-md);
+	text-align: center;
+}
+
+.service-scaling-value:focus-visible {
+	outline: 2px solid var(--focus);
+	outline-offset: 2px;
+}
+
+/* Programmatic focus after the bar closes: no ring for a pointer user. */
+.service-scaling-value:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.service-scaling-note {
+	margin: 0;
+	padding: 10px 16px;
+	border-top: 1px solid var(--border);
+	font-size: var(--text-xs);
+}

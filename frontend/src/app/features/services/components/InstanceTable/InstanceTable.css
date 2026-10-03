@@ -1,0 +1,57 @@
+.instance-url {
+	display: inline-block;
+	max-width: 220px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: bottom;
+	color: var(--muted);
+}
+
+.instance-name {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	white-space: nowrap;
+}
+
+.instance-weight-input {
+	width: 52px;
+	padding: 3px 6px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
+	background: var(--bg);
+	color: var(--fg);
+	font-size: var(--text-xs);
+	text-align: right;
+}
+
+.instance-weight-off {
+	color: var(--faint);
+}
+
+.instance-actions {
+	display: inline-flex;
+	gap: 2px;
+}
+
+.faint {
+	color: var(--faint);
+}
+
+/* The header row before the managed replicas: a quiet divider, not a data row. */
+.data-table tbody tr:has(.instance-group-label) {
+	cursor: default;
+}
+
+.data-table tbody tr:has(.instance-group-label) td {
+	padding-block: 6px;
+	background: var(--surface-2);
+}
+
+.instance-group-label {
+	color: var(--muted);
+	font-size: var(--text-xs);
+	font-weight: 600;
+	white-space: nowrap;
+}

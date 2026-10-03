@@ -1,0 +1,115 @@
+.instance-activity {
+	display: grid;
+	gap: 14px;
+	align-content: start;
+}
+
+.activity-group {
+	display: grid;
+	gap: 8px;
+}
+
+.activity-group-title {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	margin: 0;
+	color: var(--muted);
+	font-size: var(--text-2xs);
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.activity-group-title span {
+	color: var(--faint);
+	font-weight: 400;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+/* A vertical rail through the dots, so the entries read as one sequence. */
+.activity-list {
+	position: relative;
+	display: grid;
+	gap: 10px;
+	margin: 0;
+	padding: 0 0 0 18px;
+	list-style: none;
+	font-size: var(--text-xs);
+}
+
+.activity-list::before {
+	content: '';
+	position: absolute;
+	top: 6px;
+	bottom: 6px;
+	left: 4px;
+	width: 1px;
+	background: var(--border);
+}
+
+.activity-row {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 12px;
+	align-items: baseline;
+}
+
+.activity-dot {
+	position: absolute;
+	top: 5px;
+	left: -18px;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--surface);
+	border: 2px solid var(--faint);
+}
+
+.activity-row.is-good .activity-dot {
+	border-color: var(--success);
+}
+
+.activity-row.is-bad .activity-dot {
+	border-color: var(--danger);
+}
+
+.activity-row.is-info .activity-dot {
+	border-color: var(--primary);
+}
+
+.activity-text {
+	color: var(--muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.activity-text strong {
+	color: var(--fg);
+	font-weight: 500;
+}
+
+.activity-row.is-bad .activity-text strong {
+	color: var(--danger);
+}
+
+.activity-time {
+	color: var(--faint);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.activity-empty {
+	color: var(--faint);
+}
+
+.activity-list:has(> .activity-empty)::before {
+	display: none;
+}
+
+.activity-list:has(> .activity-empty) {
+	padding-left: 0;
+}

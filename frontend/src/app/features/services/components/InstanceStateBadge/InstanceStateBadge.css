@@ -1,0 +1,8 @@
+.instance-state-badge {
+	gap: 5px;
+	white-space: nowrap;
+}
+
+.instance-state-badge.is-compact {
+	padding: 3px;
+}

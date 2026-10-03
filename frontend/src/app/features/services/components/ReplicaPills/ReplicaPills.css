@@ -1,0 +1,141 @@
+.replica-pills {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.replica-slot {
+	display: inline-flex;
+}
+
+.replica-free {
+	margin-left: 4px;
+	color: var(--faint);
+	font-size: var(--text-xs);
+}
+
+/* The item is a 24px target; the visible pill is drawn inside it. */
+.replica-pill {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 24px;
+	border-radius: var(--radius-sm);
+}
+
+.replica-pill::before {
+	content: '';
+	box-sizing: border-box;
+	width: 22px;
+	height: 12px;
+	border: 1.5px solid transparent;
+	border-radius: var(--radius-full);
+	transition:
+		background-color var(--duration-base) var(--ease-out),
+		border-color var(--duration-base) var(--ease-out);
+}
+
+button.replica-pill {
+	cursor: pointer;
+}
+
+button.replica-pill:hover {
+	background: var(--surface-hover);
+}
+
+/* The replica open in the instance table below. */
+.replica-pill[aria-pressed='true'] {
+	box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.replica-pill:focus-visible {
+	outline: 2px solid var(--focus);
+	outline-offset: 1px;
+}
+
+.replica-pill[data-state='running']::before {
+	border-color: var(--success);
+	background: var(--success);
+}
+
+/* Half filled, the fill sweeping: on its way up. */
+.replica-pill[data-state='starting']::before,
+.replica-pill[data-state='requested']::before {
+	border-color: var(--primary);
+	background: linear-gradient(90deg, var(--primary) 50%, transparent 50%);
+	background-size: 200% 100%;
+	animation: replica-pill-starting calc(var(--duration-slow) * 6) var(--ease-out) infinite alternate;
+}
+
+/* Asked for, no container yet: the same shape with a dashed outline. */
+.replica-pill[data-state='requested']::before {
+	border-style: dashed;
+}
+
+/* Outlined and pulsing: draining before it leaves. */
+.replica-pill[data-state='leaving']::before {
+	border-color: var(--warning);
+	background: transparent;
+	animation: replica-pill-leaving calc(var(--duration-slow) * 5) ease-in-out infinite alternate;
+}
+
+.replica-pill[data-state='unhealthy']::before,
+.replica-pill[data-state='failed']::before {
+	border-color: var(--danger);
+	background: var(--danger);
+}
+
+/* Crossed through, so a failed replica differs from an unhealthy one without color. */
+.replica-pill[data-state='failed']::after {
+	content: '';
+	position: absolute;
+	width: 14px;
+	height: 2px;
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	transform: rotate(-30deg);
+}
+
+@keyframes replica-pill-starting {
+	from {
+		background-position: 100% 0;
+	}
+
+	to {
+		background-position: 50% 0;
+	}
+}
+
+@keyframes replica-pill-leaving {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0.35;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	/* Same specificity as the state rules above, and later, so it wins. */
+	.replica-pill[data-state]::before {
+		transition: none;
+		animation: none;
+	}
+
+	.replica-pill[data-state='starting']::before,
+	.replica-pill[data-state='requested']::before {
+		background-position: 50% 0;
+	}
+}

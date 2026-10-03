@@ -1,0 +1,11 @@
+.services-skeleton,
+.services-error,
+.services-empty {
+	margin-bottom: 14px;
+	padding: 16px;
+}
+
+.services-empty {
+	color: var(--faint);
+	font-size: var(--text-sm);
+}

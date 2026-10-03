@@ -1,0 +1,98 @@
+/* One explicit column: an implicit one would grow to the instance table's minimum width
+   and push the whole card past a phone's screen. */
+.service-card {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 14px;
+	margin-bottom: 14px;
+	padding: 16px;
+}
+
+.service-card-head {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.service-card-head h2 {
+	margin: 0 0 4px;
+	font-size: var(--text-lg);
+}
+
+.service-card-head p {
+	margin: 0;
+	font-size: var(--text-sm);
+}
+
+.service-card-table {
+	margin: 0 -16px;
+	border-top: 1px solid var(--border);
+	border-bottom: 1px solid var(--border);
+}
+
+/* The open instance's panel, framed under the table: its activity on the left, chaos on the
+   right, split by a hairline. */
+.service-card-detail {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface-dim);
+	animation: enter-rise var(--duration-base) var(--ease-out) both;
+}
+
+.service-card-detail > .instance-activity,
+.service-card-detail > .chaos-panel {
+	padding: 16px;
+}
+
+.service-card-detail > .chaos-panel {
+	border-left: 1px solid var(--border);
+}
+
+.instance-detail-head {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 10px 10px 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+.instance-detail-head h3 {
+	flex: none;
+	margin: 0;
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.instance-detail-head .mono {
+	min-width: 0;
+	overflow: hidden;
+	font-size: var(--text-xs);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.instance-detail-close {
+	margin-left: auto;
+}
+
+.service-card-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+@media (max-width: 900px) {
+	.service-card-detail {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.service-card-detail > .chaos-panel {
+		border-top: 1px solid var(--border);
+		border-left: 0;
+	}
+}
