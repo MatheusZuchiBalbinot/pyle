@@ -1,0 +1,63 @@
+.api-key-reveal {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.api-key-reveal-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: var(--text-lg);
+	font-weight: 600;
+}
+
+.api-key-reveal-icon {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	background: var(--primary-soft);
+	color: var(--primary);
+	flex: 0 0 auto;
+}
+
+.api-key-reveal-key {
+	display: block;
+	padding: 12px 14px;
+	border: 1px solid var(--border-strong);
+	border-radius: var(--radius-md);
+	background: var(--bg);
+	font-family: var(--font-mono);
+	font-size: var(--text-sm);
+	overflow-wrap: anywhere;
+	user-select: all;
+}
+
+.api-key-reveal-warning {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	margin: 0;
+	padding: 10px 12px;
+	border-left: 3px solid var(--warning);
+	border-radius: var(--radius-sm);
+	background: var(--surface-2);
+	color: var(--muted);
+	font-size: var(--text-xs);
+	line-height: 1.5;
+}
+
+.api-key-reveal-warning svg {
+	flex: 0 0 auto;
+	margin-top: 1px;
+	color: var(--warning);
+}
+
+.api-key-reveal-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 8px;
+}

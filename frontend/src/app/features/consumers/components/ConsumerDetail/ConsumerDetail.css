@@ -1,0 +1,73 @@
+.consumer-detail {
+	display: grid;
+	gap: 16px;
+	margin-top: 14px;
+	padding: 16px;
+}
+
+.consumer-detail-head {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+}
+
+.consumer-detail h2 {
+	margin: 0 0 2px;
+	font-size: var(--text-lg);
+}
+
+.consumer-detail h3 {
+	margin: 0;
+	font-size: var(--text-sm);
+}
+
+.consumer-detail-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.consumer-usage {
+	display: grid;
+	gap: 10px;
+}
+
+.consumer-usage .traffic-chart {
+	padding: 0;
+}
+
+.consumer-scope-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.consumer-scope-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.consumer-scope-chip {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+	padding: 4px 10px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	font-size: var(--text-xs);
+}
+
+.consumer-scope-chip .mono {
+	color: var(--faint);
+}
+
+.consumer-scope-chip.is-all {
+	border-color: color-mix(in oklch, var(--primary) 40%, var(--border));
+	background: var(--primary-soft);
+	color: var(--primary-on-soft);
+}

@@ -1,0 +1,79 @@
+.consumer-usage-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.consumer-usage-head h3 {
+	margin: 0;
+	font-size: var(--text-sm);
+}
+
+/* Name, the share bar, the request count and the 429s, aligned in columns. */
+.route-usage-list {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.route-usage-row {
+	display: grid;
+	grid-template-columns: 140px minmax(0, 1fr) 80px 96px;
+	align-items: center;
+	gap: 12px;
+	font-size: var(--text-sm);
+}
+
+.route-usage-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.route-usage-bar {
+	height: 8px;
+	overflow: hidden;
+	border-radius: var(--radius-sm);
+	background: var(--border);
+}
+
+.route-usage-fill {
+	display: block;
+	height: 100%;
+	border-radius: var(--radius-sm);
+	background: var(--primary);
+	transition: width var(--duration-slow) var(--ease-out);
+}
+
+.route-usage-count {
+	text-align: right;
+}
+
+.route-usage-limited {
+	color: var(--faint);
+	font-size: var(--text-xs);
+	text-align: right;
+}
+
+.route-usage-limited.is-limited {
+	color: var(--warning);
+}
+
+@media (max-width: 600px) {
+	.route-usage-row {
+		grid-template-columns: minmax(0, 1fr) 64px;
+	}
+
+	.route-usage-bar {
+		grid-column: 1 / -1;
+		grid-row: 2;
+	}
+
+	.route-usage-limited {
+		display: none;
+	}
+}

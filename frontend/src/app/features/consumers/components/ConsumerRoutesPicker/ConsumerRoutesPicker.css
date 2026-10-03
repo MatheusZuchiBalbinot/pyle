@@ -1,0 +1,24 @@
+.routes-picker {
+	display: grid;
+	gap: 10px;
+}
+
+.routes-picker-list {
+	display: grid;
+	gap: 6px;
+	padding-left: 4px;
+}
+
+.routes-picker-option {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr);
+	align-items: center;
+	gap: 8px;
+	font-size: var(--text-sm);
+	cursor: pointer;
+}
+
+.routes-picker-prefix {
+	color: var(--faint);
+	font-size: var(--text-xs);
+}

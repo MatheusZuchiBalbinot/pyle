@@ -1,0 +1,40 @@
+.api-keys {
+	display: grid;
+	gap: 10px;
+}
+
+.api-key-list {
+	display: grid;
+	gap: 4px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.api-key-row {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr) auto auto auto;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 0;
+	border-bottom: 1px solid var(--border);
+	font-size: var(--text-sm);
+}
+
+.api-key-row.is-revoked .api-key-prefix,
+.api-key-row.is-revoked .api-key-label {
+	text-decoration: line-through;
+	color: var(--faint);
+}
+
+.api-key-meta {
+	font-size: var(--text-xs);
+	color: var(--faint);
+	white-space: nowrap;
+}
+
+.api-key-issue {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
