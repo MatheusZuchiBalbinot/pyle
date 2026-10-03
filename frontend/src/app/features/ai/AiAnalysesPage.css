@@ -1,0 +1,29 @@
+.ai-analyses-detail {
+	margin-top: 14px;
+}
+
+.ai-analyses-filters {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.ai-analyses-filter-bar {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}
+
+.ai-analyses-filter-bar .select-input {
+	max-width: 220px;
+}
+
+.ai-analyses-summary-cell {
+	display: inline-block;
+	max-width: 520px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: middle;
+}

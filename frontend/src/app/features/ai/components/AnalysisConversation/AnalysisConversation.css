@@ -1,0 +1,131 @@
+.analysis-conversation {
+	display: grid;
+	gap: 10px;
+	padding-top: 14px;
+	border-top: 1px solid var(--border);
+}
+
+.analysis-conversation h3 {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--text-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--muted);
+}
+
+.conversation-list {
+	list-style: none;
+	display: grid;
+	gap: 10px;
+	max-height: 360px;
+	overflow-y: auto;
+	padding-top: 16px;
+	padding-right: 6px;
+	/* Same edge as the assistant's thread: scrolled-away messages fade instead of being cut. */
+	mask-image: linear-gradient(to bottom, transparent 0, #000 16px);
+}
+
+.conversation-message {
+	display: grid;
+	gap: 3px;
+	max-width: 80ch;
+	padding: 10px 12px;
+	border-radius: var(--radius-lg);
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+}
+
+.conversation-message.is-user {
+	justify-self: end;
+	background: color-mix(in oklch, var(--primary) 14%, var(--surface-2));
+	border-color: color-mix(in oklch, var(--primary) 30%, var(--border));
+}
+
+.conversation-message.is-streaming {
+	border-style: dashed;
+}
+
+.conversation-message-role {
+	font-size: var(--text-2xs);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--muted);
+}
+
+.conversation-message-text {
+	font-size: var(--text-sm);
+	line-height: 1.55;
+	white-space: pre-wrap;
+}
+
+.conversation-message-footer {
+	font-size: var(--text-2xs);
+	color: var(--faint);
+}
+
+.conversation-message-status {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+.conversation-pulse {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--primary);
+	animation: conversation-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes conversation-pulse {
+	0%,
+	100% {
+		opacity: 0.35;
+		transform: scale(0.85);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+}
+
+.conversation-form {
+	display: flex;
+	gap: 8px;
+	align-items: flex-end;
+}
+
+.conversation-input {
+	flex: 1;
+	resize: vertical;
+	min-height: 44px;
+	padding: 9px 11px;
+	font: inherit;
+	font-size: var(--text-sm);
+	color: var(--fg);
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+}
+
+.conversation-input:focus {
+	outline: none;
+	border-color: var(--primary);
+}
+
+.conversation-empty {
+	font-size: var(--text-sm);
+}
+
+.conversation-skeleton {
+	display: grid;
+	gap: 8px;
+}
+
+.conversation-error {
+	font-size: var(--text-xs);
+}

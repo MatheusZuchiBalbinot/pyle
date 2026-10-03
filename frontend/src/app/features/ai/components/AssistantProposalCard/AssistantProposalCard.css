@@ -1,0 +1,58 @@
+.assistant-proposal {
+	display: grid;
+	gap: 10px;
+	padding: 12px;
+	border: 1px solid color-mix(in oklch, var(--primary) 35%, var(--border));
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+}
+
+.assistant-proposal.is-destructive {
+	border-color: color-mix(in oklch, var(--danger) 45%, var(--border));
+}
+
+.assistant-proposal.is-dismissed,
+.assistant-proposal.is-done {
+	border-color: var(--border);
+	opacity: 0.8;
+}
+
+.assistant-proposal > .badge {
+	justify-self: start;
+}
+
+.assistant-proposal-text {
+	display: grid;
+	gap: 3px;
+}
+
+.assistant-proposal-label {
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.assistant-proposal-reason {
+	font-size: var(--text-sm);
+	color: var(--muted);
+}
+
+.assistant-proposal-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+}
+
+.assistant-proposal-failure {
+	display: grid;
+	gap: 8px;
+	justify-items: start;
+}
+
+.assistant-proposal-outcome {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--text-sm);
+	color: var(--success);
+}

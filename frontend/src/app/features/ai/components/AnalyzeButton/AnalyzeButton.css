@@ -1,0 +1,66 @@
+/* Gradient CTA: the only saturated fill in the app on purpose, so the eye goes to it.
+   At rest it is still, like every other button; while an analysis is generating, the
+   gradient sweeps across the face (its only animation). */
+.btn.analyze-button {
+	border: 0;
+	color: var(--on-ai);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	background: var(--ai-gradient);
+	background-size: 200% 100%;
+	box-shadow:
+		var(--inset-highlight-strong),
+		0 0 0 1px var(--ai-border);
+	transition:
+		filter var(--duration-fast) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+
+.btn.analyze-button:hover:not(:disabled) {
+	color: var(--on-ai);
+	background: var(--ai-gradient);
+	background-size: 200% 100%;
+	filter: brightness(1.1);
+}
+
+.btn.analyze-button:active:not(:disabled) {
+	background: var(--ai-gradient);
+	background-size: 200% 100%;
+	filter: brightness(0.92);
+}
+
+.btn.analyze-button:disabled {
+	opacity: 1;
+	cursor: progress;
+}
+
+.btn.analyze-button.is-generating {
+	animation: analyze-button-sweep 1.4s linear infinite;
+}
+
+.btn.analyze-button.is-compact {
+	min-height: auto;
+	padding: 5px 11px;
+	font-size: var(--text-xs);
+	border-radius: var(--radius-full);
+}
+
+.analyze-button-icon {
+	display: grid;
+	place-items: center;
+}
+
+@keyframes analyze-button-sweep {
+	from {
+		background-position: 0 0;
+	}
+	to {
+		background-position: 200% 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn.analyze-button.is-generating {
+		animation: none;
+	}
+}

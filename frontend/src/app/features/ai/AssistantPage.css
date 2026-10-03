@@ -1,0 +1,252 @@
+/* A compact panel that grows with the conversation: the thread has no
+   fixed height, only a cap past which it scrolls. */
+.assistant-panel {
+	display: grid;
+	gap: 10px;
+	max-width: none;
+	padding: 14px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: linear-gradient(180deg, color-mix(in oklch, var(--primary) 5%, var(--surface)), var(--surface) 120px);
+	box-shadow: var(--shadow);
+}
+
+.assistant-thread {
+	list-style: none;
+	margin: 0;
+	padding: 16px 6px 4px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	max-height: min(58vh, 560px);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	/* Scrolled-away messages fade out under the top edge instead of being cut by it; at rest
+	   the faded strip is only padding. */
+	mask-image: linear-gradient(to bottom, transparent 0, #000 16px);
+}
+
+.assistant-row {
+	display: flex;
+	gap: 10px;
+	align-items: flex-start;
+	animation: enter-rise var(--duration-base) var(--ease-out);
+}
+
+.assistant-row.is-operator {
+	justify-content: flex-end;
+}
+
+.assistant-avatar {
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+	width: 28px;
+	height: 28px;
+	border-radius: var(--radius-full);
+	background: linear-gradient(135deg, var(--primary), color-mix(in oklch, var(--primary) 55%, var(--accent-violet)));
+	color: var(--on-accent);
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary) 16%, transparent);
+}
+
+.assistant-bubble {
+	display: grid;
+	gap: 8px;
+	min-width: 0;
+	max-width: min(72ch, 100%);
+	padding: 9px 13px;
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--border);
+	background: var(--surface-2);
+}
+
+.assistant-row.is-assistant .assistant-bubble {
+	border-top-left-radius: var(--radius-sm);
+	flex: 0 1 auto;
+}
+
+.assistant-row.is-operator .assistant-bubble {
+	border-top-right-radius: var(--radius-sm);
+	border-color: color-mix(in oklch, var(--primary) 35%, var(--border));
+	background: color-mix(in oklch, var(--primary) 16%, var(--surface-2));
+}
+
+.assistant-row.is-thinking .assistant-bubble {
+	gap: 6px;
+	min-width: 240px;
+}
+
+.assistant-bubble-text {
+	margin: 0;
+	font-size: var(--text-md);
+	line-height: 1.6;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.assistant-caret {
+	display: inline-block;
+	width: 7px;
+	height: 1em;
+	margin-left: 2px;
+	vertical-align: text-bottom;
+	border-radius: var(--radius-xs);
+	background: var(--primary);
+	animation: assistant-caret-blink 0.9s steps(1) infinite;
+}
+
+@keyframes assistant-caret-blink {
+	50% {
+		opacity: 0;
+	}
+}
+
+.assistant-tools {
+	font-size: var(--text-xs);
+	color: var(--faint);
+	animation: enter-rise var(--duration-base) var(--ease-out);
+}
+
+.assistant-proposals {
+	display: grid;
+	gap: 8px;
+	animation: enter-rise var(--duration-base) var(--ease-out);
+}
+
+.assistant-status {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 2px;
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+.assistant-dots {
+	display: inline-flex;
+	gap: 3px;
+}
+
+.assistant-dots span {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--primary);
+	animation: assistant-dot 1.1s ease-in-out infinite;
+}
+
+.assistant-dots span:nth-child(2) {
+	animation-delay: 0.15s;
+}
+
+.assistant-dots span:nth-child(3) {
+	animation-delay: 0.3s;
+}
+
+@keyframes assistant-dot {
+	0%,
+	80%,
+	100% {
+		opacity: 0.3;
+		transform: translateY(0);
+	}
+	40% {
+		opacity: 1;
+		transform: translateY(-3px);
+	}
+}
+
+.assistant-empty {
+	display: grid;
+	justify-items: start;
+	gap: 12px;
+	padding: 8px 4px 4px;
+}
+
+.assistant-empty-icon {
+	display: grid;
+	place-items: center;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--radius-lg);
+	background: var(--primary-soft);
+	color: var(--primary);
+}
+
+.assistant-empty-title {
+	margin: 0;
+	font-size: var(--text-lg);
+	font-weight: 600;
+}
+
+.assistant-empty-desc {
+	margin: 2px 0 0;
+	max-width: 64ch;
+	font-size: var(--text-sm);
+	color: var(--muted);
+}
+
+.assistant-examples {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.assistant-error {
+	margin: 0;
+	font-size: var(--text-sm);
+}
+
+.assistant-composer {
+	display: flex;
+	align-items: flex-end;
+	gap: 8px;
+	padding: 6px 6px 6px 12px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--bg);
+	transition:
+		border-color var(--duration-fast) var(--ease-out),
+		box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.assistant-composer:focus-within {
+	border-color: color-mix(in oklch, var(--primary) 60%, var(--border));
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary) 14%, transparent);
+}
+
+.assistant-input {
+	flex: 1;
+	field-sizing: content;
+	min-height: 22px;
+	max-height: 160px;
+	padding: 6px 0;
+	resize: none;
+	border: 0;
+	outline: none;
+	background: transparent;
+	color: var(--fg);
+	font: inherit;
+	font-size: var(--text-md);
+	line-height: 1.5;
+}
+
+.assistant-send.icon-btn {
+	width: 34px;
+	height: 34px;
+	border-radius: var(--radius-lg);
+	background: var(--primary);
+	color: var(--on-accent);
+	border-color: transparent;
+}
+
+.assistant-send.icon-btn:disabled {
+	background: var(--surface-2);
+	color: var(--faint);
+}
+
+.assistant-disclaimer {
+	margin: 0;
+	font-size: var(--text-2xs);
+	color: var(--faint);
+}

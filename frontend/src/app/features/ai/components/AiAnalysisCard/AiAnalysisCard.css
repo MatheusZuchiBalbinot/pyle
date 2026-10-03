@@ -1,0 +1,130 @@
+/* Reuses StatusIntro's tone variables (`status-intro-<tone>` sets
+   --status-intro-color) so risk tints match the rest of the app. */
+.ai-analysis-card {
+	display: grid;
+	gap: 14px;
+	padding: 20px 22px;
+	border: 1px solid color-mix(in oklch, var(--status-intro-color) 28%, var(--border));
+	border-radius: var(--radius-lg);
+	background: radial-gradient(circle at 100% 0%, color-mix(in oklch, var(--status-intro-color) 12%, transparent), transparent 40%), var(--surface);
+}
+
+.ai-analysis-card-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.ai-analysis-card-icon {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border-radius: var(--radius-lg);
+	color: var(--on-ai);
+	background: var(--ai-gradient);
+	flex-shrink: 0;
+}
+
+.ai-analysis-card-heading {
+	flex: 1;
+	min-width: 0;
+}
+
+.ai-analysis-card-heading .status-intro-eyebrow {
+	margin-bottom: 2px;
+}
+
+.ai-analysis-card-heading h2 {
+	font-size: var(--text-lg);
+	letter-spacing: -0.01em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ai-analysis-card-summary {
+	font-size: var(--text-md);
+	line-height: 1.55;
+	max-width: 78ch;
+}
+
+.ai-analysis-card-columns {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.ai-analysis-card-columns h3 {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 8px;
+	color: var(--muted);
+	font-size: var(--text-2xs);
+	font-weight: 650;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.ai-analysis-card-list {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding-left: 22px;
+	font-size: var(--text-sm);
+	line-height: 1.5;
+}
+
+.ai-analysis-card-list li::marker {
+	color: var(--status-intro-color);
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+}
+
+.ai-analysis-card-list.is-recommendations li::marker {
+	color: var(--primary);
+}
+
+.ai-analysis-card-footer {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	padding-top: 10px;
+	border-top: 1px solid var(--border);
+	color: var(--faint);
+	font-size: var(--text-xs);
+}
+
+@media (max-width: 760px) {
+	.ai-analysis-card-columns {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ai-analysis-card-trend {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: var(--text-sm);
+	line-height: 1.5;
+	padding: 8px 12px;
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--border);
+	background: var(--surface-2);
+	color: var(--muted);
+}
+
+.ai-analysis-card-trend strong {
+	color: var(--fg);
+}
+
+.ai-analysis-card-trend.is-improved {
+	border-color: color-mix(in oklch, var(--success) 40%, var(--border));
+	color: var(--success);
+}
+
+.ai-analysis-card-trend.is-worsened {
+	border-color: color-mix(in oklch, var(--danger) 40%, var(--border));
+	color: var(--danger);
+}
