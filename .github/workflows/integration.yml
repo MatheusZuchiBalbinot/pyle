@@ -1,0 +1,174 @@
+# Suites that need real infrastructure (feature, e2e, and the console in a
+# browser): on pull requests, nightly and on demand.
+name: Integration
+
+on:
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration:
+    name: Feature + e2e + merged coverage gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      # Placeholders only; also what a developer does on day one.
+      - name: Provide env files
+        run: |
+          cp .env.example .env
+          cp backend/.env.example backend/.env
+
+      # The repo's own compose file: CI and a laptop run the same thing.
+      - name: Start control-plane infrastructure and demo backends
+        run: docker compose up -d --wait
+
+      - name: Demo service tests
+        run: node --test infra/demo-service/server.test.mjs
+
+      - name: Install
+        working-directory: backend
+        run: npm ci
+
+      - name: Apply the control-plane migrations
+        working-directory: backend
+        run: npm run db:migrate
+
+      # The unit tier runs again here: the merged gate needs all three reports
+      # in one workspace.
+      - name: Unit tests
+        working-directory: backend
+        run: npm run test:cov:unit
+
+      - name: Feature tests
+        working-directory: backend
+        run: npm run test:cov:feature
+
+      - name: End-to-end tests
+        working-directory: backend
+        # The runner has Docker: the scaling e2e creates real containers.
+        env:
+          PYLE_DOCKER_E2E: 'true'
+        run: npm run test:cov:e2e
+
+      # One number across the three tiers (scripts/merge-coverage.ts).
+      - name: Merged coverage gate
+        working-directory: backend
+        run: npm run test:cov:merge
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integration-coverage
+          path: backend/coverage
+          retention-days: 7
+
+      - name: Infrastructure logs
+        if: failure()
+        run: docker compose logs --no-color --tail 200
+
+      - name: Tear everything down
+        if: always()
+        run: docker compose down -v
+
+  browser:
+    name: Running stack (console smoke test, load budget)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Provide env files
+        run: |
+          cp .env.example .env
+          cp backend/.env.example backend/.env
+          cp frontend/.env.example frontend/.env
+
+      - name: Start infrastructure and demo backends
+        run: docker compose up -d --wait
+
+      - name: Install, migrate and build the backend
+        working-directory: backend
+        run: |
+          npm ci
+          npm run db:migrate
+          npm run build
+
+      # Built, not watched: the run checks what would ship.
+      - name: Start the control plane and the gateway
+        working-directory: backend
+        run: |
+          nohup npm run start:prod > control-plane.log 2>&1 &
+          nohup npm run start:gateway:prod > gateway.log 2>&1 &
+          timeout 90 bash -c 'until curl -sf http://localhost:3000/health > /dev/null; do sleep 2; done'
+          timeout 90 bash -c 'until curl -sf http://localhost:8090/health > /dev/null; do sleep 2; done'
+
+      - name: Seed the demo
+        working-directory: backend
+        run: npm run seed
+
+      # The control plane allows the console's origin, :5173, for CORS.
+      - name: Build and serve the console
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+          nohup npx vite preview --port 5173 --strictPort > preview.log 2>&1 &
+          timeout 60 bash -c 'until curl -sf http://localhost:5173 > /dev/null; do sleep 1; done'
+
+      - name: Install the browser
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Smoke test
+        working-directory: frontend
+        run: npm run test:e2e
+
+      # Generous for a shared runner: it catches a regression (a blocking call on
+      # the hot path, an error spike), not a few milliseconds.
+      - name: Load budget
+        working-directory: backend
+        run: npm run bot -- steady --rps 100 --duration 30 --max-p95-ms 250 --max-error-rate 0.01
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            frontend/playwright-report
+            frontend/test-results
+          retention-days: 7
+
+      - name: Service logs
+        if: failure()
+        run: |
+          tail -n 200 backend/control-plane.log backend/gateway.log frontend/preview.log
+          docker compose logs --no-color --tail 100
+
+      - name: Tear everything down
+        if: always()
+        run: docker compose down -v

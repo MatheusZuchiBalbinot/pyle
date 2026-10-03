@@ -1,0 +1,146 @@
+# Fast checks on every push: no Docker or database (those live in
+# integration.yml).
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22'
+
+jobs:
+  backend:
+    name: Backend (lint, types, unit tests)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      # The Prisma client is only generated when backend/.env exists; the
+      # example also proves it stays complete.
+      - name: Provide the env the Prisma generators read
+        run: cp backend/.env.example backend/.env
+
+      - name: Install
+        working-directory: backend
+        run: npm ci
+
+      - name: Lint
+        working-directory: backend
+        run: npm run lint
+
+      - name: Typecheck (apps, shared package, tests, scripts)
+        working-directory: backend
+        run: npm run typecheck
+
+      # Shared first: the apps build against its compiled declarations.
+      - name: Build the workspaces
+        working-directory: backend
+        run: npm run build
+
+      # The console's hand-written API types against the DTOs the control plane sends.
+      - name: Admin API contract
+        working-directory: backend
+        run: npm run typecheck:contract
+
+      - name: Formatting
+        working-directory: backend
+        run: npm run format:check
+
+      - name: Unit tests
+        working-directory: backend
+        run: npm run test:cov:unit
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-unit-coverage
+          path: backend/coverage
+          retention-days: 7
+
+  frontend:
+    name: Frontend (lint, types, tests, build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Formatting
+        working-directory: frontend
+        run: npm run format:check
+
+      - name: Unit tests
+        working-directory: frontend
+        run: npm run test:cov
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-coverage
+          path: frontend/coverage
+          retention-days: 7
+
+      - name: Typecheck and build
+        working-directory: frontend
+        run: npm run build
+
+  security:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Runtime dependencies only: a dev-only advisory ships to nobody.
+      - name: Audit backend runtime dependencies
+        working-directory: backend
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Audit frontend runtime dependencies
+        working-directory: frontend
+        run: npm audit --omit=dev --audit-level=high
+
+  dependency-review:
+    name: Dependency review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
