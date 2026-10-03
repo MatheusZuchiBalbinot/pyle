@@ -1,49 +1,49 @@
 # Pyle
 
-API gateway study project: a data plane, a control plane, an operator
-console and AI-assisted operation. See [README.md](README.md) for the
-architecture, features and how to run it.
+Projeto de estudo de um API gateway: um data plane, um control plane, um
+console de operação e operação assistida por IA. O [README.md](README.md)
+explica a arquitetura, as funcionalidades e como rodar.
 
-# Code quality rules (TypeScript — frontend and backend)
+# Regras de qualidade de código (TypeScript, frontend e backend)
 
-Apply these rules by default whenever writing, editing, or reviewing code
-in this codebase. These are standing rules, not suggestions — follow them
-without asking, unless the existing code in a file already follows a
-different, consistent convention (in that case, match local consistency
-instead of forcing the rule in isolation).
+Aplique estas regras por padrão sempre que escrever, editar ou revisar código
+neste projeto. São regras fixas, não sugestões: siga sem perguntar, a menos
+que o código de um arquivo já siga outra convenção de forma consistente
+(nesse caso, mantenha a consistência local em vez de forçar a regra isolada).
 
-## General principles
+## Princípios gerais
 
-- Follow KISS, DRY, and Clean Code.
-- Early return is mandatory. Never write nested `if/else` — invert the
-  condition and return early instead.
-- Every `if` has braces and every statement ends with a semicolon, early
-  returns included: `if (!isOk) { return; }`, never `if (!isOk) return;`.
-- One blank line separates the blocks of a function: after the
-  declarations, before and after every block statement (`if`, loops,
-  nested functions), and before the `return`.
-- A file reads top-down: imports, then exported types, internal types,
-  exported functions, internal helpers. Constants and classes keep their
-  order (they are not hoisted).
-- These layout rules are enforced by ESLint (`eslint.config.js` in each
-  package, next to oxlint); `npm run format` applies them and then
-  Prettier.
-- Code, identifier names, comments, and routes are always in English.
-  User-facing text (i18n strings) is exempt from this rule.
-- Boolean variables are prefixed with `is`/`has`/`should`/`can`.
-- Never use loose primitive types where a named `type`/DTO would make the
-  intent clear. Prefer small, dedicated value objects (e.g. a class or
-  function to build a file path) over a raw string interpolated in several
-  places.
+- Siga KISS, DRY e Clean Code.
+- Retorno antecipado é obrigatório. Nunca escreva `if/else` aninhado:
+  inverta a condição e retorne cedo.
+- Todo `if` tem chaves e toda instrução termina com ponto e vírgula,
+  inclusive os retornos antecipados: `if (!isOk) { return; }`, nunca
+  `if (!isOk) return;`.
+- Uma linha em branco separa os blocos de uma função: depois das
+  declarações, antes e depois de cada bloco (`if`, laços, funções
+  aninhadas) e antes do `return`.
+- Um arquivo se lê de cima para baixo: imports, depois tipos exportados,
+  tipos internos, funções exportadas e funções auxiliares internas.
+  Constantes e classes mantêm a ordem (não sofrem hoisting).
+- Essas regras de layout são aplicadas pelo ESLint (`eslint.config.js` em
+  cada pacote, ao lado do oxlint); `npm run format` aplica as regras e depois
+  o Prettier.
+- Código, nomes de identificadores, comentários e rotas são sempre em
+  inglês. Textos para o usuário (strings de i18n) ficam fora dessa regra.
+- Variáveis booleanas começam com `is`/`has`/`should`/`can`.
+- Nunca use tipos primitivos soltos onde um `type`/DTO nomeado deixaria a
+  intenção clara. Prefira objetos de valor pequenos e dedicados (por
+  exemplo, uma classe ou função que monta o caminho de um arquivo) a uma
+  string crua interpolada em vários lugares.
 
-## Function signatures and calls
+## Assinaturas e chamadas de função
 
-- A function with more than ~3-4 parameters takes a single typed object,
-  never a list of positional parameters.
-- No function/hook/component call contains an anonymous object literal
-  broken across multiple lines as an inline argument. If the object
-  doesn't fit on one line, extract it into a typed variable before the
-  call — the call itself always stays on one line.
+- Uma função com mais de uns 3 ou 4 parâmetros recebe um único objeto
+  tipado, nunca uma lista de parâmetros posicionais.
+- Nenhuma chamada de função, hook ou componente leva um objeto literal
+  anônimo quebrado em várias linhas como argumento. Se o objeto não cabe
+  numa linha, extraia para uma variável tipada antes da chamada; a chamada
+  fica sempre numa linha só.
 
   ```ts
   // Wrong
@@ -59,16 +59,16 @@ instead of forcing the rule in isolation).
   const { x } = fn(fnInput);
   ```
 
-- When the extracted object has simple shorthand properties, keep it on a
-  single line — don't break it property by property. Only accept a
-  multi-line object when it genuinely contains logic (function bodies,
-  closures) that can't physically fit on one line.
-- If the same object "shape" is passed more than once, or has more than
-  ~4 fields, declare a named `type`/`interface` for it instead of
-  duplicating an anonymous literal.
-- An expression with more than one operation (a nested call, a `.find`
-  with a fallback, chaining) used directly as another call's argument must
-  be extracted into a named variable first.
+- Quando o objeto extraído tem só propriedades abreviadas simples, mantenha
+  numa linha só, sem quebrar propriedade por propriedade. Só aceite um objeto
+  em várias linhas quando ele tem lógica de verdade (corpos de função,
+  closures) que não cabe numa linha.
+- Se o mesmo formato de objeto é passado mais de uma vez, ou tem mais de uns
+  4 campos, declare um `type`/`interface` nomeado em vez de duplicar um
+  literal anônimo.
+- Uma expressão com mais de uma operação (uma chamada aninhada, um `.find`
+  com valor padrão, encadeamento) usada direto como argumento de outra
+  chamada precisa ser extraída antes para uma variável nomeada.
 
   ```ts
   // Wrong
@@ -79,14 +79,13 @@ instead of forcing the rule in isolation).
   const plaintext = decrypt(keyRing, docId, ciphertextBytes);
   ```
 
-## Conditions
+## Condições
 
-- A condition with more than one variable/comparison, or that's simply
-  long/hard to scan at a glance even with a single comparison against a
-  non-obvious expression, is extracted into a named boolean variable
-  before the `if`/ternary — never leave the composition loose inside the
-  condition itself. The name should describe _what_ is being checked, not
-  restate the comparison.
+- Uma condição com mais de uma variável ou comparação, ou que seja longa e
+  difícil de ler de relance mesmo com uma comparação só contra uma expressão
+  pouco óbvia, vira uma variável booleana nomeada antes do `if`/ternário.
+  Nunca deixe a composição solta dentro da condição. O nome diz _o que_ está
+  sendo verificado, e não repete a comparação.
 
   ```ts
   // Wrong
@@ -97,17 +96,18 @@ instead of forcing the rule in isolation).
   if (isKeyUnavailable) { ... }
   ```
 
-- Nested ternaries are forbidden (`a ? b : c ? d : e`). Rewrite as a
-  function with early returns, or a lookup table — a nested ternary is
-  exactly the kind of thing that slips through a quick review and turns
-  into a bug.
+- Ternários aninhados são proibidos (`a ? b : c ? d : e`). Reescreva como
+  uma função com retornos antecipados ou uma tabela de consulta: um ternário
+  aninhado é exatamente o tipo de coisa que passa numa revisão rápida e vira
+  bug.
 
-## Naming, types, and constants
+## Nomes, tipos e constantes
 
-- No magic number or magic string loose in the middle of logic. Every
-  "magic" value — a threshold, a timeout, a status code, a config key, a
-  retry count — becomes a named constant, declared once, with a name that
-  says what it means (not what it is).
+- Nenhum número ou string mágica solto no meio da lógica. Todo valor
+  "mágico" (um limite, um timeout, um status code, uma chave de
+  configuração, um número de tentativas) vira uma constante nomeada,
+  declarada uma vez, com um nome que diz o que ela significa (e não o que
+  ela é).
 
   ```ts
   // Wrong
@@ -121,15 +121,15 @@ instead of forcing the rule in isolation).
   await sleep(RETRY_DELAY_MS)
   ```
 
-- `any` is forbidden. When a type is genuinely unknown at compile time,
-  use `unknown` and narrow it explicitly before use — `any` turns off the
-  type checker exactly where it matters most.
-- Mark `readonly` on arrays/objects/fields that shouldn't mutate after
-  creation (`ReadonlyArray<T>` on a parameter that only reads a list,
-  `readonly` fields on a config type) so the compiler catches an
-  accidental mutation instead of a runtime surprise.
-- A function never mutates the parameters it received. Treat input as
-  immutable and return a new value instead.
+- `any` é proibido. Quando um tipo é de fato desconhecido em tempo de
+  compilação, use `unknown` e estreite explicitamente antes de usar: `any`
+  desliga o verificador de tipos justamente onde ele mais importa.
+- Marque `readonly` em arrays, objetos e campos que não devem mudar depois de
+  criados (`ReadonlyArray<T>` num parâmetro que só lê uma lista, campos
+  `readonly` num tipo de configuração), para o compilador pegar uma mutação
+  acidental em vez de uma surpresa em produção.
+- Uma função nunca altera os parâmetros que recebeu. Trate a entrada como
+  imutável e devolva um valor novo.
 
   ```ts
   // Wrong
@@ -143,18 +143,18 @@ instead of forcing the rule in isolation).
   }
   ```
 
-- Boolean names are always phrased affirmatively, never negated
-  (`isNotDisabled`, `hasNoErrors` are forbidden — they become unreadable
-  the moment you need to negate them again). Use `isEnabled`, `hasErrors`.
-- A fixed set of possible values is never a loose `string`/`number` — model
-  it as a union of literals or an enum. `status: string` silently accepts
-  a typo like `'aproved'`; `status: 'pending' | 'approved' | 'rejected'`
-  doesn't compile if you get it wrong.
-- A `switch`/`if-else` chain over a discriminated union is exhaustive and
-  checked at compile time — the final `else`/`default` assigns the value
-  to a `never`-typed parameter, so adding a new variant later and
-  forgetting to handle it here breaks the build instead of failing
-  silently at runtime.
+- Nomes booleanos são sempre afirmativos, nunca negados (`isNotDisabled`,
+  `hasNoErrors` são proibidos: ficam ilegíveis quando você precisa negá-los
+  de novo). Use `isEnabled`, `hasErrors`.
+- Um conjunto fixo de valores nunca é um `string`/`number` solto: modele como
+  uma união de literais ou um enum. `status: string` aceita em silêncio um
+  erro de digitação como `'aproved'`; `status: 'pending' | 'approved' | 'rejected'`
+  não compila se você errar.
+- Um `switch`/cadeia de `if-else` sobre uma união discriminada é exaustivo e
+  verificado na compilação: o `else`/`default` final passa o valor para um
+  parâmetro do tipo `never`, então quem adicionar uma variante nova e
+  esquecer de tratá-la aqui quebra o build em vez de falhar em silêncio em
+  produção.
 
   ```ts
   function assertUnreachable(value: never): never {
@@ -163,37 +163,37 @@ instead of forcing the rule in isolation).
   // in the final branch: assertUnreachable(job)
   ```
 
-- An optional parameter that changes the function's entire behavior when
-  set is forbidden — that's two functions disguised as one. Split into two
-  named functions, or model the input as a discriminated union.
-- No cryptic abbreviations in names (`usr`, `doc`, `cfg`, `tmp`), except
-  abbreviations that are universal in the domain (`id`, `url`, `dto`). A
-  full name costs nothing to write and saves time for whoever reads it
-  later.
-- Every exported function has an explicit return type, not an inferred
-  one. Inference is fine for a small internal helper; for anything that's
-  part of a module's public surface, the return type is a contract that
-  should be visible in the signature, not silently derived from the
-  current implementation.
-- No module exports mutable state directly (`export let currentUser =
-null`) — that lets any importer reassign it uncontrolled. Export a
-  read function (`getCurrentUser()`) and a controlled write function
-  (`setCurrentUser()`) instead of the raw variable.
-- No circular dependency between modules (A imports from B, B imports back
-  from A, directly or transitively). That's a sign of a poorly drawn
-  responsibility boundary — fix it by extracting what both need into a
-  third module, not by ignoring the bundler's warning.
+- Um parâmetro opcional que muda o comportamento inteiro da função quando
+  passado é proibido: são duas funções disfarçadas de uma. Separe em duas
+  funções nomeadas ou modele a entrada como uma união discriminada.
+- Nada de abreviações obscuras nos nomes (`usr`, `doc`, `cfg`, `tmp`), menos
+  as universais no domínio (`id`, `url`, `dto`). Um nome completo não custa
+  nada para escrever e poupa tempo de quem lê depois.
+- Toda função exportada tem tipo de retorno explícito, e não inferido. A
+  inferência serve para uma função auxiliar interna pequena; para o que faz
+  parte da superfície pública de um módulo, o tipo de retorno é um contrato
+  que precisa aparecer na assinatura, e não sair em silêncio da
+  implementação atual.
+- Nenhum módulo exporta estado mutável direto (`export let currentUser =
+null`): isso deixa qualquer importador reatribuir sem controle. Exporte uma
+  função de leitura (`getCurrentUser()`) e uma de escrita controlada
+  (`setCurrentUser()`) em vez da variável crua.
+- Nenhuma dependência circular entre módulos (A importa de B e B importa de
+  volta de A, direta ou indiretamente). Isso indica uma fronteira de
+  responsabilidade mal desenhada: resolva extraindo o que os dois precisam
+  para um terceiro módulo, e não ignorando o aviso do bundler.
 
-## State and variant modeling
+## Modelagem de estado e variantes
 
-This applies wherever state lives — a React component, a service class
-field, a job/record status column, an in-memory cache entry.
+Vale para qualquer lugar onde o estado mora: um componente React, um campo
+de uma classe de serviço, uma coluna de status de um job ou registro, uma
+entrada de cache em memória.
 
-- Mutually exclusive states/variants (which modal is open in a UI, which
-  stage a job or order is in, which outcome a validation produced) are
-  never modeled as several independent nullable/boolean fields — nothing
-  stops two of them from being set at the same time. Model it as a
-  discriminated union in a single value.
+- Estados ou variantes mutuamente exclusivos (qual modal está aberto, em que
+  etapa um job ou pedido está, que resultado uma validação produziu) nunca
+  viram vários campos nullable/booleanos independentes: nada impede dois de
+  ficarem ligados ao mesmo tempo. Modele como uma união discriminada num
+  único valor.
 
   ```ts
   // Wrong (equally wrong in a React component's state or a backend record)
@@ -212,7 +212,7 @@ field, a job/record status column, an in-memory cache entry.
     | { status: 'completed'; result: JobResult };
   ```
 
-  The same principle applied to UI state:
+  O mesmo princípio aplicado ao estado da interface:
 
   ```ts
   type VaultModal = { type: 'share'; doc: DocumentSummaryDTO } | { type: 'delete-document'; doc: DocumentSummaryDTO };
@@ -220,18 +220,18 @@ field, a job/record status column, an in-memory cache entry.
   const [activeModal, setActiveModal] = useState<VaultModal | null>(null);
   ```
 
-- Don't store/cache a value that's derivable from other state/data at the
-  point of use — compute it on demand, or memoize explicitly (`useMemo` on
-  the frontend, an explicit cache with invalidation on the backend) only
-  when the computation is genuinely expensive.
-- Every place that sets up a reactive subscription or watches for change
-  (`useEffect` deps, an event emitter subscription, a file watcher, a
-  polling loop) declares its full set of dependencies/triggers explicitly
-  and completely — no missing dependency, no unnecessary one.
-- A block of `let` + `if/else` reassigning a variable to decide what to
-  return or produce becomes a pure function that returns the result
-  directly — this applies to deciding what to render just as much as
-  deciding what response/value a function produces.
+- Não guarde nem cacheie um valor que dá para derivar de outro estado no
+  ponto de uso: calcule na hora, ou memorize explicitamente (`useMemo` no
+  frontend, um cache explícito com invalidação no backend) só quando o
+  cálculo for caro de verdade.
+- Todo lugar que cria uma assinatura reativa ou observa mudanças
+  (dependências de `useEffect`, assinatura de um emissor de eventos, um
+  observador de arquivos, um laço de polling) declara o conjunto completo de
+  dependências: nenhuma faltando, nenhuma sobrando.
+- Um bloco de `let` + `if/else` que reatribui uma variável para decidir o que
+  devolver vira uma função pura que devolve o resultado direto. Vale tanto
+  para decidir o que renderizar quanto para decidir que resposta ou valor uma
+  função produz.
 
   ```ts
   // Wrong
@@ -249,21 +249,20 @@ field, a job/record status column, an in-memory cache entry.
   const title = resolveTitle();
   ```
 
-- `.filter`/`.map`/`.reduce` with more than one composed condition (a
-  ternary inside the predicate, multiple comparisons) becomes a named,
-  extracted predicate — whether that's filtering rows for a UI list or
-  filtering records in a service/query-building function.
+- `.filter`/`.map`/`.reduce` com mais de uma condição composta (um ternário
+  dentro do predicado, várias comparações) ganha um predicado nomeado e
+  extraído, seja para filtrar linhas de uma lista na interface, seja para
+  filtrar registros num serviço ou numa consulta.
 
-## Inline logic in callbacks and handlers
+## Lógica dentro de callbacks e handlers
 
-This applies to any place a function is passed as a value — a JSX prop, a
-route/controller handler, a `.then()`/`.catch()`, an event listener, a
-queue job processor, a middleware.
+Vale para qualquer lugar onde uma função é passada como valor: uma prop de
+JSX, um handler de rota ou controller, um `.then()`/`.catch()`, um listener
+de evento, um processador de job, um middleware.
 
-- No logic with more than one operation, a closure with a real body, or a
-  `find`/`&&` standing in for an `if` goes inline where a callback is
-  expected. Extract it into a named function first, then pass the
-  function by reference.
+- Nenhuma lógica com mais de uma operação, closure com corpo de verdade ou
+  `find`/`&&` fazendo papel de `if` fica inline onde se espera um callback.
+  Extraia para uma função nomeada e passe por referência.
 
   ```tsx
   // Wrong (frontend)
@@ -303,240 +302,242 @@ queue job processor, a middleware.
   router.post('/documents/:id/archive', handleArchiveDocument);
   ```
 
-- A plain forward of a call with no extra logic (`onClick={() => setOpen(true)}`,
-  `router.get('/health', healthCheckHandler)`) can stay inline — extracting
-  it would add noise, not clarity. The rule is about hidden logic inside
-  the callback, not about callbacks existing at all.
+- Um simples repasse de chamada sem lógica extra (`onClick={() => setOpen(true)}`,
+  `router.get('/health', healthCheckHandler)`) pode ficar inline: extrair só
+  traria ruído. A regra é sobre lógica escondida dentro do callback, e não
+  sobre callbacks existirem.
 
-## Frontend performance and memory
+## Performance e memória no frontend
 
-- Don't recreate a new object/array/function on every render when it's
-  passed as a prop to a memoized child (`React.memo`) or used as a
-  dependency elsewhere — wrap it in `useMemo`/`useCallback` when that
-  identity stability actually matters. Don't reach for `useMemo`/
-  `useCallback` reflexively where nothing downstream depends on referential
-  stability and the computation is cheap — that's overhead without benefit.
-- Never fetch or hold an entire unbounded dataset client-side when
-  pagination, cursoring, or server-side filtering is available. Rendering
-  hundreds/thousands of DOM nodes for a list the user will only scroll a
-  fraction of calls for virtualization, not a plain `.map`.
-- Expensive operations triggered by fast user input (search-as-you-type,
-  resize, scroll handlers) are debounced or throttled — never run on every
-  keystroke/event unguarded.
-- Every subscription, timer (`setInterval`/`setTimeout`), or event listener
-  set up in a `useEffect` (or any manually-managed lifecycle) has a
-  matching cleanup that runs on unmount or before the effect re-runs. An
-  effect that starts something without a way to stop it is a leak.
-- Avoid unnecessary deep copies/clones of large structures — clone only
-  the slice that actually needs isolation, not the whole object graph.
-- Decrypted secrets or sensitive plaintext (keys, tokens, decrypted
-  content) are kept in memory only for as long as they're needed and
-  cleared/dropped from state once their use is done — don't cache
-  decrypted material longer than the feature actually requires, and don't
-  let it linger in closures that outlive their purpose.
-- Watch for accidental retention: a closure, cache, or module-level map
-  that keeps growing (e.g. keyed by document/user id) with no eviction or
-  upper bound is a memory leak in long-lived sessions (this applies
-  equally to long-running backend processes — see below).
+- Não recrie um objeto, array ou função a cada render quando ele vai como
+  prop para um filho memorizado (`React.memo`) ou serve de dependência em
+  outro lugar: use `useMemo`/`useCallback` quando a estabilidade da
+  identidade importa de fato. Não use `useMemo`/`useCallback` por reflexo
+  onde nada depende da identidade e o cálculo é barato: é custo sem
+  benefício.
+- Nunca busque nem segure no cliente um conjunto de dados sem limite quando
+  existe paginação, cursor ou filtro no servidor. Renderizar centenas ou
+  milhares de nós para uma lista da qual o usuário vai rolar só um pedaço
+  pede virtualização, e não um `.map` simples.
+- Operações caras disparadas por entrada rápida do usuário (busca enquanto
+  digita, resize, scroll) usam debounce ou throttle: nunca rodam a cada
+  tecla ou evento sem proteção.
+- Toda assinatura, timer (`setInterval`/`setTimeout`) ou listener criado num
+  `useEffect` (ou em qualquer ciclo de vida manual) tem uma limpeza que roda
+  ao desmontar ou antes de o efeito rodar de novo. Um efeito que começa algo
+  sem jeito de parar é um vazamento.
+- Evite cópias profundas desnecessárias de estruturas grandes: clone só o
+  pedaço que precisa de isolamento, e não o grafo inteiro.
+- Segredos decifrados ou texto sensível (chaves, tokens, conteúdo
+  decifrado) ficam na memória só pelo tempo necessário e saem do estado
+  quando o uso termina: não cacheie material decifrado por mais tempo do que
+  a funcionalidade exige, nem deixe ele preso em closures que vivem além do
+  propósito.
+- Cuidado com retenção acidental: uma closure, um cache ou um mapa no nível
+  do módulo que só cresce (por exemplo, chaveado por id de documento ou de
+  usuário), sem expulsão nem teto, é um vazamento de memória em sessões
+  longas (vale igual para processos longos no backend; veja abaixo).
 
-## Backend architecture and layering
+## Arquitetura e camadas no backend
 
-- Controllers/route handlers only orchestrate: parse and validate input,
-  call the domain/service layer, map the result to a response. No business
-  rule, no direct database query, and no raw SQL/ORM call lives in a
-  controller.
-- Business rules live in a domain/service layer, not scattered across
-  controllers, database triggers, and frontend validation copies of the
-  same rule. If a rule must be enforced in more than one layer for
-  legitimate reasons (e.g. DB constraint as a last line of defense), the
-  service layer is still the source of truth and is checked first.
-- Data access (queries, ORM calls) is isolated in a repository/DAO layer.
-  Services depend on a repository interface, not on the query builder or
-  raw client directly — this is what makes the domain layer testable
-  without a real database.
-- Every request handler validates its input against an explicit schema/DTO
-  at the boundary (body, query params, path params, headers it relies on)
-  before anything else runs. Never trust that the official frontend is the
-  only caller.
-- API responses use explicit response DTOs, not the raw database
-  entity/ORM model. Never leak internal-only fields (password hash,
-  internal flags, other users' data pulled in via a join) just because
-  they happen to be on the object being serialized.
+- Controllers e handlers de rota só orquestram: leem e validam a entrada,
+  chamam a camada de domínio ou serviço e transformam o resultado numa
+  resposta. Nenhuma regra de negócio, consulta direta ao banco ou SQL/ORM cru
+  mora num controller.
+- As regras de negócio moram numa camada de domínio ou serviço, e não
+  espalhadas por controllers, triggers do banco e cópias da mesma validação
+  no frontend. Se uma regra precisa valer em mais de uma camada por um motivo
+  legítimo (por exemplo, uma constraint do banco como última linha de
+  defesa), a camada de serviço continua sendo a fonte da verdade e é
+  verificada primeiro.
+- O acesso a dados (consultas, chamadas ao ORM) fica isolado numa camada de
+  repositório/DAO. Os serviços dependem de uma interface de repositório, e
+  não do query builder ou do client cru: é isso que deixa o domínio testável
+  sem um banco de verdade.
+- Todo handler valida a entrada contra um schema/DTO explícito na fronteira
+  (corpo, query, parâmetros de caminho, cabeçalhos de que depende) antes de
+  qualquer outra coisa. Nunca confie que o frontend oficial é o único
+  chamador.
+- As respostas da API usam DTOs de resposta explícitos, e não a entidade
+  crua do banco/ORM. Nunca vaze campos internos (hash de senha, flags
+  internas, dados de outros usuários trazidos por um join) só porque estão
+  no objeto serializado.
 
-## Error handling and logging
+## Tratamento de erros e logs
 
-- Errors are handled at the layer that has enough context to decide what
-  to do with them — don't catch-and-log-generically at the outermost
-  boundary as the only handling.
-- Distinguish expected domain errors (validation failure, not found,
-  conflict, permission denied) from unexpected ones (bug, infra failure).
-  Expected errors map to a specific, typed error class and a specific HTTP
-  status — never a generic 500 for something the caller could reasonably
-  trigger (bad input, missing resource).
-- Never swallow an error silently (empty `catch` block, `catch { return
-null }` without a comment explaining why the failure is safe to ignore).
-  If a failure is genuinely best-effort and safe to ignore, say so in a
-  comment.
-- Error responses returned to the client never include stack traces,
-  internal file paths, raw SQL, or ORM error messages. Log the full detail
-  server-side, return a safe, generic message to the caller.
-- Log at the point where the error is meaningful, with enough structured
-  context (request id, user id, entity id) to trace it — not just the
-  error message on its own. Avoid logging sensitive data (tokens,
-  passwords, decrypted content, full PII) even at debug level.
+- Os erros são tratados na camada que tem contexto para decidir o que fazer
+  com eles: não capture e logue de forma genérica só na borda mais externa.
+- Separe erros de domínio esperados (falha de validação, não encontrado,
+  conflito, sem permissão) dos inesperados (bug, falha de infraestrutura).
+  Os esperados viram uma classe de erro tipada e um status HTTP específico:
+  nunca um 500 genérico para algo que quem chama pode provocar (entrada
+  ruim, recurso inexistente).
+- Nunca engula um erro em silêncio (bloco `catch` vazio, `catch { return
+null }` sem um comentário explicando por que a falha é segura de ignorar).
+  Se uma falha é de fato "melhor esforço" e segura de ignorar, diga isso num
+  comentário.
+- As respostas de erro para o cliente nunca levam stack trace, caminhos de
+  arquivo internos, SQL cru ou mensagens do ORM. Logue o detalhe completo no
+  servidor e devolva uma mensagem segura e genérica.
+- Logue no ponto onde o erro faz sentido, com contexto estruturado
+  suficiente (id da requisição, id do usuário, id da entidade) para
+  rastrear, e não só a mensagem solta. Evite logar dados sensíveis (tokens,
+  senhas, conteúdo decifrado, dados pessoais completos), mesmo em nível de
+  debug.
 
-## Database and persistence
+## Banco de dados e persistência
 
-- Any set of writes that must succeed or fail together runs inside a
-  single transaction. Don't perform related writes as separate statements
-  relying on the app not crashing in between.
-- Guard against race conditions on shared/contended data (balances,
-  counters, seat/slot allocation) with a transaction plus the appropriate
-  isolation level or row lock — never read-then-write across two separate
-  round trips without protection.
-- Avoid N+1 query patterns: fetching a list, then querying once per item
-  in a loop. Use a join, a batched `WHERE id IN (...)`, or a dataloader
-  pattern instead.
-- Indexes exist for every column used in a `WHERE`, `JOIN`, or `ORDER BY`
-  on a table with non-trivial size — don't rely on a full table scan
-  staying fast because the table is small today.
-- Migrations are additive and backward-compatible with the currently
-  deployed code whenever possible (add a column nullable/with a default
-  before a deploy that requires it, drop it only after the old code path
-  is gone) — avoid a migration that breaks the previous version mid-rollout.
-- Connections/clients (DB pool, HTTP clients, file handles) are reused
-  from a shared pool, not created per request/operation and left unclosed.
+- Qualquer conjunto de escritas que precisa dar certo ou falhar junto roda
+  numa única transação. Não faça escritas relacionadas como instruções
+  separadas contando com o app não cair no meio.
+- Proteja dados disputados (saldos, contadores, alocação de vagas) contra
+  condições de corrida com uma transação mais o nível de isolamento ou lock
+  de linha adequado: nunca leia e depois escreva em duas idas ao banco sem
+  proteção.
+- Evite o padrão N+1: buscar uma lista e depois consultar uma vez por item
+  num laço. Use um join, um `WHERE id IN (...)` em lote ou um dataloader.
+- Toda coluna usada em `WHERE`, `JOIN` ou `ORDER BY` numa tabela de tamanho
+  relevante tem índice: não conte com a varredura completa continuar rápida
+  porque a tabela é pequena hoje.
+- As migrations são aditivas e compatíveis com o código em produção sempre
+  que possível (adicione a coluna nullable ou com valor padrão antes do
+  deploy que precisa dela, e só remova depois que o caminho antigo sumir):
+  evite uma migration que quebre a versão anterior no meio do deploy.
+- Conexões e clients (pool do banco, clients HTTP, arquivos abertos) são
+  reaproveitados de um pool compartilhado, e não criados a cada requisição e
+  deixados abertos.
 
-## Soft deletes and data lifecycle
+## Soft delete e ciclo de vida dos dados
 
-- User-facing destructive actions (delete a document, remove a member,
-  archive a resource) default to a soft delete (`deletedAt: Date | null`,
-  or an explicit status field) instead of a hard `DELETE`, unless there's a
-  stated legal/compliance reason to erase immediately (then say so
-  explicitly in the code/comment, don't silently hard-delete).
-- Every read query/repository method that isn't explicitly about
-  soft-deleted records excludes them by default (`WHERE deleted_at IS
-NULL` or the ORM equivalent) — don't rely on every call site
-  remembering to filter; centralize the default in the query layer.
-- Uniqueness constraints and business rules account for soft-deleted rows:
-  a soft-deleted user's email shouldn't permanently block a new signup
-  with the same email, and a soft-deleted resource shouldn't silently
-  count toward a limit/quota that assumes only active rows.
-- Relations/joins never leak soft-deleted data implicitly (e.g. a deleted
-  member still showing up in a document's member list through a join that
-  didn't filter on `deleted_at`).
-- Restore functionality (when offered) is symmetric with delete: it
-  reverses exactly what delete changed, and doesn't silently restore into
-  an inconsistent state (e.g. restoring a document into a folder that was
-  itself deleted in the meantime).
-- Soft-deleted data has an explicit retention policy if it's ever
-  permanently purged (background job, explicit admin action) — don't leave
-  soft-deleted rows accumulating forever with no lifecycle decision made
-  about them, and don't purge them without confirming nothing still
-  depends on the historical record (audit trail, billing history).
-- Prefer a timestamp (`deletedAt`) over a bare boolean (`isDeleted`) when
-  you need to know _when_ something was deleted, not just whether — this
-  is usually needed for retention policies, audit trails, and "restore
-  within N days" features.
+- Ações destrutivas para o usuário (apagar um documento, remover um membro,
+  arquivar um recurso) usam soft delete por padrão (`deletedAt: Date | null`
+  ou um campo de status explícito) em vez de um `DELETE` de verdade, a menos
+  que haja um motivo legal ou de compliance para apagar na hora (e então diga
+  isso no código ou num comentário, sem apagar em silêncio).
+- Toda consulta ou método de repositório que não trata explicitamente de
+  registros apagados os exclui por padrão (`WHERE deleted_at IS
+NULL` ou o equivalente do ORM): não conte com cada chamador lembrar de
+  filtrar; centralize o padrão na camada de consulta.
+- Restrições de unicidade e regras de negócio levam em conta as linhas
+  apagadas: o e-mail de um usuário apagado não deveria bloquear para sempre
+  um novo cadastro com o mesmo e-mail, e um recurso apagado não deveria
+  contar em silêncio para um limite que supõe só linhas ativas.
+- Relações e joins nunca vazam dados apagados sem querer (por exemplo, um
+  membro apagado ainda aparecendo na lista de membros de um documento por um
+  join que não filtrou `deleted_at`).
+- A restauração (quando existe) é simétrica ao apagar: desfaz exatamente o
+  que o apagar mudou e não restaura em silêncio para um estado inconsistente
+  (por exemplo, restaurar um documento numa pasta que foi apagada nesse
+  meio-tempo).
+- Dados com soft delete têm uma política de retenção explícita se algum dia
+  forem expurgados (job em segundo plano, ação de admin): não deixe linhas
+  apagadas acumulando para sempre sem uma decisão sobre o ciclo de vida, e
+  não as expurgue sem confirmar que nada mais depende do histórico (trilha
+  de auditoria, histórico de cobrança).
+- Prefira um timestamp (`deletedAt`) a um booleano (`isDeleted`) quando você
+  precisa saber _quando_ algo foi apagado, e não só se foi: isso costuma ser
+  necessário para políticas de retenção, trilhas de auditoria e
+  funcionalidades do tipo "restaurar em até N dias".
 
-## Backend performance and memory
+## Performance e memória no backend
 
-- Every list/collection endpoint is paginated (cursor or offset) by
-  default — never return an unbounded result set that grows with the data.
-- Cache expensive, frequently-repeated reads (external API calls,
-  heavy aggregations) with an explicit invalidation strategy — don't cache
-  without a plan for how stale data gets refreshed, and don't skip caching
-  something clearly hot just because it wasn't asked for.
-- Long-running or resource-heavy work (file processing, sending bulk
-  notifications, report generation) runs in a background job/queue, not
-  inline in the request/response cycle.
-- A module-level cache or in-memory map used across requests (e.g. a
-  simple in-process cache) has an eviction strategy (TTL, LRU, max size) —
-  an unbounded map keyed by request/user/entity id is a slow memory leak
-  in a long-running process.
-- Streaming/chunked processing is used for large payloads (big file
-  uploads/downloads, large exports) instead of loading the entire payload
-  into memory at once.
+- Todo endpoint de listagem é paginado (cursor ou offset) por padrão: nunca
+  devolva um conjunto sem limite que cresce com os dados.
+- Cacheie leituras caras e repetidas (chamadas a APIs externas, agregações
+  pesadas) com uma estratégia de invalidação explícita: não cacheie sem um
+  plano para atualizar dados velhos, nem deixe de cachear algo claramente
+  quente só porque ninguém pediu.
+- Trabalho longo ou pesado (processar arquivos, mandar notificações em massa,
+  gerar relatórios) roda num job ou fila em segundo plano, e não dentro do
+  ciclo de requisição e resposta.
+- Um cache no nível do módulo ou um mapa em memória usado entre requisições
+  (por exemplo, um cache simples no processo) tem uma estratégia de expulsão
+  (TTL, LRU, tamanho máximo): um mapa sem limite chaveado por requisição,
+  usuário ou entidade é um vazamento lento num processo longo.
+- Payloads grandes (upload e download de arquivos grandes, exportações
+  grandes) são processados em streaming ou em pedaços, e não carregados
+  inteiros na memória.
 
-## Security and access control
+## Segurança e controle de acesso
 
-- Every endpoint that operates on a specific resource checks that the
-  authenticated caller has permission over _that_ resource, not just that
-  they're authenticated — check for IDOR/horizontal privilege escalation
-  explicitly (can user A act on user B's resource by changing an id in the
-  request).
-- Role/permission checks are enforced server-side on every sensitive
-  action, never assumed from the frontend already hiding the button/menu
-  item.
-- All external input (body, query, params, headers, file uploads) is
-  validated and sanitized — never concatenated directly into a query,
-  shell command, or file path.
-- Secrets (API keys, DB credentials, signing keys) come from environment/
-  secret manager configuration, never hardcoded, committed, or logged.
-- Sensitive/expensive endpoints (login, password reset, invite send,
-  anything that triggers an email/SMS or costs money) have rate limiting.
-- Cryptographic operations use vetted primitives/libraries, never
-  hand-rolled algorithms. Keys and nonces are generated with a
-  cryptographically secure random source, never reused across contexts
-  where uniqueness matters.
+- Todo endpoint que age sobre um recurso específico confere se quem chama tem
+  permissão sobre _aquele_ recurso, e não só se está autenticado: verifique
+  IDOR e escalada horizontal de privilégio explicitamente (o usuário A
+  consegue agir sobre o recurso do usuário B trocando um id na requisição?).
+- Checagens de papel e permissão valem no servidor em toda ação sensível,
+  nunca supostas porque o frontend já esconde o botão ou o item de menu.
+- Toda entrada externa (corpo, query, parâmetros, cabeçalhos, uploads) é
+  validada e sanitizada: nunca concatenada direto numa consulta, num comando
+  de shell ou num caminho de arquivo.
+- Segredos (chaves de API, credenciais do banco, chaves de assinatura) vêm do
+  ambiente ou de um gerenciador de segredos, nunca escritos no código,
+  commitados ou logados.
+- Endpoints sensíveis ou caros (login, redefinição de senha, envio de
+  convite, qualquer coisa que dispare e-mail/SMS ou custe dinheiro) têm
+  limite de requisições.
+- Operações criptográficas usam primitivas e bibliotecas consagradas, nunca
+  algoritmos feitos em casa. Chaves e nonces saem de uma fonte aleatória
+  criptograficamente segura e nunca são reaproveitados entre contextos onde
+  a unicidade importa.
 
-## Idempotency and concurrency
+## Idempotência e concorrência
 
-- Any operation that can be retried by the client (network retry, double
-  click, webhook redelivery) is safe to run more than once with the same
-  effect — use an idempotency key or a natural uniqueness constraint where
-  the operation isn't naturally idempotent (e.g. "create a payment").
-- Background jobs and webhook handlers assume at-least-once delivery and
-  are written to tolerate duplicate execution.
+- Qualquer operação que o cliente pode repetir (retry de rede, clique duplo,
+  reentrega de webhook) é segura de rodar mais de uma vez com o mesmo efeito:
+  use uma chave de idempotência ou uma restrição de unicidade natural onde a
+  operação não é idempotente por natureza (por exemplo, "criar um
+  pagamento").
+- Jobs em segundo plano e handlers de webhook supõem entrega "pelo menos uma
+  vez" e são escritos para tolerar execução duplicada.
 
-## Testing
+## Testes
 
-- Tests target real risk: critical business logic, security/access-control
-  boundaries, and code that has broken before — not raw line coverage.
-- A test that mocks every collaborator to the point where it can't
-  actually fail when the real logic breaks is not a meaningful test; if a
-  scenario needs real interaction between layers, write it as an
-  integration test instead of over-mocking a unit test.
-- Every function that has more than one meaningful branch has a test per
-  branch, including the error/edge-case paths — not only the happy path.
-- A regression that was fixed in production gets a test that reproduces
-  it, so it can't silently come back.
+- Os testes miram o risco real: lógica de negócio crítica, fronteiras de
+  segurança e controle de acesso, e código que já quebrou antes. Não miram
+  cobertura de linhas por si só.
+- Um teste que faz mock de todos os colaboradores a ponto de não conseguir
+  falhar quando a lógica real quebra não é um teste útil; se um cenário
+  precisa de interação real entre camadas, escreva um teste de integração em
+  vez de encher um teste unitário de mocks.
+- Toda função com mais de um caminho relevante tem um teste por caminho,
+  incluindo os de erro e os casos de borda, e não só o caminho feliz.
+- Uma regressão corrigida em produção ganha um teste que a reproduz, para
+  ela não voltar em silêncio.
 
-## Configuration and observability
+## Configuração e observabilidade
 
-- Configuration is validated at startup (required env vars, valid ranges)
-  — the app fails fast with a clear error instead of failing later, deep
-  in a request, with a confusing null-reference-style error.
-- Structured logging with correlation/request ids is used for anything
-  that will need to be traced across services or through an async job.
-- Health checks and readiness checks reflect real dependency status (DB
-  reachable, queue reachable), not just "the process is running."
+- A configuração é validada na subida (variáveis de ambiente obrigatórias,
+  faixas válidas): o app falha cedo com um erro claro, em vez de falhar
+  depois, no fundo de uma requisição, com um erro confuso de referência nula.
+- Logs estruturados com ids de correlação/requisição para tudo o que vai
+  precisar ser rastreado entre serviços ou por um job assíncrono.
+- Health checks e readiness refletem o estado real das dependências (banco
+  alcançável, fila alcançável), e não só "o processo está rodando".
 
-## When NOT to apply (avoid over-engineering)
+## Quando NÃO aplicar (evite exagero)
 
-- A static config object that already fits comfortably on one line
-  doesn't need a dedicated type or forced extraction.
-- Don't create a type/abstraction for a single-property object or a
-  trivial one-off use — that defeats the purpose of these rules.
-- Trivial one-line closures (e.g. a getter/setter closing over a local
-  variable) don't need to become a separately named function just on
-  principle — extract when it genuinely improves readability, not by
-  blind rule.
-- Don't force grouping component props into objects just because the list
-  is long — it's only worth it when that specific grouping repeats across
-  more than one component. A long list of loose props each carrying a
-  distinct piece of data isn't the same problem as an anonymous object
-  built inline in a call.
-- Don't introduce a queue, cache, transaction, or soft-delete layer for a
-  low-traffic, low-risk operation where the added complexity has no real
-  payoff — each rule above targets a concrete failure mode, not a
-  checklist to apply uniformly regardless of context.
-- Don't add rate limiting, idempotency keys, or heavy validation to
-  internal-only, trusted-caller endpoints where the threat model doesn't
-  call for it — reserve that rigor for boundaries that actually face
-  untrusted input.
-- Don't name-constant a value that's self-evident and used exactly once in
-  an obviously trivial context (`array[0]` for "the first element",
-  `padding: 0`). The magic-constant rule targets values whose meaning
-  isn't obvious from context or that could plausibly change/be reused —
-  not every literal that appears in the code.
+- Um objeto de configuração estático que já cabe confortavelmente numa linha
+  não precisa de um tipo próprio nem de extração forçada.
+- Não crie um tipo ou abstração para um objeto de uma propriedade só ou um
+  uso trivial e único: isso derrota o propósito destas regras.
+- Closures triviais de uma linha (por exemplo, um getter/setter sobre uma
+  variável local) não precisam virar uma função nomeada por princípio:
+  extraia quando de fato melhorar a leitura, e não por regra cega.
+- Não force agrupar as props de um componente em objetos só porque a lista
+  é longa: só vale quando esse agrupamento se repete em mais de um
+  componente. Uma lista longa de props soltas, cada uma com um dado
+  diferente, não é o mesmo problema de um objeto anônimo montado dentro de
+  uma chamada.
+- Não introduza fila, cache, transação ou soft delete numa operação de pouco
+  tráfego e pouco risco onde a complexidade a mais não traz ganho real: cada
+  regra acima mira um modo de falha concreto, e não uma lista a aplicar
+  igual em qualquer contexto.
+- Não adicione limite de requisições, chaves de idempotência ou validação
+  pesada a endpoints internos, chamados só por quem é confiável, onde o
+  modelo de ameaças não pede isso: guarde esse rigor para as fronteiras que
+  recebem entrada não confiável.
+- Não transforme em constante nomeada um valor óbvio usado uma vez num
+  contexto claramente trivial (`array[0]` para "o primeiro elemento",
+  `padding: 0`). A regra de constantes mágicas mira valores cujo significado
+  não é óbvio pelo contexto ou que podem mudar ou ser reaproveitados, e não
+  todo literal que aparece no código.

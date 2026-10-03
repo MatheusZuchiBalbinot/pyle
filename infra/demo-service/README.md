@@ -1,55 +1,57 @@
 # demo-service
 
-The backends the pyle gateway routes to in the demo. One small Node process
-per instance (`orders-1`, `orders-2`, ...), no dependencies, deterministic
-JSON, a little natural latency, and faults the console can inject.
+Os backends para onde o gateway do pyle roteia na demo. Um processo Node
+pequeno por instância (`orders-1`, `orders-2`...), sem dependências, com JSON
+determinístico, um pouco de latência natural e falhas que o console injeta.
 
-`docker compose up -d` starts seven instances:
+O `docker compose up -d` sobe sete instâncias:
 
-| Instance                     | Service | Port        |
+| Instância                    | Serviço | Porta       |
 | ---------------------------- | ------- | ----------- |
 | orders-1, orders-2, orders-3 | orders  | 48101-48103 |
 | users-1, users-2             | users   | 48111-48112 |
 | catalog-1, catalog-2         | catalog | 48121-48122 |
 
-## Routes
+## Rotas
 
-Paths as the instance sees them, after the gateway strips the route prefix
-(`/api/orders/42` reaches an orders instance as `/42`).
+Os caminhos como a instância os vê, depois que o gateway tira o prefixo da
+rota (`/api/orders/42` chega numa instância de orders como `/42`).
 
-| Service   | Routes                                                                                                     |
-| --------- | ---------------------------------------------------------------------------------------------------------- |
-| orders    | `GET /` (page: `?limit=` up to 100, `?offset=`), `GET /:id`, `POST /` (201, echoes the body with a new id) |
-| users     | `GET /`, `GET /:id`                                                                                        |
-| catalog   | `GET /items`, `GET /items/:id`                                                                             |
-| every one | `GET /health`, and `GET /api/public/health` (the same, for the public route, which keeps its prefix)       |
+| Serviço | Rotas                                                                                                       |
+| ------- | ----------------------------------------------------------------------------------------------------------- |
+| orders  | `GET /` (página: `?limit=` até 100, `?offset=`), `GET /:id`, `POST /` (201, devolve o corpo com um id novo) |
+| users   | `GET /`, `GET /:id`                                                                                         |
+| catalog | `GET /items`, `GET /items/:id`                                                                              |
+| todos   | `GET /health` e `GET /api/public/health` (o mesmo, para a rota pública, que mantém o prefixo)               |
 
-`HEAD` is answered like `GET`, without a body.
+`HEAD` é respondido como `GET`, sem corpo.
 
-Every response is JSON with `service` and `instance`, and carries an
-`x-demo-instance` header. Ids 1-200 exist; the data is derived from the id,
-so every instance answers the same.
+Toda resposta é JSON com `service` e `instance`, e leva o cabeçalho
+`x-demo-instance`. Os ids de 1 a 200 existem; os dados saem do próprio id,
+então todas as instâncias respondem igual.
 
 ## Chaos
 
-`GET` and `PUT /__chaos` with the header `x-chaos-token: $CHAOS_TOKEN`
-(without the right token the endpoint answers 404, as if it did not exist).
-The body of a `PUT`:
+`GET` e `PUT /__chaos` com o cabeçalho `x-chaos-token: $CHAOS_TOKEN` (sem o
+token certo o endpoint responde 404, como se não existisse). O corpo de um
+`PUT`:
 
 ```json
 { "latencyMs": 800, "jitterMs": 200, "errorRate": 0.3, "isDown": false }
 ```
 
-- `latencyMs` + a random 0..`jitterMs`: added to every request.
-- `errorRate`: fraction of requests answered `500 {"error":"injected"}`.
-- `isDown`: `503` on everything, health checks included (except `/__chaos`,
-  so it can be turned back on).
+- `latencyMs` mais um aleatório de 0 a `jitterMs`: somado a toda requisição.
+- `errorRate`: fração das requisições respondidas com
+  `500 {"error":"injected"}`.
+- `isDown`: `503` em tudo, health check incluído (menos o `/__chaos`, para
+  dar para religar).
 
-The gateway strips `x-chaos-token` from client requests, so a consumer can't
-reach this through a route. The console drives it through the control plane
-(`PUT /admin/services/:slug/instances/:id/chaos`) when `CHAOS_ALLOWED=true`.
+O gateway tira o `x-chaos-token` das requisições dos clientes, então um
+consumidor não chega aqui por uma rota. O console comanda o chaos pelo
+control plane (`PUT /admin/services/:slug/instances/:id/chaos`) quando
+`CHAOS_ALLOWED=true`.
 
-## Running one by hand
+## Rodando uma à mão
 
 ```sh
 SERVICE_NAME=orders INSTANCE_ID=orders-9 PORT=48109 CHAOS_TOKEN=some-secret node server.mjs
