@@ -1,0 +1,26 @@
+/* One line per component: its name, what the check said, and the verdict at the end. */
+.health-row {
+	display: grid;
+	grid-template-columns: minmax(120px, 1fr) minmax(0, 2fr) auto;
+	align-items: center;
+	gap: 16px;
+	padding: 11px 14px;
+	border-top: 1px solid var(--border);
+}
+
+.health-row:first-of-type {
+	border-top: 0;
+}
+
+.health-name {
+	font-size: var(--text-sm);
+	font-weight: 500;
+}
+
+.health-detail {
+	overflow: hidden;
+	color: var(--faint);
+	font-size: var(--text-xs);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

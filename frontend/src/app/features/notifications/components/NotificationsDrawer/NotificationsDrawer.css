@@ -1,0 +1,366 @@
+.notification-btn {
+	position: relative;
+}
+
+/* Count bubble on the bell: neutral while everything pending is
+   informational; red once at least one live condition is a real failure. */
+.notification-badge {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	display: grid;
+	place-items: center;
+	min-width: 17px;
+	height: 17px;
+	padding: 0 4px;
+	border-radius: var(--radius-full);
+	background: var(--primary);
+	color: var(--primary-fg);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	font-weight: 700;
+	line-height: 1;
+	box-shadow: 0 0 0 2px var(--surface);
+}
+
+.notification-badge.is-danger {
+	background: var(--danger);
+	color: var(--bg);
+}
+
+/* ---------- Drawer (off-canvas, portaled to body) ---------- */
+/* Closed, the drawer is hidden for real, not only slid away: out of the tab order and the
+   accessibility tree, and clipped so it never widens the page. visibility waits for the
+   slide-out to finish before it flips. */
+.notifications-drawer-root {
+	position: fixed;
+	inset: 0;
+	z-index: 900;
+	overflow: hidden;
+	pointer-events: none;
+	visibility: hidden;
+	transition: visibility 0s linear var(--duration-slow);
+}
+
+.notifications-drawer-root.is-open {
+	pointer-events: auto;
+	visibility: visible;
+	transition: none;
+}
+
+.notifications-scrim {
+	position: absolute;
+	inset: 0;
+	background: var(--overlay);
+	opacity: 0;
+	transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+.notifications-drawer-root.is-open .notifications-scrim {
+	opacity: 1;
+}
+
+/* Column layout: fixed header, the attention block, then the inbox which
+   is the only thing that scrolls (its own filters stay pinned on top). */
+.notifications-drawer {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: min(460px, 100vw);
+	display: flex;
+	flex-direction: column;
+	border-left: 1px solid var(--border-strong);
+	background: var(--elevated);
+	box-shadow: var(--shadow);
+	transform: translateX(100%);
+	transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.notifications-drawer-root.is-open .notifications-drawer {
+	transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.notifications-drawer-root,
+	.notifications-scrim,
+	.notifications-drawer {
+		transition: none;
+	}
+}
+
+.notifications-drawer-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+.notifications-drawer-head h2 {
+	flex: 1;
+	font-size: var(--text-lg);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+.notifications-drawer-head .btn-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* Attention block: bounded height so a long list of conditions can't
+   push the inbox off screen; scrolls on its own past that. */
+.notifications-conditions {
+	flex-shrink: 0;
+	max-height: 34vh;
+	overflow-y: auto;
+	padding: 8px 10px 10px;
+	border-bottom: 1px solid var(--border);
+	background: color-mix(in oklch, var(--surface) 50%, var(--elevated));
+}
+
+.notifications-inbox {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-height: 0;
+}
+
+.notifications-inbox-toolbar {
+	display: grid;
+	gap: 8px;
+	flex-shrink: 0;
+	padding: 10px 10px 10px;
+	border-bottom: 1px solid var(--border);
+	background: var(--elevated);
+}
+
+.notifications-inbox-toolbar-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.notifications-category-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2px;
+}
+
+.notifications-inbox-list {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+	padding: 8px 10px 16px;
+}
+
+.notifications-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 4px 6px 6px;
+}
+
+.notifications-count {
+	color: var(--faint);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+}
+
+.notifications-list {
+	display: grid;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.notifications-hint {
+	margin: 0;
+	padding: 18px 6px;
+	color: var(--faint);
+	font-size: var(--text-xs);
+	text-align: center;
+}
+
+/* ---------- Rows ---------- */
+/* Every row is a card: severity color on a 3px left bar inside the rounded
+   card (not a stripe on the drawer edge), icon, text, meta. */
+.notification-row,
+.notification-entry-body {
+	position: relative;
+	align-items: flex-start;
+	padding: 10px 12px 10px 14px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	overflow: hidden;
+	--notification-color: var(--primary);
+}
+
+.notification-row::before,
+.notification-entry-body::before {
+	content: '';
+	position: absolute;
+	top: 8px;
+	bottom: 8px;
+	left: 0;
+	width: 3px;
+	border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+	background: var(--notification-color);
+}
+
+.is-danger > .notification-row,
+.notification-row.is-danger,
+.notification-entry.is-danger .notification-entry-body {
+	--notification-color: var(--danger);
+}
+.notification-row.is-warning,
+.notification-entry.is-warning .notification-entry-body {
+	--notification-color: var(--warning);
+}
+.notification-row.is-success,
+.notification-entry.is-success .notification-entry-body {
+	--notification-color: var(--success);
+}
+.notification-row.is-info,
+.notification-entry.is-info .notification-entry-body {
+	--notification-color: var(--primary);
+}
+
+.notification-row:hover:not(:disabled),
+.notification-entry-body:hover:not(:disabled) {
+	background: var(--surface-2);
+	border-color: var(--border-strong);
+	transform: none;
+	box-shadow: none;
+}
+
+.notification-row > span:nth-child(2),
+.notification-entry-text {
+	min-width: 0;
+}
+
+.notification-row strong,
+.notification-entry-text strong {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.notification-row small,
+.notification-repeat {
+	margin-left: 6px;
+	padding: 0 6px;
+	border-radius: var(--radius-full);
+	background: var(--surface-2);
+	color: var(--muted);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	font-weight: 500;
+}
+
+.notification-entry-text small {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--muted);
+	font-size: var(--text-xs);
+}
+
+.notification-row-icon {
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+	width: 26px;
+	height: 26px;
+	border-radius: var(--radius-md);
+	color: var(--notification-color);
+	background: color-mix(in oklch, var(--notification-color) 14%, transparent);
+}
+
+/* Inbox entry = card + read toggle floating at its right edge. */
+.notification-entry {
+	position: relative;
+}
+
+.notification-entry-body {
+	width: 100%;
+	padding-right: 40px;
+}
+
+.notification-entry-meta {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 5px;
+	color: var(--faint);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+}
+
+.notification-entry-meta .badge {
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+/* Unread: brighter card and a dot next to the time; read: dimmed text. */
+.notification-entry.is-unread .notification-entry-body {
+	border-color: color-mix(in oklch, var(--notification-color) 30%, var(--border));
+	background: color-mix(in oklch, var(--notification-color) 5%, var(--surface));
+}
+
+.notification-entry.is-unread .notification-entry-meta::before {
+	content: '';
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--primary);
+}
+
+.notification-entry.is-read .notification-entry-body {
+	background: transparent;
+}
+
+.notification-entry.is-read .notification-entry-text strong {
+	font-weight: 500;
+	color: var(--muted);
+}
+
+.notification-entry.is-read .notification-row-icon {
+	opacity: 0.55;
+}
+
+.notification-entry-toggle {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 26px;
+	height: 26px;
+	border-color: transparent;
+	background: transparent;
+	opacity: 0.7;
+}
+
+.notification-entry:hover .notification-entry-toggle,
+.notification-entry-toggle:focus-visible {
+	opacity: 1;
+}
+
+/* The inbox shows one page; older rows stay reachable through the filters
+   rather than an endless scroll. */
+.notifications-inbox-more {
+	padding: 10px 2px 2px;
+	font-size: var(--text-2xs);
+	color: var(--faint);
+	text-align: center;
+}

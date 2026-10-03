@@ -1,0 +1,46 @@
+.settings-config {
+	display: grid;
+	margin: 0;
+}
+
+.settings-config-row {
+	display: grid;
+	grid-template-columns: minmax(140px, auto) minmax(0, 1fr);
+	align-items: center;
+	gap: 12px;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+.settings-config-row:last-child {
+	border-bottom: 0;
+}
+
+.settings-config-row dt {
+	color: var(--muted);
+	font-size: var(--text-sm);
+}
+
+.settings-config-row dd {
+	margin: 0;
+	min-width: 0;
+	overflow-wrap: anywhere;
+	font-size: var(--text-xs);
+	text-align: right;
+}
+
+.settings-config-row.is-missing dd {
+	color: var(--warning);
+}
+
+.settings-config-empty {
+	padding: 16px;
+	color: var(--faint);
+	font-size: var(--text-sm);
+}
+
+/* SystemHealthPanel brings its own `.panel` chrome; make it fill the cell
+   like the cards beside it. */
+.settings-health > .panel {
+	height: 100%;
+}
