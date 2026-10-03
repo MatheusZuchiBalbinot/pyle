@@ -1,0 +1,67 @@
+.live-indicator {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	height: 28px;
+	padding: 0 10px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	color: var(--muted);
+	font-size: var(--text-xs);
+	font-weight: 500;
+	white-space: nowrap;
+	--live-indicator-color: var(--faint);
+}
+
+.live-indicator.is-connected {
+	--live-indicator-color: var(--success);
+	color: var(--fg);
+}
+
+.live-indicator.is-reconnecting,
+.live-indicator.is-connecting {
+	--live-indicator-color: var(--warning);
+}
+
+.live-indicator.is-offline {
+	--live-indicator-color: var(--danger);
+}
+
+.live-indicator-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--live-indicator-color);
+	box-shadow: 0 0 0 0 color-mix(in oklch, var(--live-indicator-color) 45%, transparent);
+}
+
+/* Only the healthy state pulses — a pulsing red dot reads as alarm, and
+   "offline" is a steady fact, not an ongoing activity. */
+.live-indicator.is-connected .live-indicator-dot {
+	animation: live-indicator-pulse 2s ease-out infinite;
+}
+
+@keyframes live-indicator-pulse {
+	0% {
+		box-shadow: 0 0 0 0 color-mix(in oklch, var(--live-indicator-color) 45%, transparent);
+	}
+	70% {
+		box-shadow: 0 0 0 6px transparent;
+	}
+	100% {
+		box-shadow: 0 0 0 0 transparent;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.live-indicator.is-connected .live-indicator-dot {
+		animation: none;
+	}
+}
+
+@media (max-width: 620px) {
+	.live-indicator {
+		display: none;
+	}
+}

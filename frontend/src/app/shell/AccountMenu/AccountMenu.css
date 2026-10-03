@@ -1,0 +1,183 @@
+.account-menu {
+	position: relative;
+}
+
+.account-trigger {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 7px 8px;
+	border: 1px solid transparent;
+	border-radius: var(--radius-lg);
+	background: transparent;
+	color: var(--fg);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	transition:
+		background var(--duration-fast) var(--ease-out),
+		border-color var(--duration-fast) var(--ease-out);
+}
+
+.account-trigger:hover,
+.account-trigger.is-open {
+	background: var(--surface-2);
+	border-color: var(--border);
+}
+
+.account-trigger:active {
+	background: var(--surface-hover);
+}
+
+.account-trigger-text {
+	display: grid;
+	flex: 1;
+	min-width: 0;
+	line-height: 1.25;
+}
+
+.account-trigger-name,
+.account-trigger-email {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.account-trigger-name {
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.account-trigger-email {
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+.account-trigger-chevron {
+	flex-shrink: 0;
+	color: var(--muted);
+}
+
+.user-avatar {
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+	border-radius: var(--radius-full);
+	background: linear-gradient(135deg, oklch(0.74 0.13 var(--avatar-hue)), oklch(0.6 0.15 calc(var(--avatar-hue) + 40)));
+	color: var(--on-accent);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	box-shadow: inset 0 0 0 1px var(--hairline-strong);
+}
+
+.user-avatar.is-small {
+	width: 32px;
+	height: 32px;
+	font-size: var(--text-xs);
+}
+
+.user-avatar.is-large {
+	width: 40px;
+	height: 40px;
+	font-size: var(--text-md);
+}
+
+.account-dropdown {
+	/* Opens upward: the trigger sits at the bottom of the sidebar. */
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc(100% + 8px);
+	z-index: 20;
+	padding: 8px;
+	border: 1px solid var(--border-strong);
+	border-radius: var(--radius-lg);
+	background: var(--elevated);
+	box-shadow: var(--shadow);
+	animation: enter-rise var(--duration-base) var(--ease-out);
+}
+
+.account-dropdown-identity {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 6px 4px;
+}
+
+.account-dropdown-text {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.account-dropdown-text strong,
+.account-dropdown-text small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.account-dropdown-text strong {
+	font-size: var(--text-md);
+}
+
+.account-dropdown-text small {
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+.account-dropdown-role {
+	display: inline-block;
+	margin: 6px 6px 2px;
+	padding: 2px 8px;
+	border: 1px solid color-mix(in oklch, var(--primary) 35%, var(--border));
+	border-radius: var(--radius-full);
+	background: var(--primary-soft);
+	color: var(--primary);
+	font-size: var(--text-2xs);
+	font-weight: 500;
+}
+
+.account-dropdown-divider {
+	height: 1px;
+	margin: 8px 0;
+	background: var(--border);
+}
+
+.account-dropdown-item {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	width: 100%;
+	padding: 8px 9px;
+	border: 0;
+	border-radius: var(--radius-md);
+	background: transparent;
+	color: var(--fg);
+	font: inherit;
+	font-size: var(--text-sm);
+	text-align: left;
+	cursor: pointer;
+}
+
+.account-dropdown-item:hover:not(:disabled) {
+	background: var(--surface-hover);
+}
+
+.account-dropdown-item:active:not(:disabled) {
+	background: var(--surface-active);
+}
+
+.account-dropdown-item.is-danger {
+	color: var(--danger);
+}
+
+.account-dropdown-item.is-danger:hover:not(:disabled) {
+	background: color-mix(in oklch, var(--danger) 12%, transparent);
+}
+
+.account-dropdown-item:disabled {
+	opacity: 0.6;
+	cursor: progress;
+}

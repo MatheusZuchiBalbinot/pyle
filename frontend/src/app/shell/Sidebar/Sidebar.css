@@ -1,0 +1,104 @@
+.sidebar {
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	height: 100svh;
+	border-right: 1px solid var(--border);
+	background: var(--chrome);
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+}
+
+.sidebar-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: var(--header-h);
+	padding: 0 20px;
+	border-bottom: 1px solid var(--border);
+}
+
+.brand-mark {
+	width: 30px;
+	height: 30px;
+	border-radius: var(--radius-lg);
+	box-shadow:
+		0 0 0 1px var(--hairline-light),
+		0 4px 12px var(--primary-glow);
+	flex-shrink: 0;
+}
+
+.brand-name {
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	font-size: var(--text-lg);
+}
+
+.brand-sub {
+	font-size: var(--text-2xs);
+	color: var(--faint);
+	font-family: var(--font-mono);
+}
+
+.sidebar-nav {
+	flex: 1;
+	padding: 12px 10px;
+}
+
+.nav-group + .nav-group {
+	margin-top: 18px;
+}
+
+.nav-group-label {
+	font-size: var(--text-2xs);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--faint);
+	padding: 0 10px 6px;
+	font-weight: 600;
+}
+
+.sidebar-footer {
+	border-top: 1px solid var(--border);
+	padding: 10px 12px;
+}
+
+.sidebar-close {
+	display: none;
+	margin-left: auto;
+	width: 30px;
+	height: 30px;
+}
+
+.sidebar-close {
+	display: none;
+}
+.nav-label {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Off-canvas on narrow screens. Closed, it is hidden for real, not only slid away, so its
+   links leave the tab order; visibility waits for the slide-out before it flips (the open
+   state is in Dashboard.css, which owns .nav-open). */
+@media (max-width: 860px) {
+	.sidebar {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 60;
+		width: var(--sidebar-w);
+		box-shadow: var(--shadow-drawer);
+		transform: translateX(-100%);
+		visibility: hidden;
+		transition:
+			transform var(--duration-slow) var(--ease-out),
+			visibility 0s linear var(--duration-slow);
+	}
+	.sidebar-close {
+		display: grid;
+	}
+}

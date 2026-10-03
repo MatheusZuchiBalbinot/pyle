@@ -1,0 +1,100 @@
+.main {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.topbar {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	height: var(--header-h);
+	padding: 0 20px;
+	border-bottom: 1px solid var(--border);
+	background: var(--chrome-translucent);
+	backdrop-filter: blur(8px);
+}
+
+.topbar-spacer {
+	flex: 1;
+}
+
+.menu-btn {
+	display: none;
+}
+
+/* Width only: the rest comes from .text-input. */
+.search {
+	width: 280px;
+	max-width: 32vw;
+}
+
+.search kbd {
+	white-space: nowrap;
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	color: var(--faint);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
+	padding: 1px 5px;
+}
+
+.select {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	padding: 6px 10px;
+	color: var(--fg);
+	font-size: var(--text-sm);
+	transition:
+		border-color var(--duration-fast) var(--ease-out),
+		background var(--duration-fast) var(--ease-out);
+}
+
+.select:hover {
+	border-color: var(--border-strong);
+	background: var(--surface-2);
+}
+
+.select select {
+	border: 0;
+	background: transparent;
+	color: var(--fg);
+	outline: none;
+	font-family: inherit;
+	font-size: var(--text-sm);
+	appearance: none;
+	padding-right: 4px;
+}
+
+.select select option {
+	background: var(--surface);
+	color: var(--fg);
+}
+
+@media (max-width: 860px) {
+	.menu-btn {
+		display: grid;
+	}
+}
+
+@media (max-width: 620px) {
+	.topbar {
+		padding: 10px 14px;
+		gap: 8px;
+	}
+	.topbar .select {
+		min-width: 0;
+		flex: 1;
+	}
+	.topbar .select select {
+		min-width: 0;
+		max-width: 100%;
+	}
+}
