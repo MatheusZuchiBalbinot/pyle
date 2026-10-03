@@ -1,0 +1,79 @@
+.changes-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.changes-row {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: 2px 10px;
+	padding: 9px 16px;
+	border-bottom: 1px solid var(--border);
+	font-size: var(--text-sm);
+}
+
+.changes-row:last-child {
+	border-bottom: 0;
+}
+
+.changes-action {
+	grid-row: span 2;
+	justify-self: start;
+	align-self: start;
+	padding: 1px 7px;
+	border-radius: var(--radius-full);
+	font-size: var(--text-2xs);
+	background: var(--surface-2);
+	color: var(--muted);
+}
+
+.changes-action.is-created {
+	color: var(--success);
+}
+
+.changes-action.is-deleted {
+	color: var(--danger);
+}
+
+.changes-body {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.changes-heading {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+	min-width: 0;
+}
+
+.changes-entity {
+	color: var(--muted);
+	white-space: nowrap;
+}
+
+.changes-subject {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: var(--fg);
+	font-weight: 500;
+}
+
+/* Two lines at most: a long edit stays readable without growing the row. */
+.changes-summary {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	color: var(--fg);
+	font-size: var(--text-xs);
+	overflow-wrap: anywhere;
+}
+
+.changes-meta {
+	font-size: var(--text-xs);
+	color: var(--faint);
+}

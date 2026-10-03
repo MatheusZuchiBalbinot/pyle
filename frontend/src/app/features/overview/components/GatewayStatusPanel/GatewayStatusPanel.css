@@ -1,0 +1,87 @@
+.gateway-panel {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	height: 100%;
+	padding: 18px 20px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+	box-shadow: var(--inset-highlight);
+	font-size: var(--text-sm);
+}
+
+.gateway-panel-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.gateway-panel-head h2 {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	color: var(--muted);
+	font-size: var(--text-xs);
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.gateway-panel-meta {
+	color: var(--faint);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+}
+
+.gateway-panel-empty {
+	margin: 0;
+	color: var(--danger);
+}
+
+.gateway-panel-list {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.gateway-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 10px;
+}
+
+.gateway-row-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--success);
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--success) 20%, transparent);
+	flex: 0 0 auto;
+}
+
+.gateway-row.is-down .gateway-row-dot {
+	background: var(--danger);
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--danger) 20%, transparent);
+}
+
+.gateway-row-text {
+	display: grid;
+	min-width: 0;
+}
+
+.gateway-row-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.gateway-row-meta {
+	color: var(--faint);
+	font-size: var(--text-xs);
+}

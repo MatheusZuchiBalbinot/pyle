@@ -1,0 +1,11 @@
+.http-status-badge {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	gap: 5px;
+}
+
+.http-status-gateway {
+	font-size: var(--text-2xs);
+	letter-spacing: 0.04em;
+	opacity: 0.75;
+}

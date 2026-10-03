@@ -1,0 +1,57 @@
+.status-breakdown {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 14px 16px 16px;
+}
+
+.status-breakdown-row {
+	display: grid;
+	grid-template-columns: 150px minmax(0, 1fr);
+	align-items: center;
+	gap: 10px;
+	font-size: var(--text-sm);
+}
+
+.status-breakdown-row dt {
+	color: var(--muted);
+}
+
+.status-breakdown-row dd {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 64px;
+	align-items: center;
+	gap: 10px;
+	margin: 0;
+}
+
+.status-breakdown-bar {
+	height: 8px;
+	border-radius: var(--radius-sm);
+	background: var(--border);
+	overflow: hidden;
+}
+
+.status-breakdown-bar span {
+	display: block;
+	height: 100%;
+	border-radius: var(--radius-sm);
+	background: var(--success);
+}
+
+.status-breakdown-row.is-info .status-breakdown-bar span {
+	background: var(--info);
+}
+
+.status-breakdown-row.is-warning .status-breakdown-bar span {
+	background: var(--warning);
+}
+
+.status-breakdown-row.is-danger .status-breakdown-bar span {
+	background: var(--danger);
+}
+
+.status-breakdown-value {
+	font-family: var(--font-mono);
+	text-align: right;
+}

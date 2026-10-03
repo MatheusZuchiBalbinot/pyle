@@ -1,0 +1,48 @@
+.attention-list {
+	display: grid;
+	gap: 4px;
+	max-height: 132px;
+	overflow-y: auto;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--text-sm);
+}
+
+.attention-row {
+	position: relative;
+	padding-left: 14px;
+	color: var(--muted);
+}
+
+.attention-row::before {
+	content: '';
+	position: absolute;
+	left: 2px;
+	top: 0.55em;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--warning);
+}
+
+.attention-row.is-danger::before {
+	background: var(--danger);
+}
+
+.attention-link {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--fg);
+	font: inherit;
+	text-align: left;
+	cursor: pointer;
+	text-decoration: underline;
+	text-decoration-color: var(--border-strong);
+	text-underline-offset: 3px;
+}
+
+.attention-link:hover {
+	text-decoration-color: var(--fg);
+}

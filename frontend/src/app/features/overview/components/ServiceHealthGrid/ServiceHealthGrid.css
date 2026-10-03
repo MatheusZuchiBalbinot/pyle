@@ -1,0 +1,87 @@
+.health-grid {
+	display: grid;
+	gap: 18px;
+	padding: 14px 16px 16px;
+}
+
+.health-group {
+	display: grid;
+	gap: 8px;
+}
+
+.health-group-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.health-group-title {
+	margin: 0;
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.health-group-count {
+	color: var(--faint);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+}
+
+.health-bar {
+	display: flex;
+	gap: 3px;
+	height: 6px;
+}
+
+.health-bar-segment {
+	flex: 1;
+	border-radius: var(--radius-full);
+	background: var(--border-strong);
+}
+
+.health-bar-segment.is-success {
+	background: var(--success);
+}
+
+.health-bar-segment.is-warning {
+	background: var(--warning);
+}
+
+.health-bar-segment.is-danger {
+	background: var(--danger);
+}
+
+.health-cells {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.health-cell {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 9px 4px 4px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	background: var(--bg);
+	color: var(--fg);
+	font: inherit;
+	font-size: var(--text-xs);
+	cursor: pointer;
+}
+
+.health-cell:hover {
+	border-color: var(--border-strong);
+}
+
+.health-cell-name {
+	font-family: var(--font-mono);
+}
+
+.panel-empty {
+	padding: 16px;
+	color: var(--faint);
+	font-size: var(--text-sm);
+}

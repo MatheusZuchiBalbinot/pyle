@@ -1,0 +1,33 @@
+.request-log-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+.request-log-snapshot {
+	margin-left: auto;
+	font-size: var(--text-xs);
+	color: var(--faint);
+}
+
+.request-log-path {
+	display: inline-block;
+	max-width: 280px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	vertical-align: bottom;
+}
+
+.request-log-skeleton {
+	display: grid;
+	gap: 10px;
+	padding: 14px 16px;
+}
+
+.request-log-error {
+	padding: 14px 16px;
+}

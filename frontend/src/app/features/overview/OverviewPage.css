@@ -1,0 +1,32 @@
+.overview-tiles {
+	margin-top: 14px;
+}
+
+.overview-empty {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 16px;
+	margin-top: 14px;
+	padding: 18px 20px;
+}
+
+.overview-empty h2 {
+	margin: 0 0 4px;
+	font-size: var(--text-lg);
+}
+
+.overview-empty p {
+	margin: 0;
+	font-size: var(--text-sm);
+}
+
+.overview-error {
+	padding: 16px;
+}
+
+@media (max-width: 760px) {
+	.overview-empty {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

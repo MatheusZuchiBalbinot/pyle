@@ -1,0 +1,20 @@
+.traffic-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.traffic-error {
+	margin-bottom: 12px;
+	color: var(--warning);
+	font-size: var(--text-sm);
+}
+
+.traffic-card-skeleton {
+	padding: 16px;
+}
+
+[data-page='traffic'] .traffic-tiles {
+	margin-bottom: 0;
+}

@@ -1,0 +1,84 @@
+.live-chart-note {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.live-chart-state {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 2px 8px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	font-size: var(--text-2xs);
+	font-weight: 500;
+	color: var(--muted);
+	white-space: nowrap;
+}
+
+.live-chart-age {
+	color: var(--faint);
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+}
+
+.live-chart-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: var(--radius-full);
+	background: var(--faint);
+}
+
+.live-chart-state.is-live {
+	color: var(--success);
+	border-color: color-mix(in oklch, var(--success) 40%, var(--border));
+	background: color-mix(in oklch, var(--success) 10%, transparent);
+}
+
+.live-chart-state.is-live .live-chart-dot {
+	background: var(--success);
+	animation: live-chart-pulse 2s ease-out infinite;
+}
+
+.live-chart-state.is-waiting .live-chart-dot {
+	background: var(--info);
+}
+
+.live-chart-state.is-stale {
+	color: var(--warning);
+	border-color: color-mix(in oklch, var(--warning) 40%, var(--border));
+}
+
+.live-chart-state.is-stale .live-chart-dot {
+	background: var(--warning);
+}
+
+.live-chart-window {
+	color: var(--faint);
+	white-space: nowrap;
+}
+
+@keyframes live-chart-pulse {
+	0% {
+		box-shadow: 0 0 0 0 color-mix(in oklch, var(--success) 60%, transparent);
+	}
+	70% {
+		box-shadow: 0 0 0 6px transparent;
+	}
+	100% {
+		box-shadow: 0 0 0 0 transparent;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.live-chart-state.is-live .live-chart-dot {
+		animation: none;
+	}
+}
+
+@media (max-width: 760px) {
+	.live-chart-window {
+		display: none;
+	}
+}
