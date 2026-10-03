@@ -1,0 +1,82 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["react", "typescript", "oxc", "unicorn", "import", "jsx-a11y"],
+	// Build output, not source.
+	"ignorePatterns": ["dist/**", "coverage/**"],
+	"rules": {
+		"react/rules-of-hooks": "error",
+		// An effect or memo that misses a dependency reads stale values.
+		"react/exhaustive-deps": "error",
+		"react/only-export-components": ["warn", { "allowConstantExport": true }],
+
+		// Accessibility: what a keyboard or screen-reader user needs to work the console.
+		"jsx-a11y/alt-text": "error",
+		"jsx-a11y/anchor-is-valid": "error",
+		"jsx-a11y/aria-props": "error",
+		"jsx-a11y/aria-proptypes": "error",
+		"jsx-a11y/aria-role": "error",
+		"jsx-a11y/aria-unsupported-elements": "error",
+		"jsx-a11y/click-events-have-key-events": "error",
+		// Off: it cannot follow a dynamic id (<label htmlFor={id}>) or text from an
+		// expression, so here it only reports labelled controls. label-has-associated-control
+		// covers the real case. Not in jsx-a11y's recommended set either.
+		"jsx-a11y/control-has-associated-label": "off",
+		"jsx-a11y/heading-has-content": "error",
+		"jsx-a11y/html-has-lang": "error",
+		"jsx-a11y/iframe-has-title": "error",
+		"jsx-a11y/interactive-supports-focus": "error",
+		// Switch renders a <button role="switch">, a labelable control; SwitchField nests its
+		// text one level deeper than the default depth.
+		"jsx-a11y/label-has-associated-control": ["error", { "controlComponents": ["Switch"], "depth": 3 }],
+		"jsx-a11y/no-noninteractive-element-interactions": "error",
+		"jsx-a11y/no-redundant-roles": "error",
+		"jsx-a11y/no-static-element-interactions": "error",
+		"jsx-a11y/role-has-required-aria-props": "error",
+		"jsx-a11y/role-supports-aria-props": "error",
+		"jsx-a11y/tabindex-no-positive": "error",
+		// The listbox/option pattern of the search and the select is the WAI-ARIA one.
+		"jsx-a11y/no-noninteractive-element-to-interactive-role": [
+			"error",
+			{ "ul": ["listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid"], "li": ["menuitem", "option", "row", "tab", "treeitem"] }
+		],
+		// Off on purpose: the custom roles here (dialog, listbox, status, group) are
+		// deliberate widgets, and focusing a dialog's first field on open is focus
+		// management, not a surprise. Neither rule is in jsx-a11y's recommended set.
+		"jsx-a11y/prefer-tag-over-role": "off",
+		"jsx-a11y/no-autofocus": "off",
+
+		// Filename casing: .tsx files are React components (PascalCase, like the
+		// type they default-export), everything else — api, mock data, tone/
+		// style helpers — is camelCase. `main.tsx` is the one accepted exception
+		// (Vite's own entry-point naming convention).
+		"unicorn/filename-case": ["error", { "case": "camelCase", "ignore": ["^main\\.tsx$", "^vite-env\\.d\\.ts$"] }],
+
+		"import/first": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		"import/no-cycle": "warn",
+		"import/no-self-import": "error",
+		"import/no-empty-named-blocks": "error"
+
+		// Deliberately NOT set: `import/order` — grouping/alphabetizing imports
+		// isn't implemented by oxlint's import plugin yet; .prettierrc's
+		// @ianvs/prettier-plugin-sort-imports owns that instead.
+	},
+	"overrides": [
+		{
+			"files": ["**/*.tsx"],
+			"rules": {
+				"unicorn/filename-case": ["error", { "case": "pascalCase", "ignore": ["^main\\.tsx$"] }]
+			}
+		},
+		{
+			// A .tsx that isn't a component doesn't get a component's name: specs
+			// are named after the module they test, and test harnesses are plain
+			// helpers that happen to render a provider.
+			"files": ["**/*.spec.tsx", "src/test/**/*.tsx"],
+			"rules": {
+				"unicorn/filename-case": ["error", { "cases": { "camelCase": true, "pascalCase": true } }]
+			}
+		}
+	]
+}
