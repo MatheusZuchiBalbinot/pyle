@@ -1,0 +1,20 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Logs
+*.log
+
+# Env files anywhere in the repo — each subproject also has its own
+# .env.example checked in as the template.
+.env
+.env.local
+.env.*.local
+
+# API keys in clear, written by `npm run seed` for the load bot.
+backend/consumer-keys.local.json

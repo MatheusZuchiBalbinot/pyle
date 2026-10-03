@@ -1,0 +1,5 @@
+# Each package has its own config and ignore file.
+backend
+frontend
+.claude
+node_modules
