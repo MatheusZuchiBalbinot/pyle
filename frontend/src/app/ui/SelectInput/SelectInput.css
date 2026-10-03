@@ -1,0 +1,118 @@
+.select-input {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-width: 0;
+	min-height: 34px;
+	padding: 0 10px 0 12px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	background: var(--surface);
+	color: var(--fg);
+	font: inherit;
+	font-size: var(--text-sm);
+	text-align: left;
+	cursor: pointer;
+	transition:
+		background var(--duration-fast) var(--ease-out),
+		border-color var(--duration-fast) var(--ease-out),
+		box-shadow var(--duration-fast) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+
+.select-input:hover:not(:disabled) {
+	border-color: var(--border-strong);
+	background: var(--surface-2);
+}
+
+.select-input:active:not(:disabled) {
+	background: var(--surface-hover);
+	transform: scale(0.98);
+}
+
+.select-input:focus-visible,
+.select-input.is-open {
+	outline: none;
+	border-color: var(--primary);
+	background: var(--surface-2);
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary) 18%, transparent);
+}
+
+.select-input:disabled {
+	cursor: not-allowed;
+	opacity: 0.55;
+}
+
+.select-input-value {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.select-input-chevron {
+	flex-shrink: 0;
+	color: var(--muted);
+	transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.select-input.is-open .select-input-chevron {
+	transform: rotate(180deg);
+	color: var(--fg);
+}
+
+/* Above dialogs (200) and the notifications drawer (900), below tooltips (1000). */
+.select-listbox {
+	position: fixed;
+	z-index: 950;
+	margin: 0;
+	padding: 4px;
+	list-style: none;
+	overflow-y: auto;
+	border: 1px solid var(--border-strong);
+	border-radius: var(--radius-lg);
+	background: var(--elevated);
+	box-shadow: var(--shadow);
+	visibility: hidden;
+}
+
+.select-listbox.is-placed {
+	visibility: visible;
+	animation: enter-rise var(--duration-base) var(--ease-out);
+}
+
+.select-option {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 7px 10px;
+	border-radius: var(--radius-sm);
+	color: var(--fg);
+	font-size: var(--text-sm);
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.select-option.is-active {
+	background: var(--surface-hover);
+}
+
+.select-option.is-selected {
+	color: var(--primary);
+}
+
+.select-option-check {
+	flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.select-input,
+	.select-input-chevron {
+		transition: none;
+	}
+
+	.select-listbox.is-placed {
+		animation: none;
+	}
+}

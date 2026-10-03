@@ -1,0 +1,452 @@
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--fg);
+	border-radius: var(--radius-md);
+	padding: 7px 12px;
+	font-size: var(--text-sm);
+	font-weight: 500;
+	line-height: 1.2;
+	box-shadow: var(--inset-highlight);
+}
+
+/* Hover changes color only; position never moves under the pointer. */
+.btn:hover {
+	background: var(--surface-2);
+	border-color: var(--border-strong);
+	color: var(--fg);
+}
+
+/* The one filled button on a screen: the action the page or dialog is for. */
+.btn-primary {
+	background: var(--primary);
+	border-color: var(--primary);
+	color: var(--primary-fg);
+	font-weight: 600;
+}
+
+.btn-primary:hover {
+	background: var(--primary-hover);
+	border-color: var(--primary-hover);
+	color: var(--primary-fg);
+}
+
+.btn:focus-visible,
+.table-heading:focus-visible,
+.column-resize:focus-visible {
+	outline: 2px solid var(--focus);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn,
+	.data-table tbody tr,
+	.table-heading {
+		transition: none;
+	}
+}
+
+.btn-danger {
+	color: var(--danger);
+	border-color: var(--danger-soft);
+}
+
+.btn-danger:hover {
+	background: var(--danger-soft);
+}
+
+.btn-secondary {
+	background: var(--surface-2);
+	border-color: var(--border-strong);
+	color: var(--fg);
+}
+
+/* Compact inline row action: smaller, no lift on hover. */
+.btn-row-action {
+	min-height: auto;
+	background: transparent;
+	border-color: var(--border);
+	border-radius: var(--radius-sm);
+	font-size: var(--text-sm);
+	color: var(--muted);
+	padding: 6px 10px;
+	white-space: nowrap;
+	box-shadow: none;
+}
+
+.btn-row-action:hover:not(:disabled) {
+	background: transparent;
+	border-color: var(--border-strong);
+	color: var(--fg);
+}
+
+.btn-sm {
+	padding: 4px 9px;
+	font-size: var(--text-xs);
+}
+
+/* Compact pill toggle: the selected one wears the selection color, never a status one. */
+.btn-pill {
+	min-height: auto;
+	background: transparent;
+	border-color: var(--border);
+	border-radius: var(--radius-full);
+	padding: 4px 12px;
+	font-size: var(--text-xs);
+	color: var(--muted);
+	white-space: nowrap;
+	box-shadow: none;
+}
+
+.btn-pill:hover:not(:disabled) {
+	background: transparent;
+	border-color: var(--border-strong);
+	color: var(--fg);
+}
+
+.btn-pill.is-on {
+	color: var(--primary-on-soft);
+	border-color: color-mix(in oklch, var(--primary) 45%, var(--border));
+	background: var(--primary-soft);
+}
+/* The selected pill stays selected under the pointer (right after a click). */
+.btn-pill.is-on:hover:not(:disabled) {
+	color: var(--primary-on-soft);
+	border-color: color-mix(in oklch, var(--primary) 70%, var(--border));
+	background: var(--primary-soft);
+}
+
+/* Filter chip: a selection, not a state toggle; active is a primary tint, never a status color. */
+.btn-filter {
+	min-height: auto;
+	padding: 4px 10px;
+	border-color: transparent;
+	border-radius: var(--radius-full);
+	background: transparent;
+	color: var(--muted);
+	font-size: var(--text-xs);
+	font-weight: 500;
+	white-space: nowrap;
+	box-shadow: none;
+}
+
+.btn-filter:hover:not(:disabled) {
+	background: var(--surface-hover);
+	border-color: transparent;
+	color: var(--fg);
+}
+
+.btn-filter.is-on {
+	background: var(--primary-soft);
+	border-color: color-mix(in oklch, var(--primary) 35%, transparent);
+	color: var(--fg);
+}
+
+.btn-filter .filter-count {
+	margin-left: 2px;
+	color: var(--faint);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+}
+
+.btn-filter.is-on .filter-count {
+	color: var(--primary);
+}
+
+/* Segmented group of filter chips: one bordered track, chips inside. */
+.filter-group {
+	display: inline-flex;
+	gap: 2px;
+	padding: 3px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	background: var(--surface);
+}
+
+/* Sortable column header: the look lives in DataTable.css (.table-heading). */
+button.btn-table-heading {
+	box-shadow: none;
+}
+
+.btn:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+/* A colored action that is not available yet (a confirm waiting for the typed name) turns
+   neutral: a faded red or cyan reads as an error or a glitch, not as "not yet". */
+.btn-primary:disabled:not(.is-pending),
+.btn-danger:disabled:not(.is-pending) {
+	border-color: var(--border);
+	background: var(--surface-2);
+	color: var(--faint);
+	opacity: 1;
+}
+
+/* WCAG 2.2 refinements and visual polish */
+.btn,
+.icon-btn,
+.btn-nav-item,
+.table-heading,
+.search,
+.select,
+.text-input,
+.card {
+	transition:
+		background-color var(--duration-fast) var(--ease-out),
+		border-color var(--duration-fast) var(--ease-out),
+		color var(--duration-fast) var(--ease-out),
+		box-shadow var(--duration-fast) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+.btn {
+	min-height: 36px;
+	border-radius: var(--radius-md);
+	letter-spacing: -0.01em;
+}
+.btn-primary:hover:not(:disabled) {
+	background: var(--primary-hover);
+	border-color: var(--primary-hover);
+	color: var(--primary-fg);
+}
+
+/* Pressed: one step past hover plus a slight scale, so the click lands physically. */
+.btn:active:not(:disabled) {
+	background: var(--surface-hover);
+	transform: scale(0.98);
+}
+.btn-primary:active:not(:disabled) {
+	background: var(--primary-active);
+}
+.btn-danger:active:not(:disabled) {
+	background: var(--danger-soft-active);
+}
+.btn-row-action:active:not(:disabled),
+.btn-pill:active:not(:disabled),
+.btn-filter:active:not(:disabled) {
+	background: var(--surface-active);
+}
+.btn-pill.is-on:active:not(:disabled) {
+	background: var(--primary-soft-active);
+}
+.btn-filter.is-on:active:not(:disabled) {
+	background: var(--primary-soft-active);
+}
+
+/* Declared after the .btn re-declarations above on purpose: same specificity, so these win. */
+
+/* Sidebar nav row (icon, label, count badge). */
+.btn-nav-item {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 10px;
+	width: 100%;
+	min-height: 38px;
+	padding: 8px 10px;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: var(--muted);
+	font-size: var(--text-md);
+	letter-spacing: normal;
+	text-align: left;
+	box-shadow: none;
+	position: relative;
+}
+
+.btn-nav-item:hover:not(:disabled) {
+	background: var(--surface-hover);
+	color: var(--fg);
+}
+
+.btn-nav-item:active:not(:disabled) {
+	background: var(--surface-active);
+}
+
+.btn-nav-item.is-on {
+	background: var(--primary-soft);
+	color: var(--primary-on-soft);
+	font-weight: 500;
+	box-shadow: inset 3px 0 0 var(--primary);
+}
+
+.btn-nav-item .nav-count {
+	margin-left: auto;
+	font-size: var(--text-2xs);
+	font-family: var(--font-mono);
+	color: var(--faint);
+}
+
+/* Toast dismiss; the tone class comes from className. */
+.btn-toast {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	width: 100%;
+	min-height: auto;
+	color: var(--fg);
+	text-align: left;
+	background: var(--elevated);
+	border: 1px solid var(--border-strong);
+	border-left: 3px solid var(--primary);
+	border-radius: var(--radius-md);
+	padding: 11px 14px;
+	font-size: var(--text-sm);
+	font-weight: 400;
+	letter-spacing: normal;
+	box-shadow: var(--shadow);
+	animation: enter-rise var(--duration-base) var(--ease-out);
+}
+
+.btn-toast.success {
+	border-left-color: var(--success);
+}
+.btn-toast.danger {
+	border-left-color: var(--danger);
+}
+.btn-toast.warning {
+	border-left-color: var(--warning);
+}
+
+.btn-toast:hover:not(:disabled) {
+	background: var(--surface-2);
+	border-color: var(--primary);
+	box-shadow: var(--shadow);
+}
+
+/* A two-line option row (title + detail), as in the notifications
+   drawer. */
+.btn-scope-option {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 10px;
+	width: 100%;
+	min-height: auto;
+	padding: 9px;
+	border: 0;
+	border-radius: var(--radius-md);
+	background: transparent;
+	color: var(--fg);
+	text-align: left;
+	font-size: var(--text-sm);
+	font-weight: 400;
+	letter-spacing: normal;
+	box-shadow: none;
+}
+
+.btn-scope-option:hover:not(:disabled),
+.btn-scope-option.is-on {
+	background: var(--primary-soft);
+	box-shadow: none;
+}
+
+.btn-scope-option:active:not(:disabled) {
+	background: var(--primary-soft-active);
+}
+
+.btn-scope-option > span:nth-child(2) {
+	display: grid;
+	gap: 2px;
+	flex: 1;
+	min-width: 0;
+}
+.btn-scope-option strong {
+	font-size: var(--text-sm);
+	font-weight: 550;
+}
+.btn-scope-option small {
+	color: var(--muted);
+	font-size: var(--text-2xs);
+}
+.btn-scope-option > svg {
+	color: var(--primary);
+}
+
+/* Pending: a spinner in place of the icon (or over the label), the width unchanged. Not the
+   faded disabled look: the button is busy, not unavailable. */
+.btn.is-pending {
+	position: relative;
+	cursor: progress;
+}
+.btn.is-pending:disabled {
+	opacity: 0.85;
+	cursor: progress;
+}
+.btn-icon-slot {
+	position: relative;
+	display: inline-grid;
+	place-items: center;
+}
+.btn.is-pending .btn-icon-slot > :not(.btn-spinner) {
+	visibility: hidden;
+}
+.btn-icon-slot > .btn-spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -7px 0 0 -7px;
+}
+/* Transparent, not hidden: the label stays the button's accessible name. */
+.btn-pending-label {
+	display: contents;
+	color: transparent;
+}
+.btn-pending-overlay {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+}
+.btn-spinner {
+	animation: btn-spin 0.8s linear infinite;
+}
+@keyframes btn-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+/* Slower, not stopped: the spin is the only sign that work is running. */
+@media (prefers-reduced-motion: reduce) {
+	.btn-spinner {
+		animation-duration: 2.4s;
+	}
+}
+
+/* A toast with one action: the dismiss button and the action share one card. */
+.toast-with-action {
+	display: flex;
+	align-items: stretch;
+	box-shadow: var(--shadow);
+	border-radius: var(--radius-sm);
+	animation: toast-in 0.18s ease;
+}
+.toast-with-action > .btn-toast {
+	flex: 1;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	box-shadow: none;
+	animation: none;
+}
+.toast-with-action > .toast-action {
+	min-height: auto;
+	border: 1px solid var(--border-strong);
+	border-left: 0;
+	border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+	background: var(--elevated);
+	color: var(--primary);
+	font-weight: 600;
+	box-shadow: none;
+}
+.toast-with-action > .toast-action:hover:not(:disabled) {
+	background: var(--surface-2);
+	color: var(--fg);
+	transform: none;
+	box-shadow: none;
+}

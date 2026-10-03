@@ -1,0 +1,39 @@
+.icon-btn {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--muted);
+	border-radius: var(--radius-md);
+	transition:
+		background var(--duration-fast) var(--ease-out),
+		border-color var(--duration-fast) var(--ease-out),
+		color var(--duration-fast) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out);
+}
+
+.icon-btn:hover {
+	background: var(--surface-2);
+	border-color: var(--border-strong);
+	color: var(--fg);
+}
+
+.icon-btn.is-destructive:hover:not(:disabled) {
+	border-color: color-mix(in oklch, var(--danger) 45%, var(--border));
+	background: var(--danger-soft);
+	color: var(--danger);
+}
+
+/* Row actions in a table: no box at rest, so a column of them does not read as a wall of
+   buttons; the box comes back under the pointer and on focus. */
+.icon-btn.is-quiet {
+	border-color: transparent;
+	background: transparent;
+}
+
+.icon-btn:active:not(:disabled) {
+	background: var(--surface-hover);
+	transform: scale(0.98);
+}

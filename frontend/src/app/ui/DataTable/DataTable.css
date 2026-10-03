@@ -1,0 +1,267 @@
+/* ---------- Tables ---------- */
+
+.table-wrap {
+	overflow-x: auto;
+}
+
+table.tbl {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--text-sm);
+}
+
+.tbl thead th {
+	font-family: var(--font-sans);
+	text-align: left;
+	font-weight: 500;
+	font-size: var(--text-xs);
+	color: var(--muted);
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--border);
+	white-space: nowrap;
+	background: var(--surface-2);
+}
+
+.tbl tbody td {
+	padding: 11px 16px;
+	border-bottom: 1px solid var(--border);
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+.tbl tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.tbl tbody tr:hover td {
+	background: var(--surface-2);
+}
+
+.tbl tbody tr.clickable {
+	cursor: pointer;
+}
+
+.tbl tbody tr.selected td {
+	background: var(--primary-soft);
+}
+
+.num {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	text-align: left;
+}
+
+.cell-strong {
+	font-weight: 500;
+}
+
+.cell-sub {
+	font-size: var(--text-xs);
+	color: var(--faint);
+	font-family: var(--font-mono);
+}
+
+.btn:focus-visible,
+.table-heading:focus-visible,
+.column-resize:focus-visible {
+	outline: 2px solid var(--focus);
+	outline-offset: 2px;
+}
+
+.data-table {
+	table-layout: auto;
+	min-width: 1060px;
+}
+.data-table thead th {
+	position: relative;
+	padding: 0;
+	overflow: visible;
+	border-bottom: 1px solid var(--border-strong);
+	white-space: nowrap;
+}
+/* Matches the heading inset, so cell text starts where its column label does. */
+.data-table tbody td {
+	padding-inline: 10px;
+}
+.data-table td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.data-table td .usage {
+	min-width: 148px;
+}
+.data-table th:nth-child(1) {
+	min-width: 170px;
+}
+.data-table th:last-child {
+	min-width: 100px;
+}
+/* Element-qualified so the sortable heading beats .btn's box model. */
+button.table-heading,
+span.table-heading {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 7px;
+	width: 100%;
+	min-height: 32px;
+	padding: 0 12px;
+	border: 0;
+	background: transparent;
+	color: var(--muted);
+	font: inherit;
+	/* A numeric column's th carries .num (mono for its cells); its heading stays sans. */
+	font-family: var(--font-sans);
+	font-size: var(--text-xs);
+	font-weight: 500;
+	letter-spacing: normal;
+	text-align: left;
+}
+.table-heading:disabled {
+	cursor: default;
+}
+/* Headings stay left-aligned even for numeric columns: easier to scan. */
+.table-heading.is-sortable {
+	cursor: pointer;
+	transition: color var(--duration-fast) var(--ease-out);
+}
+.table-heading.is-sortable:hover,
+.table-heading.is-sortable[aria-pressed='true'] {
+	color: var(--fg);
+}
+/* Cancels .btn:hover's lift and background on headings. */
+button.table-heading:hover:not(:disabled) {
+	background: transparent;
+	transform: none;
+	box-shadow: none;
+}
+.sort-indicator {
+	position: relative;
+	display: inline-grid;
+	place-items: center;
+	width: 14px;
+	height: 18px;
+	color: currentColor;
+	font-size: var(--text-sm);
+	line-height: 1;
+	opacity: 0;
+	transition:
+		opacity var(--duration-fast) var(--ease-out),
+		transform var(--duration-fast) var(--ease-out),
+		color var(--duration-fast) var(--ease-out);
+}
+/* The arrow shows where it means something: the sorted column, or the one under the pointer. */
+.table-heading.is-sortable:hover .sort-indicator,
+.table-heading.is-sortable:focus-visible .sort-indicator {
+	opacity: 1;
+	transform: translateY(-1px);
+}
+.sort-indicator.active {
+	color: var(--primary);
+	opacity: 1;
+}
+/* Wide invisible hit area with a thin visible line inside. */
+/* Element-qualified to outrank any single-class position rule. */
+/* right: 0, not negative: a handle past its own th loses hit-testing to the next header. */
+span.column-resize {
+	position: absolute;
+	z-index: 2;
+	top: 8px;
+	right: 0;
+	width: 10px;
+	height: calc(100% - 16px);
+	cursor: col-resize;
+	border: 0;
+	background: transparent;
+	transition: background var(--duration-fast) var(--ease-out);
+}
+.column-resize::before {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 1.5px;
+	height: 100%;
+	background: transparent;
+	transform: translateX(-50%);
+	transition:
+		width var(--duration-fast) var(--ease-out),
+		background var(--duration-fast) var(--ease-out);
+}
+.data-table thead tr:hover .column-resize::before,
+.column-resize:focus-visible::before {
+	background: var(--border-strong);
+}
+.column-resize:hover,
+.column-resize:active {
+	background: color-mix(in oklch, var(--primary) 10%, transparent);
+}
+.column-resize:hover::before,
+.column-resize:active::before {
+	width: 2.5px;
+	background: var(--primary);
+}
+.data-table tbody tr {
+	transition: background var(--duration-fast) var(--ease-out);
+}
+.data-table tbody tr:hover {
+	background: color-mix(in oklch, var(--primary-soft) 22%, transparent);
+}
+.table-empty {
+	padding: 32px;
+	color: var(--muted);
+	text-align: center;
+}
+@media (max-width: 720px) {
+	.data-table {
+		min-width: 780px;
+	}
+	button.table-heading,
+	span.table-heading {
+		padding-inline: 9px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.btn,
+	.data-table tbody tr,
+	.table-heading {
+		transition: none;
+	}
+}
+
+/* WCAG 2.2 refinements and visual polish */
+button.table-heading,
+span.table-heading {
+	gap: 4px;
+	padding-inline: 10px;
+	position: relative;
+	z-index: 1;
+}
+.sort-indicator {
+	flex: 0 0 14px;
+}
+.column-resize {
+	z-index: 4;
+}
+.column-resize:hover,
+.column-resize:active {
+	background: color-mix(in oklch, var(--focus) 18%, transparent);
+}
+.column-resize:hover::before,
+.column-resize:active::before {
+	background: var(--focus);
+}
+.data-table th {
+	z-index: 3;
+}
+.data-table tbody tr:focus-within {
+	background: var(--surface-hover);
+	box-shadow: inset 3px 0 var(--primary);
+}
+/* A table wider than its card scrolls inside it, at any width: on a phone the columns
+   past the first two stay reachable, and the page itself never scrolls sideways. */
+.table-shell {
+	overflow-x: auto;
+	overflow-y: hidden;
+}

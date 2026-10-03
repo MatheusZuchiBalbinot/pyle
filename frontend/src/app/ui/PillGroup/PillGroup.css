@@ -1,0 +1,5 @@
+.pill-group {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}

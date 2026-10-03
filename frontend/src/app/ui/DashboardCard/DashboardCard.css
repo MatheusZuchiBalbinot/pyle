@@ -1,0 +1,34 @@
+/* Header plus one body slot; .card supplies the surface. */
+.dashboard-card {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+
+.dashboard-card-header {
+	flex-shrink: 0;
+}
+
+.dashboard-card-body.is-chart {
+	padding: 16px;
+}
+
+.dashboard-card-body.is-table {
+	padding: 0;
+}
+
+/* Capped body that scrolls; a table header row sticks to its top. */
+.dashboard-card-body.is-scrollable {
+	max-height: var(--dashboard-card-max-height);
+	overflow: auto;
+}
+
+.dashboard-card-body.is-scrollable .tbl thead th {
+	position: sticky;
+	top: 0;
+}
+
+/* The body is the only scroller: a nested one gave two competing scrollbars. */
+.dashboard-card-body.is-scrollable .table-wrap {
+	overflow: visible;
+}

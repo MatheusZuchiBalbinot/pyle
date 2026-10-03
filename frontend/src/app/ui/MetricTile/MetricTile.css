@@ -1,0 +1,102 @@
+.metric-tile {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-height: 112px;
+	padding: 14px 14px 12px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+}
+
+.metric-tile-head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 8px;
+	min-width: 0;
+}
+
+/* Wraps rather than cutting the label short when the trend chip shares a narrow tile. */
+.metric-tile-label {
+	min-width: 0;
+	color: var(--muted);
+	font-size: var(--text-xs);
+	line-height: 1.35;
+}
+
+.metric-tile-trend {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	gap: 2px;
+	padding: 1px 6px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-full);
+	color: var(--muted);
+	font-family: var(--font-mono);
+	font-size: var(--text-2xs);
+	font-variant-numeric: tabular-nums;
+}
+
+.metric-tile-value {
+	font-family: var(--font-mono);
+	font-size: var(--text-2xl);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+}
+
+.metric-tile-sparkline {
+	position: relative;
+	height: 34px;
+	margin-top: auto;
+}
+
+.metric-tile-sparkline svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.metric-tile-area-top {
+	stop-color: var(--primary);
+	stop-opacity: 0.32;
+}
+
+.metric-tile-area-bottom {
+	stop-color: var(--primary);
+	stop-opacity: 0;
+}
+
+.metric-tile-line {
+	fill: none;
+	stroke: var(--primary);
+	stroke-width: 1.5;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+
+.metric-tile-hit {
+	fill: transparent;
+}
+
+.metric-tile-dot {
+	position: absolute;
+	width: 6px;
+	height: 6px;
+	border: 2px solid var(--surface);
+	border-radius: 50%;
+	background: var(--primary);
+	box-sizing: content-box;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+}
+
+.metric-tile-empty {
+	margin-top: auto;
+	color: var(--faint);
+	font-size: var(--text-2xs);
+}

@@ -1,0 +1,48 @@
+.stacked-bar-list {
+	display: grid;
+	gap: 10px;
+}
+.stacked-bar-row {
+	display: grid;
+	grid-template-columns: minmax(90px, 0.6fr) minmax(0, 2fr) 72px;
+	align-items: center;
+	gap: 12px;
+}
+.stacked-bar-label {
+	font-size: var(--text-sm);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.stacked-bar-track {
+	display: flex;
+	gap: 2px;
+	height: 14px;
+}
+
+.stacked-bar-total {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	color: var(--fg);
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+.stacked-bar-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 14px;
+	margin-top: 4px;
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+.stacked-bar-legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+/* Skeleton legend items hold shimmer bars instead of text, so give them
+   the text's line height explicitly. */
+.stacked-bar-legend-item:has(.skeleton) {
+	min-height: 1.5em;
+}

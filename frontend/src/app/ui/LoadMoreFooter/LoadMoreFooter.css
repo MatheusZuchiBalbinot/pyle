@@ -1,0 +1,30 @@
+.load-more-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 44px;
+	padding: 8px 16px;
+	border-top: 1px solid var(--border);
+	background: color-mix(in oklch, var(--surface-2) 55%, transparent);
+	border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* Everything is loaded: just the count, centered. */
+.load-more-footer.is-complete {
+	justify-content: center;
+}
+
+.load-more-count {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+.load-more-count strong {
+	color: var(--fg);
+	font-family: var(--font-mono);
+	font-weight: 500;
+}

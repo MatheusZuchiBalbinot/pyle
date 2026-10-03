@@ -1,0 +1,189 @@
+.line-chart {
+	position: relative;
+}
+.line-chart-svg {
+	display: block;
+	overflow: visible;
+}
+.line-chart-grid {
+	stroke: var(--border);
+	stroke-width: 1;
+	stroke-dasharray: 2 4;
+}
+.line-chart-tick,
+.line-chart-end-label {
+	fill: var(--muted);
+	font-size: var(--text-2xs);
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+}
+.line-chart-end-label {
+	fill: var(--fg);
+	font-weight: 600;
+}
+.line-chart-ring {
+	fill: var(--surface);
+}
+.line-chart-crosshair {
+	stroke: var(--border-strong);
+	stroke-width: 1;
+	pointer-events: none;
+}
+.line-chart-tooltip {
+	/* Portaled to <body> (see tooltipPlacement.ts): fixed, above every card. */
+	position: fixed;
+	z-index: 1000;
+	pointer-events: none;
+	display: grid;
+	gap: 3px;
+	padding: 6px 9px;
+	border: 1px solid var(--border-strong);
+	border-radius: var(--radius-sm);
+	background: var(--elevated);
+	box-shadow: var(--shadow);
+	font-size: var(--text-2xs);
+	white-space: nowrap;
+}
+.line-chart-tooltip-time {
+	color: var(--faint);
+	font-family: var(--font-mono);
+}
+.line-chart-tooltip-row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+.line-chart-tooltip-row strong {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+}
+.line-chart-key {
+	display: inline-block;
+	width: 12px;
+	height: 2px;
+	border-radius: var(--radius-xs);
+	flex: 0 0 auto;
+}
+.line-chart-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 14px;
+	margin-top: 8px;
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+.line-chart-legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.line-chart-empty {
+	display: grid;
+	place-items: center;
+	min-height: 120px;
+	font-size: var(--text-sm);
+	color: var(--faint);
+}
+
+/* ---------- Skeleton ---------- */
+/* Positioned inside the same box as the real chart, with its margins. */
+.line-chart-skeleton {
+	overflow: hidden;
+}
+.line-chart-skeleton-grid {
+	position: absolute;
+	height: 1px;
+	background: var(--border);
+}
+.line-chart-skeleton-tick {
+	position: absolute;
+	display: flex;
+	align-items: center;
+}
+.line-chart-skeleton-tick.is-y {
+	left: 0;
+	width: 38px;
+	justify-content: flex-end;
+	transform: translateY(-50%);
+}
+.line-chart-skeleton-tick.is-x-start,
+.line-chart-skeleton-tick.is-x-end {
+	bottom: 4px;
+}
+.line-chart-skeleton-line {
+	position: absolute;
+	overflow: visible;
+}
+.line-chart-skeleton-line path {
+	fill: none;
+	stroke: var(--border-strong);
+	stroke-width: 2;
+	stroke-dasharray: 6 6;
+	opacity: 0.7;
+}
+
+/* The newest sample of each line breathes while data arrives live. */
+.line-chart-live-pulse {
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: line-chart-live-pulse 2s ease-out infinite;
+	pointer-events: none;
+}
+
+@keyframes line-chart-live-pulse {
+	0% {
+		opacity: 0.55;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(3.2);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.line-chart-live-pulse {
+		display: none;
+	}
+}
+
+/* Entrance when the chart shows something else (another metric or window):
+   the plot fades in, each line draws left to right, markers land last. A
+   live update keeps the same elements, so it does not replay. */
+.line-chart-plot {
+	animation: line-chart-fade-in 220ms ease-out;
+}
+.line-chart-line {
+	stroke-dasharray: 1;
+	animation: line-chart-draw 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.line-chart-marker {
+	animation: line-chart-fade-in 240ms ease-out 420ms both;
+}
+.line-chart-area {
+	animation: line-chart-fade-in 420ms ease-out 200ms both;
+}
+@keyframes line-chart-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes line-chart-draw {
+	from {
+		stroke-dashoffset: 1;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.line-chart-plot,
+	.line-chart-line,
+	.line-chart-area,
+	.line-chart-marker {
+		animation: none;
+	}
+}

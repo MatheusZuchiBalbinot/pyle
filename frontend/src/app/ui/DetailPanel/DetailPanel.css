@@ -1,0 +1,58 @@
+/* A framed panel of sections side by side (an instance's activity and chaos, a consumer's
+   keys and routes): sections split by a hairline, each with an icon title and a help line. */
+.detail-panel {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	background: var(--surface-dim);
+}
+
+.detail-panel-section {
+	display: grid;
+	gap: 12px;
+	align-content: start;
+	padding: 16px;
+}
+
+.detail-panel-section + .detail-panel-section {
+	border-left: 1px solid var(--border);
+}
+
+.detail-section-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	min-height: 28px;
+}
+
+.detail-section-head h4 {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	margin: 0;
+	font-size: var(--text-sm);
+	font-weight: 600;
+}
+
+.detail-section-head h4 svg {
+	color: var(--muted);
+}
+
+.detail-help {
+	margin: -4px 0 0;
+	color: var(--muted);
+	font-size: var(--text-xs);
+}
+
+@media (max-width: 900px) {
+	.detail-panel {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.detail-panel-section + .detail-panel-section {
+		border-top: 1px solid var(--border);
+		border-left: 0;
+	}
+}

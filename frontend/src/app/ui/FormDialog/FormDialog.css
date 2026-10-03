@@ -1,0 +1,17 @@
+.form-dialog {
+	width: min(560px, 100%);
+	max-height: calc(100vh - 32px);
+	overflow-y: auto;
+}
+
+.form-dialog-body {
+	display: grid;
+	gap: 14px;
+	margin-bottom: 18px;
+}
+
+.form-dialog-error {
+	margin: -6px 0 14px;
+	color: var(--danger);
+	font-size: var(--text-sm);
+}

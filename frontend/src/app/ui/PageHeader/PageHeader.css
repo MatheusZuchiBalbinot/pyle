@@ -1,0 +1,108 @@
+/* ---------- Page ---------- */
+
+.page {
+	padding: 24px 22px 60px;
+	max-width: 1400px;
+	width: 100%;
+}
+
+.page-header {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 20px;
+	flex-wrap: wrap;
+}
+
+.page-title {
+	font-size: var(--text-xl);
+	font-weight: 600;
+	letter-spacing: -0.015em;
+}
+
+.page-desc {
+	color: var(--muted);
+	font-size: var(--text-md);
+	margin-top: 3px;
+	max-width: 62ch;
+}
+
+.page-actions {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+/* ---------- Cards ---------- */
+
+.card {
+	background: linear-gradient(145deg, var(--surface), var(--surface-dim));
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: var(--inset-highlight);
+	transition:
+		border-color var(--duration-fast) var(--ease-out),
+		box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.card:hover {
+	border-color: var(--border-strong);
+	box-shadow: var(--shadow-soft);
+}
+
+.card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 13px 16px;
+	border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+	font-size: var(--text-md);
+	font-weight: 600;
+}
+
+/* WCAG 2.2 refinements and visual polish */
+.page {
+	max-width: 1480px;
+	width: 100%;
+	margin: 0 auto;
+}
+.page-header {
+	align-items: flex-start;
+	gap: 24px;
+}
+.page-title {
+	letter-spacing: -0.035em;
+}
+.page-desc {
+	max-width: 720px;
+}
+.card {
+	border-color: color-mix(in oklch, var(--border) 90%, white);
+}
+.card:hover {
+	border-color: var(--border-strong);
+	box-shadow: var(--shadow-soft);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 620px) {
+	.page {
+		padding: 18px 14px 48px;
+	}
+	.page-header {
+		align-items: stretch;
+	}
+	.page-actions {
+		width: 100%;
+	}
+	.page-actions .btn {
+		width: 100%;
+	}
+}

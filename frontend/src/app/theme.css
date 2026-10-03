@@ -1,0 +1,391 @@
+/* Global design tokens, resets and the few utilities shared across components. */
+
+:root {
+	color-scheme: dark;
+
+	--bg: oklch(0.165 0.008 264);
+	--surface: oklch(0.205 0.009 264);
+	--surface-2: oklch(0.235 0.011 264);
+	--elevated: oklch(0.255 0.012 264);
+	--fg: oklch(0.96 0.004 264);
+	--muted: oklch(0.68 0.014 264);
+	--faint: oklch(0.52 0.014 264);
+	--border: oklch(0.29 0.012 264);
+	--border-strong: oklch(0.36 0.014 264);
+
+	--primary: oklch(0.72 0.14 220);
+	--primary-fg: oklch(0.16 0.02 264);
+	--primary-soft: oklch(0.29 0.05 224);
+
+	--success: oklch(0.74 0.14 158);
+	--warning: oklch(0.81 0.13 78);
+	--danger: oklch(0.66 0.2 25);
+	--info: oklch(0.72 0.14 220);
+
+	--success-soft: oklch(0.32 0.05 158);
+	--warning-soft: oklch(0.34 0.05 78);
+	--danger-soft: oklch(0.32 0.07 25);
+
+	--focus: oklch(0.82 0.13 205);
+	--primary-hover: oklch(0.78 0.13 220);
+	--primary-active: oklch(0.66 0.13 220);
+	--surface-hover: oklch(0.27 0.014 264);
+	/* Pressed: one step past hover. */
+	--surface-active: oklch(0.3 0.015 264);
+	--primary-soft-active: oklch(0.33 0.065 224);
+	--danger-soft-active: oklch(0.37 0.09 25);
+	/* Text on --primary-soft (the selected nav row). */
+	--primary-on-soft: oklch(0.92 0.03 220);
+
+	/* App chrome (sidebar, translucent topbar) sits between --bg and --surface. */
+	--chrome: oklch(0.185 0.009 264);
+	--chrome-translucent: oklch(0.185 0.009 264 / 85%);
+	--surface-dim: oklch(0.195 0.009 264);
+	/* Text on saturated fills (avatars, AI gradient chips). */
+	--on-accent: oklch(0.18 0.02 264);
+	--on-ai: #fff;
+	--accent-violet: oklch(0.6 0.18 300);
+	--accent-indigo: oklch(0.6 0.16 262);
+	/* The AI feature's identity, shared by the analyze button and analysis cards. */
+	--ai-gradient: linear-gradient(120deg, #6d5dfc 0%, #3987e5 50%, #19b0a8 100%);
+	--ai-border: rgba(120, 150, 255, 0.45);
+	/* Single-series bars (instance share, status breakdown) use one blue. */
+	--series-blue: #3987e5;
+	--primary-glow: oklch(0.6 0.14 230 / 35%);
+
+	/* Scrim behind dialogs and drawers. */
+	--overlay: oklch(0 0 0 / 50%);
+	--hairline-light: oklch(1 0 0 / 8%);
+	--hairline-strong: oklch(1 0 0 / 18%);
+	--inset-highlight: inset 0 1px 0 oklch(1 0 0 / 4%);
+	--inset-highlight-strong: inset 0 1px 0 var(--hairline-strong);
+	--shadow-popover: 0 12px 32px oklch(0 0 0 / 35%);
+	--shadow-drawer: 12px 0 32px oklch(0 0 0 / 35%);
+	--shadow-modal: 0 24px 60px oklch(0 0 0 / 35%);
+
+	/* Type scale: components use only these steps (guarded by src/test/cssTokens.spec.ts). */
+	--text-2xs: 11px;
+	--text-xs: 12px;
+	--text-sm: 13px;
+	--text-md: 14px;
+	--text-lg: 16px;
+	--text-xl: 20px;
+	--text-2xl: 24px;
+	--text-display: clamp(24px, 2.2vw, 34px);
+
+	/* Radius scale: xs only for hairline bars where a larger radius would turn them into pills. */
+	--radius-xs: 2px;
+	--radius-sm: 4px;
+	--radius-md: 6px;
+	--radius-lg: 10px;
+	--radius-full: 999px;
+
+	/* Motion: fast for state changes (hover, press), base for entrances, slow for large surfaces. */
+	--duration-fast: 100ms;
+	--duration-base: 160ms;
+	--duration-slow: 240ms;
+	--ease-out: cubic-bezier(0.2, 0, 0, 1);
+	/* One entrance for cards, menus, toasts, dialogs and listboxes. */
+	--enter-offset: 4px;
+
+	/* Full-width dashboard cards (tables, long bar lists) cap their
+	   body at this height and scroll inside — see DashboardCard.css. */
+	--dashboard-card-max-height: 420px;
+	--scrollbar-size: 10px;
+	--scrollbar-thumb: color-mix(in oklch, var(--border-strong) 85%, var(--fg));
+	--scrollbar-thumb-hover: color-mix(in oklch, var(--border-strong) 45%, var(--fg));
+	--sidebar-w: 244px;
+	/* Shared by .sidebar-brand and .topbar so both rows have the same height by construction. */
+	--header-h: 64px;
+
+	--font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'Geist Mono', ui-monospace, 'SF Mono', monospace;
+
+	--shadow: 0 1px 2px oklch(0 0 0 / 40%), 0 8px 24px oklch(0 0 0 / 25%);
+	--shadow-soft: 0 10px 30px oklch(0 0 0 / 16%);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+/* The window is the only scroller. A fixed height plus overflow-x: hidden on html and body
+   turned body into a second scroller: absolutely positioned helpers (sr-only text) placed
+   against the viewport then made the page scroll past the end of the shell, the sticky
+   sidebar ended mid-screen and window.scrollY always read 0. clip cuts sideways overflow
+   without creating a scroll container; the shell sets its own min-height (Dashboard.css). */
+html,
+body {
+	margin: 0;
+	padding: 0;
+	overflow-x: clip;
+}
+
+body {
+	background: var(--bg);
+	color: var(--fg);
+	font-family: var(--font-sans);
+	font-size: var(--text-md);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+#root {
+	height: 100%;
+	width: 100%;
+}
+
+/* ---------- Scrollbars ---------- */
+/* One thin, track-less scrollbar for every scroll container. */
+@supports not selector(::-webkit-scrollbar) {
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: var(--scrollbar-thumb) transparent;
+	}
+}
+
+*::-webkit-scrollbar {
+	width: var(--scrollbar-size);
+	height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb);
+	border: 3px solid transparent;
+	border-radius: var(--radius-full);
+	background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background-color: var(--scrollbar-thumb-hover);
+}
+
+*::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+	margin: 0;
+}
+
+button {
+	font-family: inherit;
+	cursor: pointer;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+[role='separator']:focus-visible {
+	outline: 3px solid var(--focus);
+	outline-offset: 2px;
+}
+
+::selection {
+	background: var(--primary);
+	color: var(--primary-fg);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.mono {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+}
+
+.muted {
+	color: var(--muted);
+}
+
+.faint {
+	color: var(--faint);
+}
+
+.stack {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Monospace so digits align; muted as supporting detail. */
+.metric-value {
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+	color: var(--muted);
+}
+
+/* ---------- Tooltips ---------- */
+/* Add data-tooltip="..." to any element; TooltipLayer renders it (portaled, so nothing clips it). */
+
+/* ---------- Panels ---------- */
+/* A bordered surface with a title row, shared by the dashboard panels. */
+.panel {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	padding: 16px;
+}
+.panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	gap: 10px;
+}
+.panel-title {
+	font-size: var(--text-md);
+	font-weight: 600;
+}
+.panel-note {
+	font-size: var(--text-xs);
+	color: var(--faint);
+}
+
+/* ---------- Service rows ---------- */
+/* One component per row (name / status badge / detail), each row its own
+   rounded block. Used by SystemHealthPanel. */
+.service-row {
+	display: grid;
+	grid-template-columns: minmax(120px, 1.4fr) 96px minmax(60px, 0.5fr);
+	gap: 12px;
+	align-items: center;
+	padding: 12px 14px;
+	border-radius: var(--radius-sm);
+	background: var(--surface-2);
+	margin-bottom: 8px;
+}
+.service-row .badge {
+	justify-self: start;
+}
+.service-name {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+.service-name-text {
+	font-size: var(--text-sm);
+	font-weight: 500;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* ---------- Error state ---------- */
+.error-state {
+	padding: 24px 16px;
+	font-size: var(--text-sm);
+	color: var(--danger);
+}
+
+/* ---------- Dashboard bento grid ---------- */
+/* Six columns: a hero banner takes half, status tiles beside it; cards below span halves or the full width. */
+.dashboard-hero,
+.dashboard-grid {
+	display: grid;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+	gap: 14px;
+}
+.dashboard-grid {
+	margin-top: 14px;
+}
+.dashboard-hero .status-intro {
+	margin-bottom: 0;
+	height: 100%;
+}
+.dashboard-span-2 {
+	grid-column: span 2;
+}
+.dashboard-span-3 {
+	grid-column: span 3;
+}
+.dashboard-span-4 {
+	grid-column: span 4;
+}
+.dashboard-span-6 {
+	grid-column: span 6;
+}
+@media (max-width: 1100px) {
+	.dashboard-hero .dashboard-span-3,
+	.dashboard-span-4,
+	.dashboard-grid > .dashboard-span-2 {
+		grid-column: span 6;
+	}
+	.dashboard-hero .dashboard-span-4 + .dashboard-span-2 {
+		grid-column: span 6;
+	}
+	.dashboard-hero .status-intro-tile {
+		grid-column: span 2;
+	}
+}
+@media (max-width: 760px) {
+	.dashboard-span-2,
+	.dashboard-span-3,
+	.dashboard-hero .status-intro-tile {
+		grid-column: span 6;
+	}
+}
+
+/* ---------- Entrance ---------- */
+/* The one entrance for anything that appears: cards, menus, toasts, dialogs, listboxes.
+   Use as: animation: enter-rise var(--duration-base) var(--ease-out); */
+@keyframes enter-rise {
+	from {
+		opacity: 0;
+		transform: translateY(var(--enter-offset));
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Backdrops and scrims only fade. */
+@keyframes enter-fade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
+}

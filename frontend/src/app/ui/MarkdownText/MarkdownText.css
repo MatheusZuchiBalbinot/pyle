@@ -1,0 +1,22 @@
+.markdown-text-block {
+	display: block;
+}
+
+.markdown-list {
+	display: grid;
+	gap: 4px;
+	margin: 0;
+	padding-left: 1.25em;
+	white-space: normal;
+}
+
+.markdown-list li::marker {
+	color: var(--muted);
+}
+
+.markdown-text-block + .markdown-text-block,
+.markdown-text-block + .markdown-list,
+.markdown-list + .markdown-text-block,
+.markdown-list + .markdown-list {
+	margin-top: 0.6em;
+}

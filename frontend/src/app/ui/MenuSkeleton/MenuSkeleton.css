@@ -1,0 +1,20 @@
+.menu-skeleton {
+	display: grid;
+	gap: 2px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.menu-skeleton-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 9px;
+}
+
+.menu-skeleton-row > span {
+	display: grid;
+	flex: 1;
+	gap: 6px;
+}

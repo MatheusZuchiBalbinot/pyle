@@ -1,0 +1,13 @@
+.typed-confirm {
+	display: grid;
+	gap: 12px;
+}
+
+.typed-confirm-input {
+	min-width: 0;
+}
+
+.typed-confirm-error {
+	color: var(--danger);
+	font-size: var(--text-sm);
+}

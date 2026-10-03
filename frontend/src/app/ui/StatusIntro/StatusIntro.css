@@ -1,0 +1,163 @@
+.status-intro {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	padding: 20px 22px;
+	margin-bottom: 16px;
+	border: 1px solid color-mix(in oklch, var(--status-intro-color) 24%, var(--border));
+	border-radius: var(--radius-lg);
+	background: radial-gradient(circle at 0% 50%, color-mix(in oklch, var(--status-intro-color) 14%, transparent), transparent 34%), var(--surface);
+	box-shadow: var(--inset-highlight);
+}
+.status-intro-healthy {
+	--status-intro-color: var(--success);
+}
+.status-intro-warning {
+	--status-intro-color: var(--warning);
+}
+.status-intro-danger {
+	--status-intro-color: var(--danger);
+}
+.status-intro-info {
+	--status-intro-color: var(--primary);
+}
+.status-intro-signal {
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: color-mix(in oklch, var(--status-intro-color) 12%, transparent);
+	color: var(--status-intro-color);
+	flex: 0 0 auto;
+}
+/* Tile: the accent sits top-right behind the icon, so tiles beside a banner do not look like copies of it. */
+.status-intro-tile {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 6px;
+	padding: 18px;
+	margin-bottom: 0;
+	background: radial-gradient(circle at 100% 0%, color-mix(in oklch, var(--status-intro-color) 16%, transparent), transparent 42%), var(--surface);
+}
+.status-intro-tile-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+.status-intro-tile .status-intro-eyebrow {
+	min-width: 0;
+	margin-bottom: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.status-intro-icon {
+	display: grid;
+	place-items: center;
+	width: 30px;
+	height: 30px;
+	border-radius: var(--radius-lg);
+	background: color-mix(in oklch, var(--status-intro-color) 14%, transparent);
+	color: var(--status-intro-color);
+}
+.status-intro-figure {
+	/* One line in the narrowest tile, a word like "Anthropic" included. */
+	font-size: var(--text-2xl);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	line-height: 1.15;
+	margin-top: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.status-intro-tile h2 {
+	font-size: var(--text-sm);
+	font-weight: 500;
+	color: var(--muted);
+	margin-bottom: 0;
+}
+/* The tile's last line: two lines at most, so tiles side by side keep one height. */
+.status-intro-tile .muted {
+	display: -webkit-box;
+	margin-top: auto;
+	padding-top: 6px;
+	overflow: hidden;
+	color: var(--faint);
+	font-size: var(--text-xs);
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+}
+.status-intro-ring {
+	display: grid;
+	place-items: center;
+	width: 24px;
+	height: 24px;
+	border: 1px solid var(--status-intro-color);
+	border-radius: 50%;
+}
+.status-intro-ring span {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--status-intro-color);
+	box-shadow: 0 0 0 5px color-mix(in oklch, var(--status-intro-color) 15%, transparent);
+}
+.status-intro-eyebrow {
+	color: var(--primary);
+	font-size: var(--text-2xs);
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	margin-bottom: 4px;
+}
+.status-intro h2 {
+	font-size: var(--text-lg);
+	letter-spacing: -0.02em;
+	margin-bottom: 3px;
+}
+@media (max-width: 760px) {
+	.status-intro {
+		align-items: flex-start;
+		padding: 16px;
+		flex-wrap: wrap;
+	}
+}
+.status-intro-body {
+	min-width: 0;
+}
+.status-intro-footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 14px;
+	margin-top: 14px;
+	padding-top: 12px;
+	border-top: 1px solid color-mix(in oklch, var(--status-intro-color) 18%, var(--border));
+}
+/* A long status list (hundreds of items) scrolls inside the banner
+   instead of stretching it; callers put the problems first. */
+.status-intro-banner .status-intro-footer {
+	max-height: 96px;
+	overflow-y: auto;
+	padding-right: 4px;
+}
+.status-intro-footer-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: var(--text-sm);
+}
+
+/* Two inline bars that wrap into exactly two line boxes, like a wrapped title. */
+.status-intro-skeleton-lines .skeleton {
+	vertical-align: middle;
+}
+/* Skeleton: the banner body must still fill the row so the footer strip
+   spans the banner like the real one does. */
+.status-intro-banner[aria-busy='true'] .status-intro-body {
+	flex: 1;
+}
